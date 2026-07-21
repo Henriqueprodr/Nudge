@@ -1,0 +1,65 @@
+# Xcode user state
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Build products
+.build/
+DerivedData/
+build/
+dist/
+artifacts/
+*.app
+*.xcarchive
+*.xcresult
+*.dmg
+*.pkg
+Nudge*.zip
+Nudge*.zip.sha256
+*.dSYM
+*.dSYM.zip
+
+# Swift Package Manager
+.swiftpm/
+Packages/
+Package.resolved
+
+# macOS
+.DS_Store
+
+# Local agent instructions and tooling
+/AGENTS.md
+/CLAUDE.md
+/.agents/
+/.claude/
+/.codex/
+
+# Private plans, progress, and distribution material
+/docs/IMPLEMENTATION_PLAN.md
+/docs/PROGRESS.md
+/docs/PERSONAL_VERSION.md
+/docs/DISTRIBUTION.md
+/docs/internal/
+/docs/private/
+
+# Private build and packaging workflows
+/script/build_and_run.sh
+/script/write_oauth_build_config.sh
+/script/package_personal_release.sh
+/.private/
+
+# Local secrets and environment overrides
+*.env
+*.env.local
+*.env.*
+!.env.example
+Secrets.xcconfig
+*Secrets*.xcconfig
+/OAuth Client ID Nudge*.json
+*.p8
+*.p12
+*.pem
+*.cer
+*.mobileprovision
+*.provisionprofile
