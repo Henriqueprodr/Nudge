@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+    <defs>
+        <linearGradient id="face" x1="610" y1="262" x2="610" y2="404" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FF7A77"/>
+            <stop offset="0.54" stop-color="#F35D65"/>
+            <stop offset="1" stop-color="#DA3F53"/>
+        </linearGradient>
+        <linearGradient id="highlight" x1="610" y1="262" x2="610" y2="342" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#FFFFFF" stop-opacity="0.35"/>
+            <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="depth" x1="610" y1="360" x2="610" y2="404" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#8E1830" stop-opacity="0"/>
+            <stop offset="1" stop-color="#721229" stop-opacity="0.31"/>
+        </linearGradient>
+        <clipPath id="card-clip">
+            <rect x="326" y="262" width="568" height="142" rx="42"/>
+        </clipPath>
+    </defs>
+    <rect x="326" y="262" width="568" height="142" rx="42" fill="url(#face)"/>
+    <g clip-path="url(#card-clip)">
+        <rect x="326" y="262" width="568" height="82" fill="url(#highlight)"/>
+        <rect x="326" y="358" width="568" height="46" fill="url(#depth)"/>
+    </g>
+    <rect x="327.5" y="263.5" width="565" height="139" rx="40.5" fill="none" stroke="#FFD0D0" stroke-opacity="0.60" stroke-width="3"/>
+</svg>

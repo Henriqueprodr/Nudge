@@ -2,24 +2,60 @@ import AppKit
 import SwiftUI
 
 struct MenuBarContent: View {
+    let windowPresentationCoordinator: WindowPresentationCoordinator
+    let googleTasksSyncCoordinator: GoogleTasksSyncCoordinator
+
     var body: some View {
         Button(AppMenuAction.showTestReminder.rawValue) {
-            PhaseZeroActions.showTestReminder()
+            windowPresentationCoordinator.showTestReminder()
         }
 
         Divider()
 
         Button(AppMenuAction.showTaskPanel.rawValue) {
-            PhaseZeroActions.showTaskPanel()
+            windowPresentationCoordinator.showTaskPanel()
         }
 
         Button(AppMenuAction.hideTaskPanel.rawValue) {
-            PhaseZeroActions.hideTaskPanel()
+            windowPresentationCoordinator.hideTaskPanel()
         }
 
-        Button(AppMenuAction.refreshTasks.rawValue) {
-            PhaseZeroActions.refreshTasks()
+        Menu("Task Panel Corner") {
+            ForEach(ScreenCorner.allCases, id: \.self) { corner in
+                Button(corner.rawValue) {
+                    windowPresentationCoordinator.setTaskPanelCorner(corner)
+                }
+            }
         }
+
+        Button(AppMenuAction.resetTaskPanelPosition.rawValue) {
+            windowPresentationCoordinator.resetTaskPanelPosition()
+        }
+
+        Toggle(
+            "Allow Reminder Over Full-Screen Apps",
+            isOn: Binding(
+                get: {
+                    windowPresentationCoordinator.reminderOverFullScreen
+                },
+                set: { isAllowed in
+                    windowPresentationCoordinator.setReminderOverFullScreen(isAllowed)
+                }
+            )
+        )
+
+        Toggle(
+            "Allow Task Panel Over Full-Screen Apps",
+            isOn: Binding(
+                get: { windowPresentationCoordinator.taskPanelOverFullScreen },
+                set: { windowPresentationCoordinator.setTaskPanelOverFullScreen($0) }
+            )
+        )
+
+        Button(AppMenuAction.refreshTasks.rawValue) {
+            googleTasksSyncCoordinator.requestRefresh(.manual)
+        }
+        .disabled(googleTasksSyncCoordinator.isRefreshing)
 
         Divider()
 

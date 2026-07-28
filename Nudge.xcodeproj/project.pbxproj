@@ -7,13 +7,164 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */; };
+		L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */; };
+		L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */; };
+		L10000000000000000000104 /* GoogleOAuthClientConfigurationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000204 /* GoogleOAuthClientConfigurationManager.swift */; };
+		L10000000000000000000105 /* GoogleOAuthClientConfigurationChangePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000205 /* GoogleOAuthClientConfigurationChangePolicy.swift */; };
+		L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */; };
+		J00000000000000000000101 /* ReminderSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = J00000000000000000000201 /* ReminderSound.swift */; };
+		J00000000000000000000102 /* ReminderSoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = J00000000000000000000202 /* ReminderSoundPlayer.swift */; };
+		K00000000000000000000101 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = K00000000000000000000201 /* AppIcon.icon */; };
+		900000000000000000000101 /* ReminderStripPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900000000000000000000201 /* ReminderStripPresentation.swift */; };
+		900000000000000000000102 /* ReminderStripStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900000000000000000000202 /* ReminderStripStyle.swift */; };
+		900000000000000000000103 /* ReminderControlStripView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900000000000000000000203 /* ReminderControlStripView.swift */; };
+		900000000000000000000104 /* ReminderEventContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900000000000000000000204 /* ReminderEventContext.swift */; };
+		900000000000000000000105 /* ReminderControlStripTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 900000000000000000000205 /* ReminderControlStripTests.swift */; };
+		700000000000000000000101 /* ApplicationActivationPolicyApplying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */; };
+		700000000000000000000102 /* SystemApplicationActivationPolicyAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */; };
+		700000000000000000000104 /* ReminderPresentationDuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000204 /* ReminderPresentationDuration.swift */; };
+		700000000000000000000105 /* PeriodicRefreshInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000205 /* PeriodicRefreshInterval.swift */; };
+		700000000000000000000106 /* GoogleTasksSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000206 /* GoogleTasksSettings.swift */; };
+		700000000000000000000107 /* GoogleTasksSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000207 /* GoogleTasksSettingsRepository.swift */; };
+		700000000000000000000108 /* UserDefaultsGoogleTasksSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000208 /* UserDefaultsGoogleTasksSettingsRepository.swift */; };
+		700000000000000000000110 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 700000000000000000000210 /* Assets.xcassets */; };
+		600000000000000000000101 /* ApplicationLifecycleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000201 /* ApplicationLifecycleCoordinator.swift */; };
+		600000000000000000000102 /* LaunchAtLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000202 /* LaunchAtLoginManager.swift */; };
+		600000000000000000000103 /* ScreenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000203 /* ScreenProvider.swift */; };
+		600000000000000000000104 /* PresentationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000204 /* PresentationSettings.swift */; };
+		600000000000000000000105 /* PresentationSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000205 /* PresentationSettingsRepository.swift */; };
+		600000000000000000000106 /* UserDefaultsPresentationSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000206 /* UserDefaultsPresentationSettingsRepository.swift */; };
+		600000000000000000000107 /* ReminderNotificationFallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000207 /* ReminderNotificationFallback.swift */; };
+		600000000000000000000108 /* NudgeSchemaMigrationPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000208 /* NudgeSchemaMigrationPlan.swift */; };
+		600000000000000000000109 /* PhaseSixReliabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600000000000000000000209 /* PhaseSixReliabilityTests.swift */; };
 		A00000000000000000000101 /* NudgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000201 /* NudgeApp.swift */; };
 		A00000000000000000000102 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000202 /* AppDelegate.swift */; };
 		A00000000000000000000103 /* AppMenuAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000203 /* AppMenuAction.swift */; };
 		A00000000000000000000104 /* MenuBarContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000204 /* MenuBarContent.swift */; };
-		A00000000000000000000105 /* SettingsPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000205 /* SettingsPlaceholderView.swift */; };
-		A00000000000000000000106 /* PhaseZeroActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000206 /* PhaseZeroActions.swift */; };
+		A00000000000000000000105 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000205 /* SettingsView.swift */; };
 		A00000000000000000000107 /* AppMenuActionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000207 /* AppMenuActionTests.swift */; };
+		A00000000000000000000108 /* WindowPresentationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000208 /* WindowPresentationCoordinator.swift */; };
+		A00000000000000000000109 /* ScreenCorner.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000209 /* ScreenCorner.swift */; };
+		A00000000000000000000110 /* ScreenPlacement.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000210 /* ScreenPlacement.swift */; };
+		A00000000000000000000111 /* ReminderOverlayWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000211 /* ReminderOverlayWindow.swift */; };
+		A00000000000000000000112 /* ReminderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000212 /* ReminderOverlayView.swift */; };
+		A00000000000000000000113 /* ReminderOverlayWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000213 /* ReminderOverlayWindowController.swift */; };
+		A00000000000000000000114 /* TaskPanelWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000214 /* TaskPanelWindow.swift */; };
+		A00000000000000000000115 /* TaskPanelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000215 /* TaskPanelView.swift */; };
+		A00000000000000000000116 /* TaskPanelWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000216 /* TaskPanelWindowController.swift */; };
+		A00000000000000000000117 /* ScreenPlacementTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000217 /* ScreenPlacementTests.swift */; };
+		A00000000000000000000118 /* WindowPresentationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000218 /* WindowPresentationTests.swift */; };
+		A00000000000000000000119 /* GoogleOAuthClientSecretDraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000219 /* GoogleOAuthClientSecretDraft.swift */; };
+		A00000000000000000000120 /* SingleApplicationInstancePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000222 /* SingleApplicationInstancePolicy.swift */; };
+		A00000000000000000000121 /* SingleApplicationInstancePolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000223 /* SingleApplicationInstancePolicyTests.swift */; };
+		A00000000000000000000122 /* ApplicationInstanceLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000224 /* ApplicationInstanceLock.swift */; };
+		A00000000000000000000123 /* ApplicationInstanceLockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00000000000000000000225 /* ApplicationInstanceLockTests.swift */; };
+		B00000000000000000000101 /* ReminderOccurrenceID.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000201 /* ReminderOccurrenceID.swift */; };
+		B00000000000000000000102 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000202 /* Reminder.swift */; };
+		B00000000000000000000103 /* ReminderDeliveryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000203 /* ReminderDeliveryRecord.swift */; };
+		B00000000000000000000104 /* TaskItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000204 /* TaskItem.swift */; };
+		B00000000000000000000105 /* TaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000205 /* TaskList.swift */; };
+		B00000000000000000000106 /* TaskPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000206 /* TaskPanelState.swift */; };
+		B00000000000000000000107 /* SyncMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000207 /* SyncMetadata.swift */; };
+		B00000000000000000000108 /* TaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000208 /* TaskRepository.swift */; };
+		B00000000000000000000109 /* ReminderDeliveryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000209 /* ReminderDeliveryRepository.swift */; };
+		B00000000000000000000110 /* TaskPanelStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000210 /* TaskPanelStateRepository.swift */; };
+		B00000000000000000000111 /* SyncMetadataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000211 /* SyncMetadataRepository.swift */; };
+		B00000000000000000000112 /* StoredTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000212 /* StoredTask.swift */; };
+		B00000000000000000000113 /* StoredTaskList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000213 /* StoredTaskList.swift */; };
+		B00000000000000000000114 /* StoredReminderDelivery.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000214 /* StoredReminderDelivery.swift */; };
+		B00000000000000000000115 /* StoredTaskPanelState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000215 /* StoredTaskPanelState.swift */; };
+		B00000000000000000000116 /* StoredSyncMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000216 /* StoredSyncMetadata.swift */; };
+		B00000000000000000000117 /* SwiftDataTaskRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000217 /* SwiftDataTaskRepository.swift */; };
+		B00000000000000000000118 /* SwiftDataReminderDeliveryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000218 /* SwiftDataReminderDeliveryRepository.swift */; };
+		B00000000000000000000119 /* SwiftDataTaskPanelStateRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000219 /* SwiftDataTaskPanelStateRepository.swift */; };
+		B00000000000000000000120 /* SwiftDataSyncMetadataRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000220 /* SwiftDataSyncMetadataRepository.swift */; };
+		B00000000000000000000121 /* LocalRepositoryContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000221 /* LocalRepositoryContainer.swift */; };
+		B00000000000000000000122 /* TaskPanelStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000222 /* TaskPanelStore.swift */; };
+		B00000000000000000000123 /* ReminderOverlayStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000223 /* ReminderOverlayStore.swift */; };
+		B00000000000000000000124 /* ReminderClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000224 /* ReminderClock.swift */; };
+		B00000000000000000000125 /* ReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000225 /* ReminderScheduler.swift */; };
+		B00000000000000000000126 /* ReminderPresentationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000226 /* ReminderPresentationCoordinator.swift */; };
+		B00000000000000000000127 /* TestReminderClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000227 /* TestReminderClock.swift */; };
+		B00000000000000000000128 /* DomainModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000228 /* DomainModelTests.swift */; };
+		B00000000000000000000129 /* ReminderSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000229 /* ReminderSchedulerTests.swift */; };
+		B00000000000000000000130 /* SwiftDataRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000230 /* SwiftDataRepositoryTests.swift */; };
+		B00000000000000000000131 /* OfflineLaunchRestorationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000231 /* OfflineLaunchRestorationTests.swift */; };
+		B00000000000000000000132 /* ReminderWakeTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000232 /* ReminderWakeTimer.swift */; };
+		B00000000000000000000133 /* ReminderPresentationCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00000000000000000000233 /* ReminderPresentationCoordinatorTests.swift */; };
+		C00000000000000000000102 /* CalendarDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000202 /* CalendarDescriptor.swift */; };
+		C00000000000000000000103 /* CalendarEventSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000203 /* CalendarEventSnapshot.swift */; };
+		C00000000000000000000104 /* CalendarProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000204 /* CalendarProvider.swift */; };
+		C00000000000000000000105 /* CalendarReminderMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000205 /* CalendarReminderMapper.swift */; };
+		C00000000000000000000107 /* CalendarSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000207 /* CalendarSettings.swift */; };
+		C00000000000000000000108 /* CalendarSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000208 /* CalendarSettingsRepository.swift */; };
+		C00000000000000000000109 /* UserDefaultsCalendarSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000209 /* UserDefaultsCalendarSettingsRepository.swift */; };
+		C00000000000000000000110 /* CalendarReminderConsumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000210 /* CalendarReminderConsumer.swift */; };
+		C00000000000000000000111 /* CalendarScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000211 /* CalendarScheduleCoordinator.swift */; };
+		C00000000000000000000112 /* CalendarReminderMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000212 /* CalendarReminderMapperTests.swift */; };
+		C00000000000000000000113 /* CalendarScheduleCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00000000000000000000213 /* CalendarScheduleCoordinatorTests.swift */; };
+		D00000000000000000000101 /* GoogleTasksError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000201 /* GoogleTasksError.swift */; };
+		D00000000000000000000102 /* HTTPTransport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000202 /* HTTPTransport.swift */; };
+		D00000000000000000000103 /* GoogleOAuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000203 /* GoogleOAuthConfiguration.swift */; };
+		D00000000000000000000104 /* GoogleOAuthCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000204 /* GoogleOAuthCredential.swift */; };
+		D00000000000000000000105 /* GoogleCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000205 /* GoogleCredentialStore.swift */; };
+		D00000000000000000000106 /* KeychainGoogleCredentialStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000206 /* KeychainGoogleCredentialStore.swift */; };
+		D00000000000000000000107 /* PKCEGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000207 /* PKCEGenerator.swift */; };
+		D00000000000000000000108 /* OAuthCallbackValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000208 /* OAuthCallbackValidator.swift */; };
+		D00000000000000000000109 /* OAuthCallbackSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000209 /* OAuthCallbackSession.swift */; };
+		D00000000000000000000110 /* LoopbackOAuthCallbackSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000210 /* LoopbackOAuthCallbackSession.swift */; };
+		D00000000000000000000111 /* SystemBrowserOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000211 /* SystemBrowserOpener.swift */; };
+		D00000000000000000000112 /* GoogleOAuthClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000212 /* GoogleOAuthClient.swift */; };
+		D00000000000000000000113 /* GoogleOAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000213 /* GoogleOAuthService.swift */; };
+		D00000000000000000000114 /* GoogleTasksDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000214 /* GoogleTasksDTO.swift */; };
+		D00000000000000000000115 /* GoogleTasksMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000215 /* GoogleTasksMapper.swift */; };
+		D00000000000000000000116 /* GoogleTasksClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000216 /* GoogleTasksClient.swift */; };
+		D00000000000000000000117 /* GoogleTasksSnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000217 /* GoogleTasksSnapshot.swift */; };
+		D00000000000000000000118 /* GoogleTasksRefreshTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000218 /* GoogleTasksRefreshTrigger.swift */; };
+		D00000000000000000000119 /* GoogleTasksRetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000219 /* GoogleTasksRetryPolicy.swift */; };
+		D00000000000000000000120 /* GoogleTasksPeriodicRefreshTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000220 /* GoogleTasksPeriodicRefreshTimer.swift */; };
+		D00000000000000000000121 /* GoogleTasksSyncCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000221 /* GoogleTasksSyncCoordinator.swift */; };
+		D00000000000000000000122 /* OAuthFormEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000222 /* OAuthFormEncoder.swift */; };
+		D00000000000000000000123 /* OAuthTokenRequestValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000223 /* OAuthTokenRequestValidator.swift */; };
+		D00000000000000000000124 /* GoogleOAuthErrorMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000224 /* GoogleOAuthErrorMapper.swift */; };
+		D00000000000000000000125 /* GoogleOAuthClientSecretStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000225 /* GoogleOAuthClientSecretStore.swift */; };
+		D00000000000000000000126 /* KeychainGoogleOAuthClientSecretStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000226 /* KeychainGoogleOAuthClientSecretStore.swift */; };
+		D00000000000000000000151 /* URLProtocolStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000251 /* URLProtocolStub.swift */; };
+		D00000000000000000000152 /* PKCEAndCallbackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000252 /* PKCEAndCallbackTests.swift */; };
+		D00000000000000000000153 /* GoogleCredentialStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000253 /* GoogleCredentialStoreTests.swift */; };
+		D00000000000000000000154 /* GoogleOAuthClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000254 /* GoogleOAuthClientTests.swift */; };
+		D00000000000000000000155 /* GoogleTasksClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000255 /* GoogleTasksClientTests.swift */; };
+		D00000000000000000000156 /* GoogleTasksSyncCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000256 /* GoogleTasksSyncCoordinatorTests.swift */; };
+		D00000000000000000000157 /* LoopbackOAuthCallbackSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00000000000000000000257 /* LoopbackOAuthCallbackSessionTests.swift */; };
+		E00000000000000000000101 /* TaskPendingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000201 /* TaskPendingAction.swift */; };
+		E00000000000000000000102 /* TaskPendingActionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000202 /* TaskPendingActionRepository.swift */; };
+		E00000000000000000000103 /* StoredTaskPendingAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000203 /* StoredTaskPendingAction.swift */; };
+		E00000000000000000000104 /* SwiftDataTaskPendingActionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000204 /* SwiftDataTaskPendingActionRepository.swift */; };
+		E00000000000000000000105 /* GoogleTasksActionCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000205 /* GoogleTasksActionCoordinator.swift */; };
+		E00000000000000000000151 /* GoogleTasksActionCoordinatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000000000000000000251 /* GoogleTasksActionCoordinatorTests.swift */; };
+		F00000000000000000000102 /* ReminderSourceOpener.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00000000000000000000202 /* ReminderSourceOpener.swift */; };
+		F10000000000000000000101 /* TaskPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000201 /* TaskPriority.swift */; };
+		F10000000000000000000102 /* TaskPriorityPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000202 /* TaskPriorityPalette.swift */; };
+		F10000000000000000000103 /* TaskPriorityColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000203 /* TaskPriorityColor.swift */; };
+		F10000000000000000000104 /* TaskPanelFooterPresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000204 /* TaskPanelFooterPresentation.swift */; };
+		F10000000000000000000105 /* TaskPanelDragHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000205 /* TaskPanelDragHandle.swift */; };
+		F10000000000000000000106 /* TaskPanelResizeHandle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10000000000000000000206 /* TaskPanelResizeHandle.swift */; };
+		G00000000000000000000101 /* GoogleCalendarError.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000201 /* GoogleCalendarError.swift */; };
+		G00000000000000000000102 /* GoogleCalendarDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000202 /* GoogleCalendarDTO.swift */; };
+		G00000000000000000000103 /* GoogleCalendarLinkValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000203 /* GoogleCalendarLinkValidator.swift */; };
+		G00000000000000000000104 /* GoogleCalendarMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000204 /* GoogleCalendarMapper.swift */; };
+		G00000000000000000000105 /* GoogleCalendarClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000205 /* GoogleCalendarClient.swift */; };
+		G00000000000000000000106 /* CalendarCacheRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000206 /* CalendarCacheRepository.swift */; };
+		G00000000000000000000107 /* StoredCalendarDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000207 /* StoredCalendarDescriptor.swift */; };
+		G00000000000000000000108 /* StoredCalendarEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000208 /* StoredCalendarEvent.swift */; };
+		G00000000000000000000109 /* StoredCalendarSyncMetadata.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000209 /* StoredCalendarSyncMetadata.swift */; };
+		G00000000000000000000110 /* SwiftDataCalendarCacheRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000210 /* SwiftDataCalendarCacheRepository.swift */; };
+		G00000000000000000000111 /* GoogleCalendarRefreshTrigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000211 /* GoogleCalendarRefreshTrigger.swift */; };
+		G00000000000000000000112 /* GoogleCalendarRetryPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000212 /* GoogleCalendarRetryPolicy.swift */; };
+		G00000000000000000000113 /* GoogleCalendarPeriodicRefreshTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */; };
+		H00000000000000000000101 /* GoogleCalendarClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = H00000000000000000000201 /* GoogleCalendarClientTests.swift */; };
+		I00000000000000000000101 /* GoogleOAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = I00000000000000000000201 /* GoogleOAuthError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,13 +178,164 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfiguration.swift; sourceTree = "<group>"; };
+		L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
+		L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainGoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
+		L10000000000000000000204 /* GoogleOAuthClientConfigurationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationManager.swift; sourceTree = "<group>"; };
+		L10000000000000000000205 /* GoogleOAuthClientConfigurationChangePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationChangePolicy.swift; sourceTree = "<group>"; };
+		L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationTests.swift; sourceTree = "<group>"; };
+		J00000000000000000000201 /* ReminderSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSound.swift; sourceTree = "<group>"; };
+		J00000000000000000000202 /* ReminderSoundPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSoundPlayer.swift; sourceTree = "<group>"; };
+		K00000000000000000000201 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Resources/AppIcon.icon; sourceTree = "<group>"; };
+		900000000000000000000201 /* ReminderStripPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderStripPresentation.swift; sourceTree = "<group>"; };
+		900000000000000000000202 /* ReminderStripStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderStripStyle.swift; sourceTree = "<group>"; };
+		900000000000000000000203 /* ReminderControlStripView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderControlStripView.swift; sourceTree = "<group>"; };
+		900000000000000000000204 /* ReminderEventContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderEventContext.swift; sourceTree = "<group>"; };
+		900000000000000000000205 /* ReminderControlStripTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderControlStripTests.swift; sourceTree = "<group>"; };
+		700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationActivationPolicyApplying.swift; sourceTree = "<group>"; };
+		700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemApplicationActivationPolicyAdapter.swift; sourceTree = "<group>"; };
+		700000000000000000000204 /* ReminderPresentationDuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPresentationDuration.swift; sourceTree = "<group>"; };
+		700000000000000000000205 /* PeriodicRefreshInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicRefreshInterval.swift; sourceTree = "<group>"; };
+		700000000000000000000206 /* GoogleTasksSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksSettings.swift; sourceTree = "<group>"; };
+		700000000000000000000207 /* GoogleTasksSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksSettingsRepository.swift; sourceTree = "<group>"; };
+		700000000000000000000208 /* UserDefaultsGoogleTasksSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGoogleTasksSettingsRepository.swift; sourceTree = "<group>"; };
+		700000000000000000000210 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
+		600000000000000000000201 /* ApplicationLifecycleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLifecycleCoordinator.swift; sourceTree = "<group>"; };
+		600000000000000000000202 /* LaunchAtLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginManager.swift; sourceTree = "<group>"; };
+		600000000000000000000203 /* ScreenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenProvider.swift; sourceTree = "<group>"; };
+		600000000000000000000204 /* PresentationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationSettings.swift; sourceTree = "<group>"; };
+		600000000000000000000205 /* PresentationSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentationSettingsRepository.swift; sourceTree = "<group>"; };
+		600000000000000000000206 /* UserDefaultsPresentationSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsPresentationSettingsRepository.swift; sourceTree = "<group>"; };
+		600000000000000000000207 /* ReminderNotificationFallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderNotificationFallback.swift; sourceTree = "<group>"; };
+		600000000000000000000208 /* NudgeSchemaMigrationPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeSchemaMigrationPlan.swift; sourceTree = "<group>"; };
+		600000000000000000000209 /* PhaseSixReliabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseSixReliabilityTests.swift; sourceTree = "<group>"; };
 		A00000000000000000000201 /* NudgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgeApp.swift; sourceTree = "<group>"; };
 		A00000000000000000000202 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A00000000000000000000203 /* AppMenuAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuAction.swift; sourceTree = "<group>"; };
 		A00000000000000000000204 /* MenuBarContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarContent.swift; sourceTree = "<group>"; };
-		A00000000000000000000205 /* SettingsPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPlaceholderView.swift; sourceTree = "<group>"; };
-		A00000000000000000000206 /* PhaseZeroActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhaseZeroActions.swift; sourceTree = "<group>"; };
+		A00000000000000000000205 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		A00000000000000000000207 /* AppMenuActionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuActionTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000208 /* WindowPresentationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentationCoordinator.swift; sourceTree = "<group>"; };
+		A00000000000000000000209 /* ScreenCorner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenCorner.swift; sourceTree = "<group>"; };
+		A00000000000000000000210 /* ScreenPlacement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenPlacement.swift; sourceTree = "<group>"; };
+		A00000000000000000000211 /* ReminderOverlayWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOverlayWindow.swift; sourceTree = "<group>"; };
+		A00000000000000000000212 /* ReminderOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOverlayView.swift; sourceTree = "<group>"; };
+		A00000000000000000000213 /* ReminderOverlayWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOverlayWindowController.swift; sourceTree = "<group>"; };
+		A00000000000000000000214 /* TaskPanelWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelWindow.swift; sourceTree = "<group>"; };
+		A00000000000000000000215 /* TaskPanelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelView.swift; sourceTree = "<group>"; };
+		A00000000000000000000216 /* TaskPanelWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelWindowController.swift; sourceTree = "<group>"; };
+		A00000000000000000000217 /* ScreenPlacementTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenPlacementTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000218 /* WindowPresentationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowPresentationTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000219 /* GoogleOAuthClientSecretDraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientSecretDraft.swift; sourceTree = "<group>"; };
+		A00000000000000000000222 /* SingleApplicationInstancePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleApplicationInstancePolicy.swift; sourceTree = "<group>"; };
+		A00000000000000000000223 /* SingleApplicationInstancePolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleApplicationInstancePolicyTests.swift; sourceTree = "<group>"; };
+		A00000000000000000000224 /* ApplicationInstanceLock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInstanceLock.swift; sourceTree = "<group>"; };
+		A00000000000000000000225 /* ApplicationInstanceLockTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationInstanceLockTests.swift; sourceTree = "<group>"; };
+		B00000000000000000000201 /* ReminderOccurrenceID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOccurrenceID.swift; sourceTree = "<group>"; };
+		B00000000000000000000202 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
+		B00000000000000000000203 /* ReminderDeliveryRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDeliveryRecord.swift; sourceTree = "<group>"; };
+		B00000000000000000000204 /* TaskItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskItem.swift; sourceTree = "<group>"; };
+		B00000000000000000000205 /* TaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskList.swift; sourceTree = "<group>"; };
+		B00000000000000000000206 /* TaskPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelState.swift; sourceTree = "<group>"; };
+		B00000000000000000000207 /* SyncMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMetadata.swift; sourceTree = "<group>"; };
+		B00000000000000000000208 /* TaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000209 /* ReminderDeliveryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderDeliveryRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000210 /* TaskPanelStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelStateRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000211 /* SyncMetadataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncMetadataRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000212 /* StoredTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredTask.swift; sourceTree = "<group>"; };
+		B00000000000000000000213 /* StoredTaskList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredTaskList.swift; sourceTree = "<group>"; };
+		B00000000000000000000214 /* StoredReminderDelivery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredReminderDelivery.swift; sourceTree = "<group>"; };
+		B00000000000000000000215 /* StoredTaskPanelState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredTaskPanelState.swift; sourceTree = "<group>"; };
+		B00000000000000000000216 /* StoredSyncMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredSyncMetadata.swift; sourceTree = "<group>"; };
+		B00000000000000000000217 /* SwiftDataTaskRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTaskRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000218 /* SwiftDataReminderDeliveryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataReminderDeliveryRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000219 /* SwiftDataTaskPanelStateRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTaskPanelStateRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000220 /* SwiftDataSyncMetadataRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataSyncMetadataRepository.swift; sourceTree = "<group>"; };
+		B00000000000000000000221 /* LocalRepositoryContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalRepositoryContainer.swift; sourceTree = "<group>"; };
+		B00000000000000000000222 /* TaskPanelStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelStore.swift; sourceTree = "<group>"; };
+		B00000000000000000000223 /* ReminderOverlayStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOverlayStore.swift; sourceTree = "<group>"; };
+		B00000000000000000000224 /* ReminderClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderClock.swift; sourceTree = "<group>"; };
+		B00000000000000000000225 /* ReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScheduler.swift; sourceTree = "<group>"; };
+		B00000000000000000000226 /* ReminderPresentationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPresentationCoordinator.swift; sourceTree = "<group>"; };
+		B00000000000000000000227 /* TestReminderClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestReminderClock.swift; sourceTree = "<group>"; };
+		B00000000000000000000228 /* DomainModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DomainModelTests.swift; sourceTree = "<group>"; };
+		B00000000000000000000229 /* ReminderSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSchedulerTests.swift; sourceTree = "<group>"; };
+		B00000000000000000000230 /* SwiftDataRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataRepositoryTests.swift; sourceTree = "<group>"; };
+		B00000000000000000000231 /* OfflineLaunchRestorationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineLaunchRestorationTests.swift; sourceTree = "<group>"; };
+		B00000000000000000000232 /* ReminderWakeTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderWakeTimer.swift; sourceTree = "<group>"; };
+		B00000000000000000000233 /* ReminderPresentationCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderPresentationCoordinatorTests.swift; sourceTree = "<group>"; };
+		C00000000000000000000202 /* CalendarDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarDescriptor.swift; sourceTree = "<group>"; };
+		C00000000000000000000203 /* CalendarEventSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventSnapshot.swift; sourceTree = "<group>"; };
+		C00000000000000000000204 /* CalendarProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarProvider.swift; sourceTree = "<group>"; };
+		C00000000000000000000205 /* CalendarReminderMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarReminderMapper.swift; sourceTree = "<group>"; };
+		C00000000000000000000207 /* CalendarSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettings.swift; sourceTree = "<group>"; };
+		C00000000000000000000208 /* CalendarSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarSettingsRepository.swift; sourceTree = "<group>"; };
+		C00000000000000000000209 /* UserDefaultsCalendarSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsCalendarSettingsRepository.swift; sourceTree = "<group>"; };
+		C00000000000000000000210 /* CalendarReminderConsumer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarReminderConsumer.swift; sourceTree = "<group>"; };
+		C00000000000000000000211 /* CalendarScheduleCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleCoordinator.swift; sourceTree = "<group>"; };
+		C00000000000000000000212 /* CalendarReminderMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarReminderMapperTests.swift; sourceTree = "<group>"; };
+		C00000000000000000000213 /* CalendarScheduleCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarScheduleCoordinatorTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000201 /* GoogleTasksError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksError.swift; sourceTree = "<group>"; };
+		D00000000000000000000202 /* HTTPTransport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPTransport.swift; sourceTree = "<group>"; };
+		D00000000000000000000203 /* GoogleOAuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthConfiguration.swift; sourceTree = "<group>"; };
+		D00000000000000000000204 /* GoogleOAuthCredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthCredential.swift; sourceTree = "<group>"; };
+		D00000000000000000000205 /* GoogleCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCredentialStore.swift; sourceTree = "<group>"; };
+		D00000000000000000000206 /* KeychainGoogleCredentialStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainGoogleCredentialStore.swift; sourceTree = "<group>"; };
+		D00000000000000000000207 /* PKCEGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKCEGenerator.swift; sourceTree = "<group>"; };
+		D00000000000000000000208 /* OAuthCallbackValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCallbackValidator.swift; sourceTree = "<group>"; };
+		D00000000000000000000209 /* OAuthCallbackSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthCallbackSession.swift; sourceTree = "<group>"; };
+		D00000000000000000000210 /* LoopbackOAuthCallbackSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopbackOAuthCallbackSession.swift; sourceTree = "<group>"; };
+		D00000000000000000000211 /* SystemBrowserOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemBrowserOpener.swift; sourceTree = "<group>"; };
+		D00000000000000000000212 /* GoogleOAuthClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClient.swift; sourceTree = "<group>"; };
+		D00000000000000000000213 /* GoogleOAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthService.swift; sourceTree = "<group>"; };
+		D00000000000000000000214 /* GoogleTasksDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksDTO.swift; sourceTree = "<group>"; };
+		D00000000000000000000215 /* GoogleTasksMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksMapper.swift; sourceTree = "<group>"; };
+		D00000000000000000000216 /* GoogleTasksClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksClient.swift; sourceTree = "<group>"; };
+		D00000000000000000000217 /* GoogleTasksSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksSnapshot.swift; sourceTree = "<group>"; };
+		D00000000000000000000218 /* GoogleTasksRefreshTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksRefreshTrigger.swift; sourceTree = "<group>"; };
+		D00000000000000000000219 /* GoogleTasksRetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksRetryPolicy.swift; sourceTree = "<group>"; };
+		D00000000000000000000220 /* GoogleTasksPeriodicRefreshTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksPeriodicRefreshTimer.swift; sourceTree = "<group>"; };
+		D00000000000000000000221 /* GoogleTasksSyncCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksSyncCoordinator.swift; sourceTree = "<group>"; };
+		D00000000000000000000222 /* OAuthFormEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthFormEncoder.swift; sourceTree = "<group>"; };
+		D00000000000000000000223 /* OAuthTokenRequestValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenRequestValidator.swift; sourceTree = "<group>"; };
+		D00000000000000000000224 /* GoogleOAuthErrorMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthErrorMapper.swift; sourceTree = "<group>"; };
+		D00000000000000000000225 /* GoogleOAuthClientSecretStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientSecretStore.swift; sourceTree = "<group>"; };
+		D00000000000000000000226 /* KeychainGoogleOAuthClientSecretStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainGoogleOAuthClientSecretStore.swift; sourceTree = "<group>"; };
+		D00000000000000000000251 /* URLProtocolStub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLProtocolStub.swift; sourceTree = "<group>"; };
+		D00000000000000000000252 /* PKCEAndCallbackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKCEAndCallbackTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000253 /* GoogleCredentialStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCredentialStoreTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000254 /* GoogleOAuthClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000255 /* GoogleTasksClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksClientTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000256 /* GoogleTasksSyncCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksSyncCoordinatorTests.swift; sourceTree = "<group>"; };
+		D00000000000000000000257 /* LoopbackOAuthCallbackSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopbackOAuthCallbackSessionTests.swift; sourceTree = "<group>"; };
+		E00000000000000000000201 /* TaskPendingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPendingAction.swift; sourceTree = "<group>"; };
+		E00000000000000000000202 /* TaskPendingActionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPendingActionRepository.swift; sourceTree = "<group>"; };
+		E00000000000000000000203 /* StoredTaskPendingAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredTaskPendingAction.swift; sourceTree = "<group>"; };
+		E00000000000000000000204 /* SwiftDataTaskPendingActionRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataTaskPendingActionRepository.swift; sourceTree = "<group>"; };
+		E00000000000000000000205 /* GoogleTasksActionCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksActionCoordinator.swift; sourceTree = "<group>"; };
+		E00000000000000000000251 /* GoogleTasksActionCoordinatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleTasksActionCoordinatorTests.swift; sourceTree = "<group>"; };
+		F00000000000000000000202 /* ReminderSourceOpener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSourceOpener.swift; sourceTree = "<group>"; };
+		F10000000000000000000201 /* TaskPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriority.swift; sourceTree = "<group>"; };
+		F10000000000000000000202 /* TaskPriorityPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriorityPalette.swift; sourceTree = "<group>"; };
+		F10000000000000000000203 /* TaskPriorityColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPriorityColor.swift; sourceTree = "<group>"; };
+		F10000000000000000000204 /* TaskPanelFooterPresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelFooterPresentation.swift; sourceTree = "<group>"; };
+		F10000000000000000000205 /* TaskPanelDragHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelDragHandle.swift; sourceTree = "<group>"; };
+		F10000000000000000000206 /* TaskPanelResizeHandle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPanelResizeHandle.swift; sourceTree = "<group>"; };
+		G00000000000000000000201 /* GoogleCalendarError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarError.swift; sourceTree = "<group>"; };
+		G00000000000000000000202 /* GoogleCalendarDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarDTO.swift; sourceTree = "<group>"; };
+		G00000000000000000000203 /* GoogleCalendarLinkValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarLinkValidator.swift; sourceTree = "<group>"; };
+		G00000000000000000000204 /* GoogleCalendarMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarMapper.swift; sourceTree = "<group>"; };
+		G00000000000000000000205 /* GoogleCalendarClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarClient.swift; sourceTree = "<group>"; };
+		G00000000000000000000206 /* CalendarCacheRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarCacheRepository.swift; sourceTree = "<group>"; };
+		G00000000000000000000207 /* StoredCalendarDescriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredCalendarDescriptor.swift; sourceTree = "<group>"; };
+		G00000000000000000000208 /* StoredCalendarEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredCalendarEvent.swift; sourceTree = "<group>"; };
+		G00000000000000000000209 /* StoredCalendarSyncMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoredCalendarSyncMetadata.swift; sourceTree = "<group>"; };
+		G00000000000000000000210 /* SwiftDataCalendarCacheRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDataCalendarCacheRepository.swift; sourceTree = "<group>"; };
+		G00000000000000000000211 /* GoogleCalendarRefreshTrigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarRefreshTrigger.swift; sourceTree = "<group>"; };
+		G00000000000000000000212 /* GoogleCalendarRetryPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarRetryPolicy.swift; sourceTree = "<group>"; };
+		G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarPeriodicRefreshTimer.swift; sourceTree = "<group>"; };
+		H00000000000000000000201 /* GoogleCalendarClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleCalendarClientTests.swift; sourceTree = "<group>"; };
+		I00000000000000000000201 /* GoogleOAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthError.swift; sourceTree = "<group>"; };
 		A00000000000000000000220 /* Nudge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nudge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000221 /* NudgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NudgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -93,7 +395,15 @@
 		A00000000000000000000013 /* Nudge */ = {
 			isa = PBXGroup;
 			children = (
+				K00000000000000000000201 /* AppIcon.icon */,
+				700000000000000000000210 /* Assets.xcassets */,
 				A00000000000000000000014 /* App */,
+				A00000000000000000000018 /* Features */,
+				B00000000000000000000301 /* Domain */,
+				C00000000000000000000301 /* Providers */,
+				B00000000000000000000304 /* Persistence */,
+				B00000000000000000000305 /* Scheduling */,
+				B00000000000000000000306 /* Synchronization */,
 				A00000000000000000000015 /* Settings */,
 				A00000000000000000000016 /* Support */,
 			);
@@ -103,10 +413,17 @@
 		A00000000000000000000014 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */,
+				700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */,
 				A00000000000000000000201 /* NudgeApp.swift */,
 				A00000000000000000000202 /* AppDelegate.swift */,
+				A00000000000000000000222 /* SingleApplicationInstancePolicy.swift */,
+				A00000000000000000000224 /* ApplicationInstanceLock.swift */,
 				A00000000000000000000203 /* AppMenuAction.swift */,
 				A00000000000000000000204 /* MenuBarContent.swift */,
+				A00000000000000000000208 /* WindowPresentationCoordinator.swift */,
+				600000000000000000000201 /* ApplicationLifecycleCoordinator.swift */,
+				600000000000000000000202 /* LaunchAtLoginManager.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -114,7 +431,20 @@
 		A00000000000000000000015 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				A00000000000000000000205 /* SettingsPlaceholderView.swift */,
+				J00000000000000000000201 /* ReminderSound.swift */,
+				700000000000000000000204 /* ReminderPresentationDuration.swift */,
+				700000000000000000000205 /* PeriodicRefreshInterval.swift */,
+				700000000000000000000206 /* GoogleTasksSettings.swift */,
+				700000000000000000000207 /* GoogleTasksSettingsRepository.swift */,
+				700000000000000000000208 /* UserDefaultsGoogleTasksSettingsRepository.swift */,
+				A00000000000000000000205 /* SettingsView.swift */,
+				A00000000000000000000219 /* GoogleOAuthClientSecretDraft.swift */,
+				C00000000000000000000207 /* CalendarSettings.swift */,
+				C00000000000000000000208 /* CalendarSettingsRepository.swift */,
+				C00000000000000000000209 /* UserDefaultsCalendarSettingsRepository.swift */,
+				600000000000000000000204 /* PresentationSettings.swift */,
+				600000000000000000000205 /* PresentationSettingsRepository.swift */,
+				600000000000000000000206 /* UserDefaultsPresentationSettingsRepository.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -122,7 +452,6 @@
 		A00000000000000000000016 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				A00000000000000000000206 /* PhaseZeroActions.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -130,9 +459,237 @@
 		A00000000000000000000017 /* NudgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */,
+				900000000000000000000205 /* ReminderControlStripTests.swift */,
 				A00000000000000000000207 /* AppMenuActionTests.swift */,
+				A00000000000000000000223 /* SingleApplicationInstancePolicyTests.swift */,
+				A00000000000000000000225 /* ApplicationInstanceLockTests.swift */,
+				A00000000000000000000217 /* ScreenPlacementTests.swift */,
+				A00000000000000000000218 /* WindowPresentationTests.swift */,
+				600000000000000000000209 /* PhaseSixReliabilityTests.swift */,
+				B00000000000000000000227 /* TestReminderClock.swift */,
+				B00000000000000000000228 /* DomainModelTests.swift */,
+				B00000000000000000000229 /* ReminderSchedulerTests.swift */,
+				B00000000000000000000230 /* SwiftDataRepositoryTests.swift */,
+				B00000000000000000000231 /* OfflineLaunchRestorationTests.swift */,
+				B00000000000000000000233 /* ReminderPresentationCoordinatorTests.swift */,
+				C00000000000000000000212 /* CalendarReminderMapperTests.swift */,
+				C00000000000000000000213 /* CalendarScheduleCoordinatorTests.swift */,
+				H00000000000000000000201 /* GoogleCalendarClientTests.swift */,
+				D00000000000000000000251 /* URLProtocolStub.swift */,
+				D00000000000000000000252 /* PKCEAndCallbackTests.swift */,
+				D00000000000000000000253 /* GoogleCredentialStoreTests.swift */,
+				D00000000000000000000254 /* GoogleOAuthClientTests.swift */,
+				D00000000000000000000255 /* GoogleTasksClientTests.swift */,
+				D00000000000000000000256 /* GoogleTasksSyncCoordinatorTests.swift */,
+				D00000000000000000000257 /* LoopbackOAuthCallbackSessionTests.swift */,
+				E00000000000000000000251 /* GoogleTasksActionCoordinatorTests.swift */,
 			);
 			path = NudgeTests;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000018 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000019 /* Windowing */,
+				A0000000000000000000001A /* ReminderOverlay */,
+				A0000000000000000000001B /* TaskPanel */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000019 /* Windowing */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000209 /* ScreenCorner.swift */,
+				A00000000000000000000210 /* ScreenPlacement.swift */,
+				600000000000000000000203 /* ScreenProvider.swift */,
+			);
+			path = Windowing;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000001A /* ReminderOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				900000000000000000000201 /* ReminderStripPresentation.swift */,
+				900000000000000000000202 /* ReminderStripStyle.swift */,
+				900000000000000000000203 /* ReminderControlStripView.swift */,
+				A00000000000000000000211 /* ReminderOverlayWindow.swift */,
+				A00000000000000000000212 /* ReminderOverlayView.swift */,
+				A00000000000000000000213 /* ReminderOverlayWindowController.swift */,
+				B00000000000000000000223 /* ReminderOverlayStore.swift */,
+			);
+			path = ReminderOverlay;
+			sourceTree = "<group>";
+		};
+		A0000000000000000000001B /* TaskPanel */ = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000214 /* TaskPanelWindow.swift */,
+				A00000000000000000000215 /* TaskPanelView.swift */,
+				A00000000000000000000216 /* TaskPanelWindowController.swift */,
+				B00000000000000000000222 /* TaskPanelStore.swift */,
+				F10000000000000000000203 /* TaskPriorityColor.swift */,
+				F10000000000000000000204 /* TaskPanelFooterPresentation.swift */,
+				F10000000000000000000205 /* TaskPanelDragHandle.swift */,
+				F10000000000000000000206 /* TaskPanelResizeHandle.swift */,
+			);
+			path = TaskPanel;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000301 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B00000000000000000000302 /* Reminders */,
+				B00000000000000000000303 /* Tasks */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000302 /* Reminders */ = {
+			isa = PBXGroup;
+			children = (
+				900000000000000000000204 /* ReminderEventContext.swift */,
+				B00000000000000000000201 /* ReminderOccurrenceID.swift */,
+				B00000000000000000000202 /* Reminder.swift */,
+				B00000000000000000000203 /* ReminderDeliveryRecord.swift */,
+			);
+			path = Reminders;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000303 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				B00000000000000000000204 /* TaskItem.swift */,
+				B00000000000000000000205 /* TaskList.swift */,
+				B00000000000000000000206 /* TaskPanelState.swift */,
+				F10000000000000000000201 /* TaskPriority.swift */,
+				F10000000000000000000202 /* TaskPriorityPalette.swift */,
+				E00000000000000000000201 /* TaskPendingAction.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000304 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				G00000000000000000000206 /* CalendarCacheRepository.swift */,
+				G00000000000000000000207 /* StoredCalendarDescriptor.swift */,
+				G00000000000000000000208 /* StoredCalendarEvent.swift */,
+				G00000000000000000000209 /* StoredCalendarSyncMetadata.swift */,
+				G00000000000000000000210 /* SwiftDataCalendarCacheRepository.swift */,
+				B00000000000000000000208 /* TaskRepository.swift */,
+				B00000000000000000000209 /* ReminderDeliveryRepository.swift */,
+				B00000000000000000000210 /* TaskPanelStateRepository.swift */,
+				B00000000000000000000211 /* SyncMetadataRepository.swift */,
+				B00000000000000000000212 /* StoredTask.swift */,
+				B00000000000000000000213 /* StoredTaskList.swift */,
+				B00000000000000000000214 /* StoredReminderDelivery.swift */,
+				B00000000000000000000215 /* StoredTaskPanelState.swift */,
+				B00000000000000000000216 /* StoredSyncMetadata.swift */,
+				B00000000000000000000217 /* SwiftDataTaskRepository.swift */,
+				B00000000000000000000218 /* SwiftDataReminderDeliveryRepository.swift */,
+				B00000000000000000000219 /* SwiftDataTaskPanelStateRepository.swift */,
+				B00000000000000000000220 /* SwiftDataSyncMetadataRepository.swift */,
+				B00000000000000000000221 /* LocalRepositoryContainer.swift */,
+				E00000000000000000000202 /* TaskPendingActionRepository.swift */,
+				E00000000000000000000203 /* StoredTaskPendingAction.swift */,
+				E00000000000000000000204 /* SwiftDataTaskPendingActionRepository.swift */,
+				600000000000000000000208 /* NudgeSchemaMigrationPlan.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000305 /* Scheduling */ = {
+			isa = PBXGroup;
+			children = (
+				J00000000000000000000202 /* ReminderSoundPlayer.swift */,
+				B00000000000000000000224 /* ReminderClock.swift */,
+				B00000000000000000000225 /* ReminderScheduler.swift */,
+				B00000000000000000000226 /* ReminderPresentationCoordinator.swift */,
+				B00000000000000000000232 /* ReminderWakeTimer.swift */,
+				C00000000000000000000210 /* CalendarReminderConsumer.swift */,
+				C00000000000000000000211 /* CalendarScheduleCoordinator.swift */,
+				F00000000000000000000202 /* ReminderSourceOpener.swift */,
+				600000000000000000000207 /* ReminderNotificationFallback.swift */,
+			);
+			path = Scheduling;
+			sourceTree = "<group>";
+		};
+		B00000000000000000000306 /* Synchronization */ = {
+			isa = PBXGroup;
+			children = (
+				B00000000000000000000207 /* SyncMetadata.swift */,
+				G00000000000000000000211 /* GoogleCalendarRefreshTrigger.swift */,
+				G00000000000000000000212 /* GoogleCalendarRetryPolicy.swift */,
+				G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */,
+				D00000000000000000000217 /* GoogleTasksSnapshot.swift */,
+				D00000000000000000000218 /* GoogleTasksRefreshTrigger.swift */,
+				D00000000000000000000219 /* GoogleTasksRetryPolicy.swift */,
+				D00000000000000000000220 /* GoogleTasksPeriodicRefreshTimer.swift */,
+				D00000000000000000000221 /* GoogleTasksSyncCoordinator.swift */,
+				E00000000000000000000205 /* GoogleTasksActionCoordinator.swift */,
+			);
+			path = Synchronization;
+			sourceTree = "<group>";
+		};
+		C00000000000000000000301 /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				C00000000000000000000302 /* Calendar */,
+				D00000000000000000000301 /* GoogleTasks */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		C00000000000000000000302 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				C00000000000000000000202 /* CalendarDescriptor.swift */,
+				C00000000000000000000203 /* CalendarEventSnapshot.swift */,
+				C00000000000000000000204 /* CalendarProvider.swift */,
+				C00000000000000000000205 /* CalendarReminderMapper.swift */,
+				G00000000000000000000201 /* GoogleCalendarError.swift */,
+				G00000000000000000000202 /* GoogleCalendarDTO.swift */,
+				G00000000000000000000203 /* GoogleCalendarLinkValidator.swift */,
+				G00000000000000000000204 /* GoogleCalendarMapper.swift */,
+				G00000000000000000000205 /* GoogleCalendarClient.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		D00000000000000000000301 /* GoogleTasks */ = {
+			isa = PBXGroup;
+			children = (
+				L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */,
+				L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */,
+				L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */,
+				L10000000000000000000204 /* GoogleOAuthClientConfigurationManager.swift */,
+				L10000000000000000000205 /* GoogleOAuthClientConfigurationChangePolicy.swift */,
+				I00000000000000000000201 /* GoogleOAuthError.swift */,
+				D00000000000000000000201 /* GoogleTasksError.swift */,
+				D00000000000000000000202 /* HTTPTransport.swift */,
+				D00000000000000000000203 /* GoogleOAuthConfiguration.swift */,
+				D00000000000000000000204 /* GoogleOAuthCredential.swift */,
+				D00000000000000000000205 /* GoogleCredentialStore.swift */,
+				D00000000000000000000206 /* KeychainGoogleCredentialStore.swift */,
+				D00000000000000000000207 /* PKCEGenerator.swift */,
+				D00000000000000000000208 /* OAuthCallbackValidator.swift */,
+				D00000000000000000000209 /* OAuthCallbackSession.swift */,
+				D00000000000000000000210 /* LoopbackOAuthCallbackSession.swift */,
+				D00000000000000000000211 /* SystemBrowserOpener.swift */,
+				D00000000000000000000222 /* OAuthFormEncoder.swift */,
+				D00000000000000000000223 /* OAuthTokenRequestValidator.swift */,
+				D00000000000000000000224 /* GoogleOAuthErrorMapper.swift */,
+				D00000000000000000000225 /* GoogleOAuthClientSecretStore.swift */,
+				D00000000000000000000226 /* KeychainGoogleOAuthClientSecretStore.swift */,
+				D00000000000000000000212 /* GoogleOAuthClient.swift */,
+				D00000000000000000000213 /* GoogleOAuthService.swift */,
+				D00000000000000000000214 /* GoogleTasksDTO.swift */,
+				D00000000000000000000215 /* GoogleTasksMapper.swift */,
+				D00000000000000000000216 /* GoogleTasksClient.swift */,
+			);
+			path = GoogleTasks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +773,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				K00000000000000000000101 /* AppIcon.icon in Resources */,
+				700000000000000000000110 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,12 +792,137 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */,
+				L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */,
+				L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */,
+				L10000000000000000000104 /* GoogleOAuthClientConfigurationManager.swift in Sources */,
+				L10000000000000000000105 /* GoogleOAuthClientConfigurationChangePolicy.swift in Sources */,
+				J00000000000000000000101 /* ReminderSound.swift in Sources */,
+				J00000000000000000000102 /* ReminderSoundPlayer.swift in Sources */,
+				700000000000000000000101 /* ApplicationActivationPolicyApplying.swift in Sources */,
+				700000000000000000000102 /* SystemApplicationActivationPolicyAdapter.swift in Sources */,
+				700000000000000000000104 /* ReminderPresentationDuration.swift in Sources */,
+				700000000000000000000105 /* PeriodicRefreshInterval.swift in Sources */,
+				700000000000000000000106 /* GoogleTasksSettings.swift in Sources */,
+				700000000000000000000107 /* GoogleTasksSettingsRepository.swift in Sources */,
+				700000000000000000000108 /* UserDefaultsGoogleTasksSettingsRepository.swift in Sources */,
 				A00000000000000000000101 /* NudgeApp.swift in Sources */,
 				A00000000000000000000102 /* AppDelegate.swift in Sources */,
+				A00000000000000000000120 /* SingleApplicationInstancePolicy.swift in Sources */,
+				A00000000000000000000122 /* ApplicationInstanceLock.swift in Sources */,
 				A00000000000000000000103 /* AppMenuAction.swift in Sources */,
 				A00000000000000000000104 /* MenuBarContent.swift in Sources */,
-				A00000000000000000000105 /* SettingsPlaceholderView.swift in Sources */,
-				A00000000000000000000106 /* PhaseZeroActions.swift in Sources */,
+				A00000000000000000000105 /* SettingsView.swift in Sources */,
+				A00000000000000000000119 /* GoogleOAuthClientSecretDraft.swift in Sources */,
+				A00000000000000000000108 /* WindowPresentationCoordinator.swift in Sources */,
+				600000000000000000000101 /* ApplicationLifecycleCoordinator.swift in Sources */,
+				600000000000000000000102 /* LaunchAtLoginManager.swift in Sources */,
+				A00000000000000000000109 /* ScreenCorner.swift in Sources */,
+				A00000000000000000000110 /* ScreenPlacement.swift in Sources */,
+				600000000000000000000103 /* ScreenProvider.swift in Sources */,
+				A00000000000000000000111 /* ReminderOverlayWindow.swift in Sources */,
+				900000000000000000000101 /* ReminderStripPresentation.swift in Sources */,
+				900000000000000000000102 /* ReminderStripStyle.swift in Sources */,
+				900000000000000000000103 /* ReminderControlStripView.swift in Sources */,
+				900000000000000000000104 /* ReminderEventContext.swift in Sources */,
+				A00000000000000000000112 /* ReminderOverlayView.swift in Sources */,
+				A00000000000000000000113 /* ReminderOverlayWindowController.swift in Sources */,
+				A00000000000000000000114 /* TaskPanelWindow.swift in Sources */,
+				A00000000000000000000115 /* TaskPanelView.swift in Sources */,
+				A00000000000000000000116 /* TaskPanelWindowController.swift in Sources */,
+				F10000000000000000000103 /* TaskPriorityColor.swift in Sources */,
+				F10000000000000000000104 /* TaskPanelFooterPresentation.swift in Sources */,
+				F10000000000000000000105 /* TaskPanelDragHandle.swift in Sources */,
+				F10000000000000000000106 /* TaskPanelResizeHandle.swift in Sources */,
+				B00000000000000000000101 /* ReminderOccurrenceID.swift in Sources */,
+				B00000000000000000000102 /* Reminder.swift in Sources */,
+				B00000000000000000000103 /* ReminderDeliveryRecord.swift in Sources */,
+				B00000000000000000000104 /* TaskItem.swift in Sources */,
+				B00000000000000000000105 /* TaskList.swift in Sources */,
+				B00000000000000000000106 /* TaskPanelState.swift in Sources */,
+				F10000000000000000000101 /* TaskPriority.swift in Sources */,
+				F10000000000000000000102 /* TaskPriorityPalette.swift in Sources */,
+				B00000000000000000000107 /* SyncMetadata.swift in Sources */,
+				B00000000000000000000108 /* TaskRepository.swift in Sources */,
+				B00000000000000000000109 /* ReminderDeliveryRepository.swift in Sources */,
+				B00000000000000000000110 /* TaskPanelStateRepository.swift in Sources */,
+				B00000000000000000000111 /* SyncMetadataRepository.swift in Sources */,
+				B00000000000000000000112 /* StoredTask.swift in Sources */,
+				B00000000000000000000113 /* StoredTaskList.swift in Sources */,
+				B00000000000000000000114 /* StoredReminderDelivery.swift in Sources */,
+				B00000000000000000000115 /* StoredTaskPanelState.swift in Sources */,
+				B00000000000000000000116 /* StoredSyncMetadata.swift in Sources */,
+				B00000000000000000000117 /* SwiftDataTaskRepository.swift in Sources */,
+				B00000000000000000000118 /* SwiftDataReminderDeliveryRepository.swift in Sources */,
+				B00000000000000000000119 /* SwiftDataTaskPanelStateRepository.swift in Sources */,
+				B00000000000000000000120 /* SwiftDataSyncMetadataRepository.swift in Sources */,
+				B00000000000000000000121 /* LocalRepositoryContainer.swift in Sources */,
+				600000000000000000000108 /* NudgeSchemaMigrationPlan.swift in Sources */,
+				B00000000000000000000122 /* TaskPanelStore.swift in Sources */,
+				B00000000000000000000123 /* ReminderOverlayStore.swift in Sources */,
+				B00000000000000000000124 /* ReminderClock.swift in Sources */,
+				B00000000000000000000125 /* ReminderScheduler.swift in Sources */,
+				B00000000000000000000126 /* ReminderPresentationCoordinator.swift in Sources */,
+				B00000000000000000000132 /* ReminderWakeTimer.swift in Sources */,
+				600000000000000000000107 /* ReminderNotificationFallback.swift in Sources */,
+				C00000000000000000000102 /* CalendarDescriptor.swift in Sources */,
+				C00000000000000000000103 /* CalendarEventSnapshot.swift in Sources */,
+				C00000000000000000000104 /* CalendarProvider.swift in Sources */,
+				C00000000000000000000105 /* CalendarReminderMapper.swift in Sources */,
+				G00000000000000000000101 /* GoogleCalendarError.swift in Sources */,
+				G00000000000000000000102 /* GoogleCalendarDTO.swift in Sources */,
+				G00000000000000000000103 /* GoogleCalendarLinkValidator.swift in Sources */,
+				G00000000000000000000104 /* GoogleCalendarMapper.swift in Sources */,
+				G00000000000000000000105 /* GoogleCalendarClient.swift in Sources */,
+				C00000000000000000000107 /* CalendarSettings.swift in Sources */,
+				C00000000000000000000108 /* CalendarSettingsRepository.swift in Sources */,
+				C00000000000000000000109 /* UserDefaultsCalendarSettingsRepository.swift in Sources */,
+				600000000000000000000104 /* PresentationSettings.swift in Sources */,
+				600000000000000000000105 /* PresentationSettingsRepository.swift in Sources */,
+				600000000000000000000106 /* UserDefaultsPresentationSettingsRepository.swift in Sources */,
+				C00000000000000000000110 /* CalendarReminderConsumer.swift in Sources */,
+				C00000000000000000000111 /* CalendarScheduleCoordinator.swift in Sources */,
+				G00000000000000000000106 /* CalendarCacheRepository.swift in Sources */,
+				G00000000000000000000107 /* StoredCalendarDescriptor.swift in Sources */,
+				G00000000000000000000108 /* StoredCalendarEvent.swift in Sources */,
+				G00000000000000000000109 /* StoredCalendarSyncMetadata.swift in Sources */,
+				G00000000000000000000110 /* SwiftDataCalendarCacheRepository.swift in Sources */,
+				G00000000000000000000111 /* GoogleCalendarRefreshTrigger.swift in Sources */,
+				G00000000000000000000112 /* GoogleCalendarRetryPolicy.swift in Sources */,
+				G00000000000000000000113 /* GoogleCalendarPeriodicRefreshTimer.swift in Sources */,
+				D00000000000000000000101 /* GoogleTasksError.swift in Sources */,
+				I00000000000000000000101 /* GoogleOAuthError.swift in Sources */,
+				D00000000000000000000102 /* HTTPTransport.swift in Sources */,
+				D00000000000000000000103 /* GoogleOAuthConfiguration.swift in Sources */,
+				D00000000000000000000104 /* GoogleOAuthCredential.swift in Sources */,
+				D00000000000000000000105 /* GoogleCredentialStore.swift in Sources */,
+				D00000000000000000000106 /* KeychainGoogleCredentialStore.swift in Sources */,
+				D00000000000000000000107 /* PKCEGenerator.swift in Sources */,
+				D00000000000000000000108 /* OAuthCallbackValidator.swift in Sources */,
+				D00000000000000000000109 /* OAuthCallbackSession.swift in Sources */,
+				D00000000000000000000110 /* LoopbackOAuthCallbackSession.swift in Sources */,
+				D00000000000000000000111 /* SystemBrowserOpener.swift in Sources */,
+				D00000000000000000000122 /* OAuthFormEncoder.swift in Sources */,
+				D00000000000000000000123 /* OAuthTokenRequestValidator.swift in Sources */,
+				D00000000000000000000124 /* GoogleOAuthErrorMapper.swift in Sources */,
+				D00000000000000000000125 /* GoogleOAuthClientSecretStore.swift in Sources */,
+				D00000000000000000000126 /* KeychainGoogleOAuthClientSecretStore.swift in Sources */,
+				D00000000000000000000112 /* GoogleOAuthClient.swift in Sources */,
+				D00000000000000000000113 /* GoogleOAuthService.swift in Sources */,
+				D00000000000000000000114 /* GoogleTasksDTO.swift in Sources */,
+				D00000000000000000000115 /* GoogleTasksMapper.swift in Sources */,
+				D00000000000000000000116 /* GoogleTasksClient.swift in Sources */,
+				D00000000000000000000117 /* GoogleTasksSnapshot.swift in Sources */,
+				D00000000000000000000118 /* GoogleTasksRefreshTrigger.swift in Sources */,
+				D00000000000000000000119 /* GoogleTasksRetryPolicy.swift in Sources */,
+				D00000000000000000000120 /* GoogleTasksPeriodicRefreshTimer.swift in Sources */,
+				D00000000000000000000121 /* GoogleTasksSyncCoordinator.swift in Sources */,
+				E00000000000000000000101 /* TaskPendingAction.swift in Sources */,
+				E00000000000000000000102 /* TaskPendingActionRepository.swift in Sources */,
+				E00000000000000000000103 /* StoredTaskPendingAction.swift in Sources */,
+				E00000000000000000000104 /* SwiftDataTaskPendingActionRepository.swift in Sources */,
+				E00000000000000000000105 /* GoogleTasksActionCoordinator.swift in Sources */,
+				F00000000000000000000102 /* ReminderSourceOpener.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,7 +930,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */,
+				900000000000000000000105 /* ReminderControlStripTests.swift in Sources */,
 				A00000000000000000000107 /* AppMenuActionTests.swift in Sources */,
+				A00000000000000000000121 /* SingleApplicationInstancePolicyTests.swift in Sources */,
+				A00000000000000000000123 /* ApplicationInstanceLockTests.swift in Sources */,
+				A00000000000000000000117 /* ScreenPlacementTests.swift in Sources */,
+				A00000000000000000000118 /* WindowPresentationTests.swift in Sources */,
+				600000000000000000000109 /* PhaseSixReliabilityTests.swift in Sources */,
+				B00000000000000000000127 /* TestReminderClock.swift in Sources */,
+				B00000000000000000000128 /* DomainModelTests.swift in Sources */,
+				B00000000000000000000129 /* ReminderSchedulerTests.swift in Sources */,
+				B00000000000000000000130 /* SwiftDataRepositoryTests.swift in Sources */,
+				B00000000000000000000131 /* OfflineLaunchRestorationTests.swift in Sources */,
+				B00000000000000000000133 /* ReminderPresentationCoordinatorTests.swift in Sources */,
+				C00000000000000000000112 /* CalendarReminderMapperTests.swift in Sources */,
+				C00000000000000000000113 /* CalendarScheduleCoordinatorTests.swift in Sources */,
+				H00000000000000000000101 /* GoogleCalendarClientTests.swift in Sources */,
+				D00000000000000000000151 /* URLProtocolStub.swift in Sources */,
+				D00000000000000000000152 /* PKCEAndCallbackTests.swift in Sources */,
+				D00000000000000000000153 /* GoogleCredentialStoreTests.swift in Sources */,
+				D00000000000000000000154 /* GoogleOAuthClientTests.swift in Sources */,
+				D00000000000000000000155 /* GoogleTasksClientTests.swift in Sources */,
+				D00000000000000000000156 /* GoogleTasksSyncCoordinatorTests.swift in Sources */,
+				D00000000000000000000157 /* LoopbackOAuthCallbackSessionTests.swift in Sources */,
+				E00000000000000000000151 /* GoogleTasksActionCoordinatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,13 +1084,15 @@
 		A00000000000000000000062 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_HARDENED_RUNTIME = NO;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				GOOGLE_OAUTH_CLIENT_ID = "";
+				GOOGLE_TASKS_CLIENT_ID = "";
+				INFOPLIST_FILE = Sources/Nudge/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -400,13 +1110,15 @@
 		A00000000000000000000063 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				ENABLE_HARDENED_RUNTIME = NO;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_LSUIElement = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				GOOGLE_OAUTH_CLIENT_ID = "";
+				GOOGLE_TASKS_CLIENT_ID = "";
+				INFOPLIST_FILE = Sources/Nudge/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

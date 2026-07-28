@@ -6,12 +6,22 @@ struct NudgeApp: App {
 
     var body: some Scene {
         MenuBarExtra("Nudge", systemImage: "bell.badge") {
-            MenuBarContent()
+            MenuBarContent(
+                windowPresentationCoordinator: appDelegate.windowPresentationCoordinator,
+                googleTasksSyncCoordinator: appDelegate.googleTasksSyncCoordinator
+            )
         }
         .menuBarExtraStyle(.menu)
 
         Settings {
-            SettingsPlaceholderView()
+            SettingsView(
+                calendarCoordinator: appDelegate.calendarScheduleCoordinator,
+                googleTasksCoordinator: appDelegate.googleTasksSyncCoordinator,
+                googleOAuthConfigurationManager: appDelegate.googleOAuthClientConfigurationManager,
+                windowCoordinator: appDelegate.windowPresentationCoordinator,
+                launchAtLoginManager: appDelegate.launchAtLoginManager,
+                persistenceStatusMessage: appDelegate.persistenceStatusMessage
+            )
         }
     }
 }
