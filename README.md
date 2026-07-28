@@ -1,11 +1,15 @@
 <p align="center">
-  <img src="docs/assets/nudge-icon.png" width="160" height="160" alt="Nudge app icon">
+  <img src="docs/assets/nudge-icon.png" width="120" height="120" alt="Nudge app icon">
 </p>
 
 <h1 align="center">Nudge</h1>
 
 <p align="center">
   A native macOS menu-bar app that puts Google Calendar reminders directly on screen and keeps Google Tasks within reach.
+</p>
+
+<p align="center">
+  <img src="docs/assets/nudge-hero.png" width="1000" alt="Nudge hero artwork showing a fictional Google Calendar reminder beside a populated Google Tasks panel">
 </p>
 
 Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders appear in an always-on-top control strip instead of disappearing into Notification Center, while incomplete Google Tasks can remain visible in a configurable corner panel.
@@ -145,6 +149,14 @@ Regenerate the credential-free screenshot gallery with:
 ```
 
 The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It replaces the seven PNGs under `docs/screenshots/` after validating that the capture app contains no embedded Google configuration.
+
+Regenerate the README hero and GitHub social-preview artwork from the checked-in fictional screenshots with:
+
+```sh
+./script/generate_readme_assets.sh
+```
+
+This dependency-free generator uses AppKit and Core Graphics. It validates the source image dimensions, crops only the demo overlay and Tasks panel, and writes the finished assets under `docs/assets/` without reading application data.
 
 Create the public credential-free release artifact with:
 
