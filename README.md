@@ -58,8 +58,6 @@ Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders
   </tr>
 </table>
 
-Every screenshot is generated from an isolated Debug-only mode using fictional in-memory data. The capture path does not read the normal Nudge cache, Keychain, Google APIs, UserDefaults, or login-item state.
-
 ## Features
 
 - Direct on-screen Google Calendar reminder overlays with dismiss, snooze, open, sound, display, Spaces, and full-screen controls.
