@@ -164,7 +164,6 @@ Create the public credential-free release artifact with:
 ./script/package_release.sh --public --no-launch
 ```
 
-
 ## License
 
 Nudge is available under the [MIT License](LICENSE).

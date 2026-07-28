@@ -3,6 +3,12 @@ import XCTest
 @testable import Nudge
 
 final class GoogleOAuthClientConfigurationTests: XCTestCase {
+    func testConfigurationSourceLabelsStayProviderNeutral() {
+        XCTAssertEqual(GoogleOAuthClientConfigurationSource.environment.label, "Build environment")
+        XCTAssertEqual(GoogleOAuthClientConfigurationSource.bundled.label, "Included in this build")
+        XCTAssertEqual(GoogleOAuthClientConfigurationSource.imported.label, "Imported into Keychain")
+    }
+
     func testDesktopCredentialJSONDecodesAndValidates() throws {
         let configuration = try GoogleOAuthClientConfiguration.decodeDesktopCredential(
             from: desktopCredentialData(clientID: validClientID, clientSecret: "test-secret_123")
