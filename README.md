@@ -10,6 +10,52 @@
 
 Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders appear in an always-on-top control strip instead of disappearing into Notification Center, while incomplete Google Tasks can remain visible in a configurable corner panel.
 
+## Screenshots
+
+<p align="center">
+  <img src="docs/screenshots/reminder-overlay.png" width="900" alt="Nudge reminder overlay showing a fictional design review event">
+  <br>
+  <sub>Calendar reminders appear directly on screen with open, snooze, and dismiss actions.</sub>
+</p>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/task-panel.png" alt="Nudge Tasks panel populated with fictional demo tasks">
+      <br><sub>Persistent Google Tasks panel</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/menu-bar.png" alt="Nudge menu-bar menu">
+      <br><sub>Menu-bar controls</sub>
+    </td>
+  </tr>
+</table>
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-account.png" alt="Nudge Account settings in the public onboarding state">
+      <br><sub>Account and OAuth setup</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-reminders.png" alt="Nudge reminder and Google Calendar settings with fictional calendars">
+      <br><sub>Reminder presentation and Calendar selection</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-tasks.png" alt="Nudge Google Tasks synchronization and panel settings">
+      <br><sub>Tasks synchronization and panel appearance</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-application.png" alt="Nudge application settings">
+      <br><sub>Application and local-data settings</sub>
+    </td>
+  </tr>
+</table>
+
+Every screenshot is generated from an isolated Debug-only mode using fictional in-memory data. The capture path does not read the normal Nudge cache, Keychain, Google APIs, UserDefaults, or login-item state.
+
 ## Features
 
 - Direct on-screen Google Calendar reminder overlays with dismiss, snooze, open, sound, display, Spaces, and full-screen controls.
@@ -91,6 +137,14 @@ Then import your Desktop OAuth JSON from Nudge's Account settings. Run the unit 
 ```sh
 xcodebuild -project Nudge.xcodeproj -scheme Nudge -configuration Debug -derivedDataPath .build/DerivedData test
 ```
+
+Regenerate the credential-free screenshot gallery with:
+
+```sh
+./script/capture_screenshots.sh
+```
+
+The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It replaces the seven PNGs under `docs/screenshots/` after validating that the capture app contains no embedded Google configuration.
 
 Create the public credential-free release artifact with:
 

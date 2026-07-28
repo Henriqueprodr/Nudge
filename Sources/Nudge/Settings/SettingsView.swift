@@ -1,6 +1,13 @@
 import SwiftUI
 import UniformTypeIdentifiers
 
+enum SettingsTab: String, CaseIterable, Sendable {
+    case account
+    case reminders
+    case tasks
+    case application
+}
+
 struct SettingsView: View {
     private enum ReminderVisibilityMode: String, CaseIterable, Identifiable {
         case timed
@@ -24,20 +31,43 @@ struct SettingsView: View {
     let windowCoordinator: WindowPresentationCoordinator
     let launchAtLoginManager: LaunchAtLoginManager
     let persistenceStatusMessage: String?
+    @State private var selectedTab: SettingsTab
     @State private var googleClientSecretDraft = GoogleOAuthClientSecretDraft()
     @State private var isImportingGoogleOAuthConfiguration = false
     @State private var googleOAuthConfigurationStatusMessage: String?
 
+    init(
+        calendarCoordinator: CalendarScheduleCoordinator,
+        googleTasksCoordinator: GoogleTasksSyncCoordinator,
+        googleOAuthConfigurationManager: GoogleOAuthClientConfigurationManager,
+        windowCoordinator: WindowPresentationCoordinator,
+        launchAtLoginManager: LaunchAtLoginManager,
+        persistenceStatusMessage: String?,
+        initialTab: SettingsTab = .account
+    ) {
+        self.calendarCoordinator = calendarCoordinator
+        self.googleTasksCoordinator = googleTasksCoordinator
+        self.googleOAuthConfigurationManager = googleOAuthConfigurationManager
+        self.windowCoordinator = windowCoordinator
+        self.launchAtLoginManager = launchAtLoginManager
+        self.persistenceStatusMessage = persistenceStatusMessage
+        _selectedTab = State(initialValue: initialTab)
+    }
+
     var body: some View {
-        TabView {
+        TabView(selection: $selectedTab) {
             accountSettings
                 .tabItem { Label("Account", systemImage: "person.crop.circle") }
+                .tag(SettingsTab.account)
             reminderSettings
                 .tabItem { Label("Reminders", systemImage: "bell.badge") }
+                .tag(SettingsTab.reminders)
             taskSettings
                 .tabItem { Label("Tasks", systemImage: "checklist") }
+                .tag(SettingsTab.tasks)
             applicationSettings
                 .tabItem { Label("Application", systemImage: "gearshape") }
+                .tag(SettingsTab.application)
         }
         .frame(width: 640, height: 700)
         .fileImporter(

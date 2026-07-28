@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */; };
+		M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000202 /* ScreenshotDemoDependencies.swift */; };
+		M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */; };
+		M00000000000000000000151 /* ScreenshotDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000251 /* ScreenshotDemoTests.swift */; };
 		L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */; };
 		L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */; };
 		L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */; };
@@ -178,6 +182,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoConfiguration.swift; sourceTree = "<group>"; };
+		M00000000000000000000202 /* ScreenshotDemoDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoDependencies.swift; sourceTree = "<group>"; };
+		M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoCaptureController.swift; sourceTree = "<group>"; };
+		M00000000000000000000251 /* ScreenshotDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoTests.swift; sourceTree = "<group>"; };
 		L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfiguration.swift; sourceTree = "<group>"; };
 		L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
 		L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainGoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
@@ -424,6 +432,9 @@
 				A00000000000000000000208 /* WindowPresentationCoordinator.swift */,
 				600000000000000000000201 /* ApplicationLifecycleCoordinator.swift */,
 				600000000000000000000202 /* LaunchAtLoginManager.swift */,
+				M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */,
+				M00000000000000000000202 /* ScreenshotDemoDependencies.swift */,
+				M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -484,6 +495,7 @@
 				D00000000000000000000256 /* GoogleTasksSyncCoordinatorTests.swift */,
 				D00000000000000000000257 /* LoopbackOAuthCallbackSessionTests.swift */,
 				E00000000000000000000251 /* GoogleTasksActionCoordinatorTests.swift */,
+				M00000000000000000000251 /* ScreenshotDemoTests.swift */,
 			);
 			path = NudgeTests;
 			sourceTree = "<group>";
@@ -817,6 +829,9 @@
 				A00000000000000000000108 /* WindowPresentationCoordinator.swift in Sources */,
 				600000000000000000000101 /* ApplicationLifecycleCoordinator.swift in Sources */,
 				600000000000000000000102 /* LaunchAtLoginManager.swift in Sources */,
+				M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */,
+				M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */,
+				M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */,
 				A00000000000000000000109 /* ScreenCorner.swift in Sources */,
 				A00000000000000000000110 /* ScreenPlacement.swift in Sources */,
 				600000000000000000000103 /* ScreenProvider.swift in Sources */,
@@ -955,6 +970,7 @@
 				D00000000000000000000156 /* GoogleTasksSyncCoordinatorTests.swift in Sources */,
 				D00000000000000000000157 /* LoopbackOAuthCallbackSessionTests.swift in Sources */,
 				E00000000000000000000151 /* GoogleTasksActionCoordinatorTests.swift in Sources */,
+				M00000000000000000000151 /* ScreenshotDemoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
