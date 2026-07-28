@@ -211,7 +211,7 @@ struct ScreenshotDemoDependencies {
         var pointerScreen: ScreenDescriptor? { screen }
     }
 
-    static let referenceDate = Date(timeIntervalSince1970: 1_753_614_000)
+    static let referenceDate = Date(timeIntervalSince1970: 1_785_236_400)
 
     let repositoryContainer: LocalRepositoryContainer
     let notificationFallback = NoopNotificationFallback()
@@ -400,11 +400,10 @@ struct ScreenshotDemoDependencies {
     }
 
     private static func currentMetadata() -> SyncMetadata {
-        let now = Date()
         return SyncMetadata(
             status: .current,
-            lastAttemptAt: now,
-            lastSuccessfulRefreshAt: now,
+            lastAttemptAt: referenceDate,
+            lastSuccessfulRefreshAt: referenceDate,
             statusMessage: "Demo data is ready."
         )
     }

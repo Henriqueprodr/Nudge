@@ -7,3 +7,11 @@ enum AppMenuAction: String, CaseIterable {
     case settings = "Settings"
     case quit = "Quit"
 }
+
+enum AppMenuLabel {
+    static let taskPanelCorner = "Task Panel Corner"
+    static let allowReminderOverFullScreenApps =
+        "Allow Reminder Over Full-Screen Apps"
+    static let allowTaskPanelOverFullScreenApps =
+        "Allow Task Panel Over Full-Screen Apps"
+}

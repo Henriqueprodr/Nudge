@@ -17,6 +17,7 @@ xcrun --sdk macosx swiftc \
     -O \
     -framework AppKit \
     -o "$generator" \
+    "$repository_root/script/readme_artwork_support.swift" \
     "$repository_root/script/generate_readme_assets.swift"
 
 "$generator" "$repository_root"

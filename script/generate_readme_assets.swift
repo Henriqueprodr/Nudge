@@ -110,65 +110,11 @@ private struct HeroArtworkGenerator {
 
     private func drawScene(in context: CGContext) {
         let canvas = NSRect(origin: .zero, size: Self.logicalSize)
-        drawBackground(in: context, canvas: canvas)
+        NudgeArtworkBackground.drawHero(in: context, canvas: canvas)
         drawInterfaceStage()
         drawBrandAndCopy()
         drawProductSurfaces()
         drawEdgeTreatment(in: context, canvas: canvas)
-    }
-
-    private func drawBackground(in context: CGContext, canvas: NSRect) {
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let backgroundGradient = CGGradient(
-            colorsSpace: colorSpace,
-            colors: [
-                color(0x071327).cgColor,
-                color(0x0A2348).cgColor,
-                color(0x0A386A).cgColor,
-            ] as CFArray,
-            locations: [0, 0.56, 1]
-        )
-        if let backgroundGradient {
-            context.drawLinearGradient(
-                backgroundGradient,
-                start: CGPoint(x: 0, y: canvas.midY),
-                end: CGPoint(x: canvas.maxX, y: canvas.midY),
-                options: []
-            )
-        }
-
-        drawRadialGlow(
-            in: context,
-            center: CGPoint(x: 1_670, y: 610),
-            radius: 690,
-            color: color(0x3187E8, alpha: 0.28)
-        )
-        drawRadialGlow(
-            in: context,
-            center: CGPoint(x: 1_140, y: 160),
-            radius: 520,
-            color: color(0xEC6A59, alpha: 0.12)
-        )
-        drawRadialGlow(
-            in: context,
-            center: CGPoint(x: 1_920, y: 160),
-            radius: 430,
-            color: color(0xF5B54A, alpha: 0.10)
-        )
-
-        context.saveGState()
-        context.setStrokeColor(color(0xD7E9FF, alpha: 0.055).cgColor)
-        context.setLineWidth(1)
-        for x in stride(from: CGFloat(720), through: CGFloat(2_000), by: 80) {
-            context.move(to: CGPoint(x: x, y: 60))
-            context.addLine(to: CGPoint(x: x, y: 940))
-        }
-        for y in stride(from: CGFloat(60), through: CGFloat(940), by: 80) {
-            context.move(to: CGPoint(x: 720, y: y))
-            context.addLine(to: CGPoint(x: 2_000, y: y))
-        }
-        context.strokePath()
-        context.restoreGState()
     }
 
     private func drawInterfaceStage() {
@@ -336,29 +282,6 @@ private struct HeroArtworkGenerator {
         }
     }
 
-    private func drawRadialGlow(
-        in context: CGContext,
-        center: CGPoint,
-        radius: CGFloat,
-        color glowColor: NSColor
-    ) {
-        let gradient = CGGradient(
-            colorsSpace: CGColorSpaceCreateDeviceRGB(),
-            colors: [glowColor.cgColor, glowColor.withAlphaComponent(0).cgColor] as CFArray,
-            locations: [0, 1]
-        )
-        if let gradient {
-            context.drawRadialGradient(
-                gradient,
-                startCenter: center,
-                startRadius: 0,
-                endCenter: center,
-                endRadius: radius,
-                options: []
-            )
-        }
-    }
-
     private func drawText(
         _ text: String,
         at point: NSPoint,
@@ -380,12 +303,7 @@ private struct HeroArtworkGenerator {
     }
 
     private func color(_ hexadecimal: Int, alpha: CGFloat = 1) -> NSColor {
-        NSColor(
-            deviceRed: CGFloat((hexadecimal >> 16) & 0xFF) / 255,
-            green: CGFloat((hexadecimal >> 8) & 0xFF) / 255,
-            blue: CGFloat(hexadecimal & 0xFF) / 255,
-            alpha: alpha
-        )
+        NudgeArtworkPalette.color(hexadecimal, alpha: alpha)
     }
 }
 
@@ -418,17 +336,30 @@ private func generateAssets(repositoryRoot: URL) throws {
     try writeJPEG(socialPreview, to: outputDirectory.appendingPathComponent("nudge-social-preview.jpg"))
 }
 
-do {
-    let arguments = CommandLine.arguments
-    guard arguments.count == 2 else {
-        FileHandle.standardError.write(Data("usage: generate_readme_assets <repository-root>\n".utf8))
-        exit(2)
-    }
+@main
+private enum GenerateReadmeAssets {
+    static func main() {
+        do {
+            let arguments = CommandLine.arguments
+            guard arguments.count == 2 else {
+                FileHandle.standardError.write(
+                    Data("usage: generate_readme_assets <repository-root>\n".utf8)
+                )
+                exit(2)
+            }
 
-    let repositoryRoot = URL(fileURLWithPath: arguments[1], isDirectory: true).standardizedFileURL
-    try generateAssets(repositoryRoot: repositoryRoot)
-} catch {
-    let message = (error as? LocalizedError)?.errorDescription ?? String(describing: error)
-    FileHandle.standardError.write(Data("README asset generation failed: \(message)\n".utf8))
-    exit(1)
+            let repositoryRoot = URL(
+                fileURLWithPath: arguments[1],
+                isDirectory: true
+            ).standardizedFileURL
+            try generateAssets(repositoryRoot: repositoryRoot)
+        } catch {
+            let message = (error as? LocalizedError)?.errorDescription
+                ?? String(describing: error)
+            FileHandle.standardError.write(
+                Data("README asset generation failed: \(message)\n".utf8)
+            )
+            exit(1)
+        }
+    }
 }

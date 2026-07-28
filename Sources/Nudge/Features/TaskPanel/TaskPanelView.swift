@@ -7,12 +7,31 @@ struct TaskPanelView: View {
     let onResizeBegan: (TaskPanelResizeEdge) -> Void
     let onResizeChanged: (CGFloat) -> Void
     let onResizeEnded: () -> Void
+    let footerNow: Date?
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @State private var isMoveHandleHovered = false
     @State private var isMoveHandlePressed = false
     @State private var isResizeHandleHovered = false
     @State private var isResizeHandlePressed = false
+
+    init(
+        store: TaskPanelStore,
+        onHide: @escaping () -> Void,
+        onToggleDisplayMode: @escaping () -> Void,
+        onResizeBegan: @escaping (TaskPanelResizeEdge) -> Void,
+        onResizeChanged: @escaping (CGFloat) -> Void,
+        onResizeEnded: @escaping () -> Void,
+        footerNow: Date? = nil
+    ) {
+        self.store = store
+        self.onHide = onHide
+        self.onToggleDisplayMode = onToggleDisplayMode
+        self.onResizeBegan = onResizeBegan
+        self.onResizeChanged = onResizeChanged
+        self.onResizeEnded = onResizeEnded
+        self.footerNow = footerNow
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -345,7 +364,8 @@ struct TaskPanelView: View {
         }
         return TaskPanelFooterPresentation(
             taskCount: store.displayedTasks.count,
-            metadata: store.syncMetadata
+            metadata: store.syncMetadata,
+            now: footerNow ?? Date()
         )
     }
 

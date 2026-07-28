@@ -148,7 +148,7 @@ Regenerate the credential-free screenshot gallery with:
 ./script/capture_screenshots.sh
 ```
 
-The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It replaces the seven PNGs under `docs/screenshots/` after validating that the capture app contains no embedded Google configuration.
+The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It presents Nudge's real AppKit windows and native menu, captures only Nudge-owned surfaces through ScreenCaptureKit, and composites them over the same blue artwork used by the hero. macOS requires one-time **Screen & System Audio Recording** approval for the development-signed Nudge capture app; no desktop or other-app pixels are included. The seven checked-in PNGs are replaced only after every native capture and composition succeeds.
 
 Regenerate the README hero and GitHub social-preview artwork from the checked-in fictional screenshots with:
 
@@ -156,7 +156,7 @@ Regenerate the README hero and GitHub social-preview artwork from the checked-in
 ./script/generate_readme_assets.sh
 ```
 
-This dependency-free generator uses AppKit and Core Graphics. It validates the source image dimensions, crops only the demo overlay and Tasks panel, and writes the finished assets under `docs/assets/` without reading application data.
+This dependency-free generator uses AppKit and Core Graphics plus the gallery's shared navy-to-blue background renderer. It validates the source image dimensions, crops only the demo overlay and Tasks panel, and writes the finished assets under `docs/assets/` without reading application data.
 
 Create the public credential-free release artifact with:
 

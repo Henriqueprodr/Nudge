@@ -20,7 +20,7 @@ struct MenuBarContent: View {
             windowPresentationCoordinator.hideTaskPanel()
         }
 
-        Menu("Task Panel Corner") {
+        Menu(AppMenuLabel.taskPanelCorner) {
             ForEach(ScreenCorner.allCases, id: \.self) { corner in
                 Button(corner.rawValue) {
                     windowPresentationCoordinator.setTaskPanelCorner(corner)
@@ -33,7 +33,7 @@ struct MenuBarContent: View {
         }
 
         Toggle(
-            "Allow Reminder Over Full-Screen Apps",
+            AppMenuLabel.allowReminderOverFullScreenApps,
             isOn: Binding(
                 get: {
                     windowPresentationCoordinator.reminderOverFullScreen
@@ -45,7 +45,7 @@ struct MenuBarContent: View {
         )
 
         Toggle(
-            "Allow Task Panel Over Full-Screen Apps",
+            AppMenuLabel.allowTaskPanelOverFullScreenApps,
             isOn: Binding(
                 get: { windowPresentationCoordinator.taskPanelOverFullScreen },
                 set: { windowPresentationCoordinator.setTaskPanelOverFullScreen($0) }
