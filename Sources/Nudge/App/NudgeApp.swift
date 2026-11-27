@@ -5,7 +5,7 @@ struct NudgeApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
 
     var body: some Scene {
-        MenuBarExtra("Nudge", systemImage: "bell.badge") {
+        MenuBarExtra("Nudge", image: "MenuBarIcon") {
             MenuBarContent(
                 windowPresentationCoordinator: appDelegate.windowPresentationCoordinator,
                 googleTasksSyncCoordinator: appDelegate.googleTasksSyncCoordinator

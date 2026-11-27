@@ -7,7 +7,7 @@ import Foundation
 /// is deterministic in tests.
 struct ReminderStripPresentation: Equatable, Sendable {
     /// Fallback accent used when the source calendar exposes no colour.
-    static let fallbackAccentHex = "#5B6B7F"
+    static let fallbackAccentHex = NudgePalette.blueHex
 
     let eyebrow: String
     let timeText: String

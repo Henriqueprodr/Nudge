@@ -9,17 +9,14 @@ import SwiftUI
 enum ReminderStripStyle {
     // MARK: Layout
 
-    /// Width of the calendar-colour accent along the leading edge.
-    static let accentWidth: CGFloat = 5
-    static let cornerRadius: CGFloat = 13
-    static let horizontalPadding: CGFloat = 18
-    static let verticalPadding: CGFloat = 13
+    static let horizontalPadding: CGFloat = 14
+    static let verticalPadding: CGFloat = 12
     /// Space between the time, event-content, and action regions.
-    static let regionSpacing: CGFloat = 18
+    static let regionSpacing: CGFloat = 14
+    static let timeChipMinimumWidth: CGFloat = 78
     /// Space between stacked lines inside the time and event-content regions.
     static let lineSpacing: CGFloat = 3
     static let actionSpacing: CGFloat = 8
-    static let minimumActionHeight: CGFloat = 35
 
     /// Keeps a two-word event from collapsing into a cramped sliver.
     static let minimumWidth: CGFloat = 450
@@ -34,40 +31,19 @@ enum ReminderStripStyle {
 
     // MARK: Typography
 
-    static let timeFont = Font.title2.weight(.medium).monospacedDigit()
-    static let dateFont = Font.caption.weight(.semibold)
-    static let eyebrowFont = Font.caption.weight(.semibold)
-    static let titleFont = Font.title2.weight(.semibold)
-    static let metadataFont = Font.body
-    static let eyebrowTracking: CGFloat = 0.7
+    static let timeFont = Font.system(.title3, design: .rounded).weight(.heavy).monospacedDigit()
+    static let dateFont = Font.system(.caption2, design: .rounded).weight(.heavy)
+    static let eyebrowFont = InkMetrics.eyebrowFont
+    static let titleFont = Font.system(.title2, design: .rounded).weight(.bold)
+    static let metadataFont = Font.system(.body, design: .rounded)
+    static let eyebrowTracking: CGFloat = InkMetrics.eyebrowTracking
 
     // MARK: Colour
 
-    /// Opaque semantic fallback used when Reduce Transparency is enabled.
-    static let opaqueSurface = dynamicColor(
-        light: NSColor(srgbRed: 0.965, green: 0.965, blue: 0.970, alpha: 1),
-        dark: NSColor(srgbRed: 0.145, green: 0.145, blue: 0.155, alpha: 1)
-    )
+    static let primaryText = NudgePalette.ink
+    static let secondaryText = NudgePalette.inkSecondary
 
-    static let border = dynamicColor(
-        light: NSColor(srgbRed: 0.000, green: 0.000, blue: 0.000, alpha: 0.12),
-        dark: NSColor(srgbRed: 1.000, green: 1.000, blue: 1.000, alpha: 0.14)
-    )
-
-    static let contrastBorder = Color.primary.opacity(0.65)
-
-    static let primaryText = Color.primary
-    static let secondaryText = Color.secondary
-
-    static let divider = dynamicColor(
-        light: NSColor(srgbRed: 0.000, green: 0.000, blue: 0.000, alpha: 0.10),
-        dark: NSColor(srgbRed: 1.000, green: 1.000, blue: 1.000, alpha: 0.12)
-    )
-
-    static let warningText = Color(nsColor: .systemOrange)
-
-    static let borderWidth: CGFloat = 1
-    static let contrastBorderWidth: CGFloat = 2
+    static let warningText = NudgePalette.red
 
     // MARK: Motion
 
@@ -102,14 +78,5 @@ enum ReminderStripStyle {
         let blue = Double((raw >> (hasAlpha ? 8 : 0)) & 0xFF) / 255
         let alpha = hasAlpha ? Double(raw & 0xFF) / 255 : 1
         return Color(.sRGB, red: red, green: green, blue: blue, opacity: alpha)
-    }
-
-    private static func dynamicColor(light: NSColor, dark: NSColor) -> Color {
-        Color(
-            nsColor: NSColor(name: nil) { appearance in
-                let isDark = appearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
-                return isDark ? dark : light
-            }
-        )
     }
 }

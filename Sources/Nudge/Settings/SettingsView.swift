@@ -70,6 +70,7 @@ struct SettingsView: View {
                 .tag(SettingsTab.application)
         }
         .frame(width: 640, height: 700)
+        .tint(NudgePalette.blue)
         .fileImporter(
             isPresented: $isImportingGoogleOAuthConfiguration,
             allowedContentTypes: [.json],
@@ -80,6 +81,10 @@ struct SettingsView: View {
 
     private var accountSettings: some View {
         Form {
+            Section {
+                SettingsBrandHeader()
+            }
+
             Section("Google account") {
                 LabeledContent(
                     "OAuth configuration",

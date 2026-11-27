@@ -169,6 +169,16 @@
 		G00000000000000000000113 /* GoogleCalendarPeriodicRefreshTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */; };
 		H00000000000000000000101 /* GoogleCalendarClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = H00000000000000000000201 /* GoogleCalendarClientTests.swift */; };
 		I00000000000000000000101 /* GoogleOAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = I00000000000000000000201 /* GoogleOAuthError.swift */; };
+		Q90000000000000000000007 /* NudgePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000006 /* NudgePalette.swift */; };
+		Q90000000000000000000009 /* InkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000008 /* InkShape.swift */; };
+		Q90000000000000000000011 /* InsetInkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000010 /* InsetInkShape.swift */; };
+		Q90000000000000000000013 /* InkMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000012 /* InkMetrics.swift */; };
+		Q90000000000000000000015 /* InkCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000014 /* InkCardBackground.swift */; };
+		Q90000000000000000000017 /* InkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000016 /* InkButtonStyle.swift */; };
+		Q90000000000000000000019 /* InkCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000018 /* InkCheckbox.swift */; };
+		Q90000000000000000000021 /* WavyUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000020 /* WavyUnderline.swift */; };
+		Q90000000000000000000061 /* TaskDueBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000060 /* TaskDueBadge.swift */; };
+		Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000105 /* SettingsBrandHeader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -346,6 +356,16 @@
 		I00000000000000000000201 /* GoogleOAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthError.swift; sourceTree = "<group>"; };
 		A00000000000000000000220 /* Nudge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nudge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000221 /* NudgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NudgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		Q90000000000000000000006 /* NudgePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgePalette.swift; sourceTree = "<group>"; };
+		Q90000000000000000000008 /* InkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkShape.swift; sourceTree = "<group>"; };
+		Q90000000000000000000010 /* InsetInkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetInkShape.swift; sourceTree = "<group>"; };
+		Q90000000000000000000012 /* InkMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkMetrics.swift; sourceTree = "<group>"; };
+		Q90000000000000000000014 /* InkCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkCardBackground.swift; sourceTree = "<group>"; };
+		Q90000000000000000000016 /* InkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkButtonStyle.swift; sourceTree = "<group>"; };
+		Q90000000000000000000018 /* InkCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkCheckbox.swift; sourceTree = "<group>"; };
+		Q90000000000000000000020 /* WavyUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavyUnderline.swift; sourceTree = "<group>"; };
+		Q90000000000000000000060 /* TaskDueBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueBadge.swift; sourceTree = "<group>"; };
+		Q90000000000000000000105 /* SettingsBrandHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBrandHeader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +423,7 @@
 		A00000000000000000000013 /* Nudge */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000005 /* DesignSystem */,
 				K00000000000000000000201 /* AppIcon.icon */,
 				700000000000000000000210 /* Assets.xcassets */,
 				A00000000000000000000014 /* App */,
@@ -442,6 +463,7 @@
 		A00000000000000000000015 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000105 /* SettingsBrandHeader.swift */,
 				J00000000000000000000201 /* ReminderSound.swift */,
 				700000000000000000000204 /* ReminderPresentationDuration.swift */,
 				700000000000000000000205 /* PeriodicRefreshInterval.swift */,
@@ -537,6 +559,7 @@
 		A0000000000000000000001B /* TaskPanel */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000060 /* TaskDueBadge.swift */,
 				A00000000000000000000214 /* TaskPanelWindow.swift */,
 				A00000000000000000000215 /* TaskPanelView.swift */,
 				A00000000000000000000216 /* TaskPanelWindowController.swift */,
@@ -704,6 +727,21 @@
 			path = GoogleTasks;
 			sourceTree = "<group>";
 		};
+		Q90000000000000000000005 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				Q90000000000000000000020 /* WavyUnderline.swift */,
+				Q90000000000000000000018 /* InkCheckbox.swift */,
+				Q90000000000000000000016 /* InkButtonStyle.swift */,
+				Q90000000000000000000014 /* InkCardBackground.swift */,
+				Q90000000000000000000012 /* InkMetrics.swift */,
+				Q90000000000000000000010 /* InsetInkShape.swift */,
+				Q90000000000000000000008 /* InkShape.swift */,
+				Q90000000000000000000006 /* NudgePalette.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -804,6 +842,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */,
+				Q90000000000000000000061 /* TaskDueBadge.swift in Sources */,
+				Q90000000000000000000021 /* WavyUnderline.swift in Sources */,
+				Q90000000000000000000019 /* InkCheckbox.swift in Sources */,
+				Q90000000000000000000017 /* InkButtonStyle.swift in Sources */,
+				Q90000000000000000000015 /* InkCardBackground.swift in Sources */,
+				Q90000000000000000000013 /* InkMetrics.swift in Sources */,
+				Q90000000000000000000011 /* InsetInkShape.swift in Sources */,
+				Q90000000000000000000009 /* InkShape.swift in Sources */,
+				Q90000000000000000000007 /* NudgePalette.swift in Sources */,
 				L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */,
 				L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */,
 				L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */,
