@@ -169,6 +169,8 @@
 		G00000000000000000000113 /* GoogleCalendarPeriodicRefreshTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */; };
 		H00000000000000000000101 /* GoogleCalendarClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = H00000000000000000000201 /* GoogleCalendarClientTests.swift */; };
 		I00000000000000000000101 /* GoogleOAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = I00000000000000000000201 /* GoogleOAuthError.swift */; };
+		Q90000000000000000000002 /* LaunchAtLoginDefaultApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */; };
+		Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */; };
 		Q90000000000000000000007 /* NudgePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000006 /* NudgePalette.swift */; };
 		Q90000000000000000000009 /* InkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000008 /* InkShape.swift */; };
 		Q90000000000000000000011 /* InsetInkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000010 /* InsetInkShape.swift */; };
@@ -356,6 +358,8 @@
 		I00000000000000000000201 /* GoogleOAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthError.swift; sourceTree = "<group>"; };
 		A00000000000000000000220 /* Nudge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nudge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000221 /* NudgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NudgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginDefaultApplier.swift; sourceTree = "<group>"; };
+		Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginDefaultApplierTests.swift; sourceTree = "<group>"; };
 		Q90000000000000000000006 /* NudgePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgePalette.swift; sourceTree = "<group>"; };
 		Q90000000000000000000008 /* InkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkShape.swift; sourceTree = "<group>"; };
 		Q90000000000000000000010 /* InsetInkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetInkShape.swift; sourceTree = "<group>"; };
@@ -442,6 +446,7 @@
 		A00000000000000000000014 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */,
 				700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */,
 				700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */,
 				A00000000000000000000201 /* NudgeApp.swift */,
@@ -492,6 +497,7 @@
 		A00000000000000000000017 /* NudgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */,
 				L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */,
 				900000000000000000000205 /* ReminderControlStripTests.swift */,
 				A00000000000000000000207 /* AppMenuActionTests.swift */,
@@ -852,6 +858,7 @@
 				Q90000000000000000000011 /* InsetInkShape.swift in Sources */,
 				Q90000000000000000000009 /* InkShape.swift in Sources */,
 				Q90000000000000000000007 /* NudgePalette.swift in Sources */,
+				Q90000000000000000000002 /* LaunchAtLoginDefaultApplier.swift in Sources */,
 				L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */,
 				L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */,
 				L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */,
@@ -993,6 +1000,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */,
 				L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */,
 				900000000000000000000105 /* ReminderControlStripTests.swift in Sources */,
 				A00000000000000000000107 /* AppMenuActionTests.swift in Sources */,

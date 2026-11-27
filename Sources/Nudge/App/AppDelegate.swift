@@ -244,6 +244,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 #endif
         guard continueAsPrimaryApplicationInstance() else { return }
+        if !isHostedTestProcess {
+            LaunchAtLoginDefaultApplier().applyIfNeeded(to: launchAtLoginManager)
+        }
         windowPresentationCoordinator.applyApplicationActivationPolicy()
         windowPresentationCoordinator.restoreAtLaunch()
 #if DEBUG
