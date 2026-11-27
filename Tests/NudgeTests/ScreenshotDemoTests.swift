@@ -31,6 +31,8 @@ final class ScreenshotDemoTests: XCTestCase {
             XCTAssertEqual(configuration.outputURL.lastPathComponent, page.outputFilename)
         }
         XCTAssertEqual(ScreenshotDemoPage.mascot.outputFilename, "settings-bird.png")
+        XCTAssertEqual(ScreenshotDemoPage.birdAlert.outputFilename, "bird-alert.png")
+        XCTAssertEqual(ScreenshotDemoPage.taskNag.outputFilename, "task-nag.png")
     }
 
     func testDemoSettingsStandInsStartEmptyAndStayInMemory() {

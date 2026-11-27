@@ -4,6 +4,8 @@ import Foundation
 private enum ScreenshotPage: String, CaseIterable {
     case menu = "menu-bar.png"
     case overlay = "reminder-overlay.png"
+    case birdAlert = "bird-alert.png"
+    case taskNag = "task-nag.png"
     case account = "settings-account.png"
     case application = "settings-application.png"
     case reminders = "settings-reminders.png"
@@ -17,6 +19,10 @@ private enum ScreenshotPage: String, CaseIterable {
             return NSSize(width: 1_320, height: 1_380)
         case .overlay:
             return NSSize(width: 1_640, height: 440)
+        case .birdAlert:
+            return NSSize(width: 2_000, height: 560)
+        case .taskNag:
+            return NSSize(width: 1_760, height: 440)
         case .account, .application, .reminders, .tasks, .bird:
             return NSSize(width: 1_440, height: 1_560)
         case .taskPanel:
@@ -31,6 +37,10 @@ private enum ScreenshotPage: String, CaseIterable {
             return NSRect(x: 60, y: 60, width: 1_200, height: 1_160)
         case .overlay:
             return NSRect(x: 100, y: 100, width: 1_440, height: 240)
+        case .birdAlert:
+            return NSRect(x: 100, y: 90, width: 1_800, height: 380)
+        case .taskNag:
+            return NSRect(x: 100, y: 100, width: 1_560, height: 240)
         case .account, .application, .reminders, .tasks, .bird:
             return NSRect(x: 80, y: 28, width: 1_280, height: 1_504)
         case .taskPanel:
@@ -41,7 +51,7 @@ private enum ScreenshotPage: String, CaseIterable {
     /// Borderless surfaces without a window shadow of their own get a soft drop shadow.
     var addsDropShadow: Bool {
         switch self {
-        case .menu, .overlay:
+        case .menu, .overlay, .birdAlert, .taskNag:
             return true
         case .account, .application, .reminders, .tasks, .bird, .taskPanel:
             return false

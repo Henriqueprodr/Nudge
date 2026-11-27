@@ -153,6 +153,13 @@ final class ScreenshotDemoCaptureController {
             return makeSettingsWindow(for: page)
         case .overlay:
             return makeReminderWindow()
+        case .birdAlert:
+            return makeBirdAlertWindow()
+        case .taskNag:
+            return makeReminderWindow(
+                reminder: ScreenshotDemoDependencies.taskNagFixture(),
+                width: 760
+            )
         case .taskPanel:
             return makeTaskPanelWindow()
         case .menu:
@@ -214,12 +221,12 @@ final class ScreenshotDemoCaptureController {
         return window
     }
 
-    private func makeReminderWindow() -> NSWindow {
+    private func makeReminderWindow(
+        reminder: Reminder = ScreenshotDemoDependencies.reminderFixture(),
+        width: CGFloat = 700
+    ) -> NSWindow {
         let store = ReminderOverlayStore()
-        store.present(
-            ScreenshotDemoDependencies.reminderFixture(),
-            now: ScreenshotDemoDependencies.referenceDate
-        )
+        store.present(reminder, now: ScreenshotDemoDependencies.referenceDate)
         let view = ReminderOverlayView(
             store: store,
             onDismiss: {},
@@ -229,11 +236,33 @@ final class ScreenshotDemoCaptureController {
         )
         .environment(\.colorScheme, .light)
         .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!)
-        .frame(width: 700, height: 150)
+        .frame(width: width, height: 150)
 
         let window = ReminderOverlayWindow(
-            contentRect: CGRect(x: 0, y: 0, width: 700, height: 150)
+            contentRect: CGRect(x: 0, y: 0, width: width, height: 150)
         )
+        window.contentView = NSHostingView(rootView: view)
+        return window
+    }
+
+    /// The calendar alert with the bird clinging to its left edge and talking, frozen in one
+    /// pose so every capture is identical.
+    private func makeBirdAlertWindow() -> NSWindow {
+        let store = ReminderOverlayStore()
+        store.present(
+            ScreenshotDemoDependencies.reminderFixture(),
+            now: ScreenshotDemoDependencies.referenceDate
+        )
+        let size = CGSize(width: 1_080, height: 240)
+        let view = ScreenshotDemoBirdAlertView(
+            store: store,
+            line: ScreenshotDemoDependencies.birdAlertLine
+        )
+        .environment(\.colorScheme, .light)
+        .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!)
+        .frame(width: size.width, height: size.height)
+
+        let window = ReminderOverlayWindow(contentRect: CGRect(origin: .zero, size: size))
         window.contentView = NSHostingView(rootView: view)
         return window
     }

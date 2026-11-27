@@ -9,6 +9,8 @@ enum ScreenshotDemoPage: String, CaseIterable, Sendable {
     case mascot
     case application
     case overlay
+    case birdAlert = "bird-alert"
+    case taskNag = "task-nag"
     case taskPanel = "task-panel"
 
     var outputFilename: String {
@@ -27,6 +29,10 @@ enum ScreenshotDemoPage: String, CaseIterable, Sendable {
             return "settings-application.png"
         case .overlay:
             return "reminder-overlay.png"
+        case .birdAlert:
+            return "bird-alert.png"
+        case .taskNag:
+            return "task-nag.png"
         case .taskPanel:
             return "task-panel.png"
         }

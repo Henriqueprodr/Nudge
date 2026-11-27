@@ -10,6 +10,7 @@
 		M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */; };
 		M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000202 /* ScreenshotDemoDependencies.swift */; };
 		M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */; };
+		M0000000000000000000B101 /* ScreenshotDemoBirdAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */; };
 		M00000000000000000000151 /* ScreenshotDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000251 /* ScreenshotDemoTests.swift */; };
 		L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */; };
 		L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */; };
@@ -245,6 +246,7 @@
 		M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoConfiguration.swift; sourceTree = "<group>"; };
 		M00000000000000000000202 /* ScreenshotDemoDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoDependencies.swift; sourceTree = "<group>"; };
 		M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoCaptureController.swift; sourceTree = "<group>"; };
+		M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoBirdAlertView.swift; sourceTree = "<group>"; };
 		M00000000000000000000251 /* ScreenshotDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoTests.swift; sourceTree = "<group>"; };
 		L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfiguration.swift; sourceTree = "<group>"; };
 		L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 				600000000000000000000202 /* LaunchAtLoginManager.swift */,
 				M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */,
 				M00000000000000000000202 /* ScreenshotDemoDependencies.swift */,
+				M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */,
 				M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */,
 			);
 			path = App;
@@ -1081,6 +1084,7 @@
 				M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */,
 				M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */,
 				M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */,
+				M0000000000000000000B101 /* ScreenshotDemoBirdAlertView.swift in Sources */,
 				A00000000000000000000109 /* ScreenCorner.swift in Sources */,
 				A00000000000000000000110 /* ScreenPlacement.swift in Sources */,
 				600000000000000000000103 /* ScreenProvider.swift in Sources */,

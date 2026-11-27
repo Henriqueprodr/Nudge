@@ -377,6 +377,36 @@ struct ScreenshotDemoDependencies {
         )
     }
 
+    /// An overdue Google Task nag that also covers a second open task.
+    static func taskNagFixture() -> Reminder {
+        Reminder(
+            occurrenceID: ReminderOccurrenceID(
+                sourceKind: .task,
+                sourceIdentifier: "task-nag:demo-task-1",
+                occurrenceDate: referenceDate,
+                revision: nil
+            ),
+            title: "Review the project brief",
+            detail: nil,
+            triggerDate: referenceDate,
+            expirationDate: nil,
+            presentationMode: .overlay,
+            sourceURL: URL(string: "https://tasks.google.com/task/demo"),
+            taskContext: ReminderTaskContext(
+                taskIDs: ["demo-task-1", "demo-task-2"],
+                primaryTaskListID: "demo-today",
+                urgency: .overdue,
+                dueDate: .init(year: 2026, month: 7, day: 25),
+                daysOverdue: 3,
+                daysOpen: 6
+            ),
+            actions: [.completeTask, .notToday]
+        )
+    }
+
+    /// The fixed line the bird says while perched on the calendar alert.
+    static let birdAlertLine = "Design review in a few. Find your headphones now, not in a panic later."
+
     private func seedRepositories() throws {
         try repositoryContainer.calendarCacheRepository.replaceCalendars(Self.calendarFixtures)
         try repositoryContainer.calendarCacheRepository.replaceEvents([])

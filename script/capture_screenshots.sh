@@ -65,6 +65,8 @@ pages=(
     mascot
     application
     overlay
+    bird-alert
+    task-nag
     task-panel
 )
 filenames=(
@@ -75,6 +77,8 @@ filenames=(
     settings-bird.png
     settings-application.png
     reminder-overlay.png
+    bird-alert.png
+    task-nag.png
     task-panel.png
 )
 
