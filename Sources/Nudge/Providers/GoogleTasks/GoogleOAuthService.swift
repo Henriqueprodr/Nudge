@@ -64,6 +64,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
     private let callbackSessionFactory: CallbackSessionFactory
     private let callbackValidator: OAuthCallbackValidator
     private let sessionEndStore: (any GoogleSessionEndStore)?
+    private let usesOwnOAuthClient: @MainActor () -> Bool
     private let now: @MainActor () -> Date
     private var hasLoadedClientSecret = false
     private var cachedClientSecret: String?
@@ -79,6 +80,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
         callbackSessionFactory: @escaping CallbackSessionFactory,
         callbackValidator: OAuthCallbackValidator = OAuthCallbackValidator(),
         sessionEndStore: (any GoogleSessionEndStore)? = nil,
+        usesOwnOAuthClient: @escaping @MainActor () -> Bool = { true },
         now: @escaping @MainActor () -> Date = Date.init
     ) {
         self.configurationProvider = configurationProvider
@@ -89,6 +91,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
         self.callbackSessionFactory = callbackSessionFactory
         self.callbackValidator = callbackValidator
         self.sessionEndStore = sessionEndStore
+        self.usesOwnOAuthClient = usesOwnOAuthClient
         self.now = now
     }
 
@@ -225,7 +228,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
     }
 
     var sessionEndExplanation: String? {
-        sessionEndStore?.loadRecord()?.explanation()
+        sessionEndStore?.loadRecord()?.explanation(usesOwnOAuthClient: usesOwnOAuthClient())
     }
 
     private func configuredClient(requesting scopes: Set<String>) throws -> GoogleOAuthConfiguration {

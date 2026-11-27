@@ -206,7 +206,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 #endif
                 return LoopbackOAuthCallbackSession()
             },
-            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore()
+            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore(),
+            usesOwnOAuthClient: {
+                oauthConfigurationManager.source != .bundled
+            }
         )
         let googleTasksClient = GoogleTasksClient(transport: httpTransport)
         let calendarCoordinator = GoogleCalendarSyncCoordinator(
