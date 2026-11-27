@@ -32,7 +32,7 @@ if [[ -z "$MODE" ]]; then
 fi
 
 APP_NAME="Nudge"
-VERSION="0.1.0"
+VERSION="0.2.0"
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DERIVED_DATA="$ROOT_DIR/.build/DerivedData-Release-$MODE"
 ARCHIVE_PATH="$ROOT_DIR/.build/Archives/$APP_NAME-$MODE.xcarchive"
