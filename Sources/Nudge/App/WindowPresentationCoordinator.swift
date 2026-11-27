@@ -348,7 +348,12 @@ final class WindowPresentationCoordinator {
         )
     }
 
+    /// Runs after wake, session activation, display changes, and significant time changes
+    /// (including midnight). Task nags use it to re-evaluate due dates.
+    @ObservationIgnored var onLifecycleRecovery: (@MainActor () -> Void)?
+
     func recoverAfterLifecycleChange() {
+        onLifecycleRecovery?()
         reminderPresentationCoordinator.recoverAfterLifecycleChange()
         taskPanelController.recoverAfterLifecycleChange()
         reminderOverlayController.reposition()
@@ -360,6 +365,79 @@ final class WindowPresentationCoordinator {
 
     func replaceCalendarReminders(with reminders: [Reminder]) throws {
         try reminderPresentationCoordinator.replaceCalendarReminders(with: reminders)
+    }
+
+    func replaceTaskReminders(with reminders: [Reminder]) throws {
+        try reminderPresentationCoordinator.replaceTaskReminders(with: reminders)
+    }
+
+    /// Wires source-specific overlay actions and observers to the app layer.
+    func configureReminderHooks(
+        actionHandler: @escaping @MainActor (ReminderAction, Reminder) async -> Bool,
+        onPresented: @escaping @MainActor (Reminder) -> Void,
+        onSnoozed: @escaping @MainActor (Reminder, Date) -> Void
+    ) {
+        reminderPresentationCoordinator.actionHandler = actionHandler
+        reminderPresentationCoordinator.onReminderPresented = onPresented
+        reminderPresentationCoordinator.onReminderSnoozed = onSnoozed
+    }
+
+    /// The overlay's current on-screen frame, so the mascot can perch on it.
+    var reminderOverlayFrame: CGRect? {
+        reminderOverlayController.isVisible ? reminderOverlayController.windowFrame : nil
+    }
+
+    /// Asks the user to sign in again, at most once per day, directly on screen.
+    func presentReauthenticationReminder(message: String, now: Date = Date()) {
+        let reminder = Reminder(
+            occurrenceID: ReminderOccurrenceID(
+                sourceKind: .local,
+                sourceIdentifier: "google-reauthentication",
+                occurrenceDate: Calendar.current.startOfDay(for: now),
+                revision: nil
+            ),
+            title: "Google signed Nudge out",
+            detail: message,
+            triggerDate: now,
+            expirationDate: nil,
+            presentationMode: .overlay,
+            actions: [.signIn]
+        )
+        try? reminderPresentationCoordinator.process([reminder])
+    }
+
+    /// A sample task nag for the menu's test action.
+    func showTestTaskNag(now: Date = Date()) {
+        let calendar = Calendar.current
+        let due = calendar.date(byAdding: .day, value: -3, to: now) ?? now
+        let components = calendar.dateComponents([.year, .month, .day], from: due)
+        let reminder = Reminder(
+            occurrenceID: ReminderOccurrenceID(
+                sourceKind: .local,
+                sourceIdentifier: "test-task-nag-\(UUID().uuidString)",
+                occurrenceDate: now,
+                revision: nil
+            ),
+            title: "Finish the quarterly report",
+            detail: nil,
+            triggerDate: now,
+            expirationDate: now.addingTimeInterval(15 * 60),
+            presentationMode: .overlay,
+            taskContext: ReminderTaskContext(
+                taskIDs: ["test-task", "test-task-2"],
+                primaryTaskListID: "test-list",
+                urgency: .overdue,
+                dueDate: TaskItem.DueDate(
+                    year: components.year ?? 2026,
+                    month: components.month ?? 1,
+                    day: components.day ?? 1
+                ),
+                daysOverdue: 3,
+                daysOpen: 5
+            ),
+            actions: [.notToday]
+        )
+        try? reminderPresentationCoordinator.process([reminder])
     }
 }
 

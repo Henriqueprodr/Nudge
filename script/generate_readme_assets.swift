@@ -54,25 +54,103 @@ private enum GeneratorError: LocalizedError {
     }
 }
 
+/// Frames the full-bleed Icon Composer export the way macOS shows app icons: the rounded
+/// square inset on a transparent canvas with a soft shadow beneath it.
+private enum ReadmeIconRenderer {
+    static let pixelSize: CGFloat = 1_024
+    /// macOS app icons occupy 824 of 1024 points, centred.
+    static let bodySize: CGFloat = 824
+
+    static func render(exportURL: URL) throws -> NSBitmapImageRep {
+        guard FileManager.default.fileExists(atPath: exportURL.path) else {
+            throw GeneratorError.missingInput(exportURL.lastPathComponent)
+        }
+        guard let data = try? Data(contentsOf: exportURL),
+              let representation = NSBitmapImageRep(data: data)
+        else {
+            throw GeneratorError.unreadableImage(exportURL.lastPathComponent)
+        }
+        let exported = NSImage(
+            size: NSSize(width: representation.pixelsWide, height: representation.pixelsHigh)
+        )
+        exported.addRepresentation(representation)
+
+        let size = Int(pixelSize)
+        guard let bitmap = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: size,
+            pixelsHigh: size,
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        ), let graphicsContext = NSGraphicsContext(bitmapImageRep: bitmap) else {
+            throw GeneratorError.contextCreationFailed
+        }
+
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = graphicsContext
+        graphicsContext.imageInterpolation = .high
+        let inset = (pixelSize - bodySize) / 2
+        let body = NSRect(x: inset, y: inset + 8, width: bodySize, height: bodySize)
+        let shadow = NSShadow()
+        shadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.30)
+        shadow.shadowBlurRadius = 30
+        shadow.shadowOffset = NSSize(width: 0, height: -12)
+        shadow.set()
+        exported.draw(
+            in: body,
+            from: NSRect(origin: .zero, size: exported.size),
+            operation: .sourceOver,
+            fraction: 1,
+            respectFlipped: false,
+            hints: [.interpolation: NSImageInterpolation.high]
+        )
+        graphicsContext.flushGraphics()
+        NSGraphicsContext.restoreGraphicsState()
+        return bitmap
+    }
+}
+
 private struct HeroArtworkGenerator {
     static let logicalSize = NSSize(width: 2_000, height: 1_000)
 
     let icon: RasterAsset
-    let reminderOverlay: RasterAsset
-    let taskPanel: RasterAsset
+    let handMark: NSImage
+    let birdAlert: NudgeTrimmedCapture
+    let taskNag: NudgeTrimmedCapture
+    let taskPanel: NudgeTrimmedCapture
 
+    /// The hero uses the transparent native captures staged by `capture_screenshots.sh`, so
+    /// the product surfaces sit directly on the artwork instead of on a gallery background.
     init(repositoryRoot: URL) throws {
         let iconURL = repositoryRoot.appendingPathComponent("docs/assets/nudge-icon.png")
-        let reminderURL = repositoryRoot.appendingPathComponent("docs/screenshots/reminder-overlay.png")
-        let taskPanelURL = repositoryRoot.appendingPathComponent("docs/screenshots/task-panel.png")
+        let rawDirectory = repositoryRoot.appendingPathComponent(".build/screenshots/raw")
+        let birdAlertURL = rawDirectory.appendingPathComponent("bird-alert.png")
+        let taskNagURL = rawDirectory.appendingPathComponent("task-nag.png")
+        let taskPanelURL = rawDirectory.appendingPathComponent("task-panel.png")
+        let handMarkURL = repositoryRoot.appendingPathComponent(
+            "Sources/Nudge/Resources/Assets.xcassets/MenuBarIcon.imageset/MenuBarIcon.svg"
+        )
 
-        for inputURL in [iconURL, reminderURL, taskPanelURL] where !FileManager.default.fileExists(atPath: inputURL.path) {
+        for inputURL in [iconURL, birdAlertURL, taskNagURL, taskPanelURL, handMarkURL] where !FileManager.default.fileExists(atPath: inputURL.path) {
             throw GeneratorError.missingInput(inputURL.lastPathComponent)
         }
 
-        icon = try RasterAsset(url: iconURL, expectedPixelSize: NSSize(width: 256, height: 256))
-        reminderOverlay = try RasterAsset(url: reminderURL, expectedPixelSize: NSSize(width: 1_640, height: 540))
-        taskPanel = try RasterAsset(url: taskPanelURL, expectedPixelSize: NSSize(width: 932, height: 1_080))
+        icon = try RasterAsset(
+            url: iconURL,
+            expectedPixelSize: NSSize(width: ReadmeIconRenderer.pixelSize, height: ReadmeIconRenderer.pixelSize)
+        )
+        guard let handMark = NSImage(contentsOf: handMarkURL) else {
+            throw GeneratorError.unreadableImage(handMarkURL.lastPathComponent)
+        }
+        self.handMark = handMark
+        birdAlert = try NudgeTrimmedCapture(url: birdAlertURL)
+        taskNag = try NudgeTrimmedCapture(url: taskNagURL)
+        taskPanel = try NudgeTrimmedCapture(url: taskPanelURL)
     }
 
     func render(pixelWidth: Int, pixelHeight: Int) throws -> NSBitmapImageRep {
@@ -111,31 +189,53 @@ private struct HeroArtworkGenerator {
     private func drawScene(in context: CGContext) {
         let canvas = NSRect(origin: .zero, size: Self.logicalSize)
         NudgeArtworkBackground.drawHero(in: context, canvas: canvas)
-        drawInterfaceStage()
+        drawInterfaceStage(in: context)
         drawBrandAndCopy()
         drawProductSurfaces()
-        drawEdgeTreatment(in: context, canvas: canvas)
     }
 
-    private func drawInterfaceStage() {
-        let frame = NSRect(x: 700, y: 60, width: 1_230, height: 880)
-        let framePath = NSBezierPath(roundedRect: frame, xRadius: 58, yRadius: 58)
-        color(0xD9ECFF, alpha: 0.035).setFill()
-        framePath.fill()
-        color(0xCFE6FF, alpha: 0.10).setStroke()
-        framePath.lineWidth = 1.5
-        framePath.stroke()
+    /// A blue sticker card, outlined in ink like the app's surfaces, behind the product UI.
+    private func drawInterfaceStage(in context: CGContext) {
+        let frame = NSRect(x: 900, y: 214, width: 1_020, height: 710)
+        let path = NudgeInk.unevenRoundedRect(
+            frame, topLeft: 64, topRight: 56, bottomRight: 68, bottomLeft: 58
+        )
+        NudgeInk.drawSticker(
+            path,
+            fill: color(NudgeArtworkPalette.blue),
+            lineWidth: 6,
+            shadowOffset: NSSize(width: 14, height: -14)
+        )
 
-        let upperHighlight = NSBezierPath()
-        upperHighlight.move(to: NSPoint(x: frame.minX + 70, y: frame.maxY - 1))
-        upperHighlight.line(to: NSPoint(x: frame.maxX - 70, y: frame.maxY - 1))
-        color(0xFFFFFF, alpha: 0.10).setStroke()
-        upperHighlight.lineWidth = 1
-        upperHighlight.stroke()
+        NSGraphicsContext.saveGraphicsState()
+        path.addClip()
+        context.setStrokeColor(color(0xFFFFFF, alpha: 0.13).cgColor)
+        context.setLineWidth(1.5)
+        for x in stride(from: frame.minX + 20, through: frame.maxX, by: 40) {
+            context.move(to: CGPoint(x: x, y: frame.minY))
+            context.addLine(to: CGPoint(x: x, y: frame.maxY))
+        }
+        for y in stride(from: frame.minY + 20, through: frame.maxY, by: 40) {
+            context.move(to: CGPoint(x: frame.minX, y: y))
+            context.addLine(to: CGPoint(x: frame.maxX, y: y))
+        }
+        context.strokePath()
+        NSGraphicsContext.restoreGraphicsState()
+
+        // The logo's tapping hand, in paper white, fills the stage beside the Tasks panel.
+        let handRect = NSRect(x: 960, y: 440, width: 400, height: 400)
+        let whiteHand = NSImage(size: handRect.size, flipped: false) { [handMark] rect in
+            handMark.draw(in: rect)
+            NudgeArtworkPalette.color(NudgeArtworkPalette.paper).setFill()
+            rect.fill(using: .sourceAtop)
+            return true
+        }
+        whiteHand.draw(in: handRect)
     }
 
     private func drawBrandAndCopy() {
-        let iconRect = NSRect(x: 104, y: 786, width: 108, height: 108)
+        let ink = color(NudgeArtworkPalette.ink)
+        let iconRect = NSRect(x: 84, y: 760, width: 156, height: 156)
         icon.image.draw(
             in: iconRect,
             from: NSRect(origin: .zero, size: icon.pixelSize),
@@ -147,159 +247,101 @@ private struct HeroArtworkGenerator {
 
         drawText(
             "Nudge",
-            at: NSPoint(x: 236, y: 817),
-            font: .systemFont(ofSize: 43, weight: .semibold),
-            color: color(0xFFFFFF, alpha: 0.96)
+            at: NSPoint(x: 236, y: 812),
+            font: .systemFont(ofSize: 48, weight: .bold),
+            color: ink
         )
         drawText(
             "NATIVE macOS REMINDERS",
-            at: NSPoint(x: 108, y: 733),
-            font: .systemFont(ofSize: 19, weight: .semibold),
-            color: color(0x8FC4FF, alpha: 0.92),
-            kern: 2.4
+            at: NSPoint(x: 108, y: 718),
+            font: .systemFont(ofSize: 19, weight: .heavy),
+            color: color(NudgeArtworkPalette.blue),
+            kern: 2.6
         )
 
-        drawText(
-            "Your calendar,",
-            at: NSPoint(x: 102, y: 570),
-            font: .systemFont(ofSize: 78, weight: .bold),
-            color: color(0xFFFFFF)
-        )
-        drawText(
-            "impossible",
-            at: NSPoint(x: 102, y: 480),
-            font: .systemFont(ofSize: 78, weight: .bold),
-            color: color(0xFFFFFF)
-        )
-        drawText(
+        let headlineFont = NSFont.systemFont(ofSize: 80, weight: .heavy)
+        drawText("Your calendar,", at: NSPoint(x: 102, y: 560), font: headlineFont, color: ink)
+        drawText("impossible", at: NSPoint(x: 102, y: 468), font: headlineFont, color: ink)
+        let accentWidth = drawText(
             "to ignore.",
-            at: NSPoint(x: 102, y: 390),
-            font: .systemFont(ofSize: 78, weight: .bold),
-            color: color(0xF08A63)
+            at: NSPoint(x: 102, y: 376),
+            font: headlineFont,
+            color: color(NudgeArtworkPalette.blue)
         )
 
-        drawText(
-            "On-screen Google Calendar reminders",
-            at: NSPoint(x: 108, y: 303),
-            font: .systemFont(ofSize: 28, weight: .regular),
-            color: color(0xD4E2F3, alpha: 0.88)
+        let underline = NudgeInk.wavyLine(
+            fromX: 110,
+            toX: 102 + accentWidth - 18,
+            y: 366,
+            amplitude: 4.5,
+            wavelength: 42
         )
-        drawText(
-            "and Google Tasks that stay within reach.",
-            at: NSPoint(x: 108, y: 261),
-            font: .systemFont(ofSize: 28, weight: .regular),
-            color: color(0xD4E2F3, alpha: 0.88)
-        )
+        color(NudgeArtworkPalette.green).setStroke()
+        underline.lineWidth = 8
+        underline.stroke()
 
-        let accent = NSBezierPath(roundedRect: NSRect(x: 108, y: 210, width: 92, height: 6), xRadius: 3, yRadius: 3)
-        color(0xF0A34A, alpha: 0.95).setFill()
-        accent.fill()
+        let body = color(NudgeArtworkPalette.ink, alpha: 0.78)
+        let bodyFont = NSFont.systemFont(ofSize: 29, weight: .medium)
+        drawText("Google Calendar alerts that land on screen,", at: NSPoint(x: 108, y: 276), font: bodyFont, color: body)
+        drawText("Google Tasks that stay in view, and a bird", at: NSPoint(x: 108, y: 234), font: bodyFont, color: body)
+        drawText("that won't let you forget either.", at: NSPoint(x: 108, y: 192), font: bodyFont, color: body)
     }
 
     private func drawProductSurfaces() {
-        let taskDestination = NSRect(x: 1_368, y: 104, width: 590, height: 720)
-        let taskSource = NSRect(x: 130, y: 130, width: 672, height: 820)
-        drawCroppedImage(
-            taskPanel.image,
-            sourceRect: taskSource,
-            destinationRect: taskDestination,
-            cornerRadius: 40,
-            shadowBlur: 48,
-            shadowOffset: NSSize(width: 0, height: -18),
-            shadowAlpha: 0.44
-        )
+        // The two alerts share one scale so they read as the same screen.
+        let scale: CGFloat = 0.55
+        // The Tasks panel is its own corner window, so it may sit a touch larger.
+        let panel = scaled(taskPanel, by: 0.62, topRight: NSPoint(x: 1_884, y: 894))
+        drawCapture(taskPanel, in: panel, dropShadow: true)
 
-        let reminderDestination = NSRect(x: 604, y: 150, width: 1_080, height: 231)
-        let reminderSource = NSRect(x: 120, y: 120, width: 1_400, height: 300)
-        drawCroppedImage(
-            reminderOverlay.image,
-            sourceRect: reminderSource,
-            destinationRect: reminderDestination,
-            cornerRadius: 27,
-            shadowBlur: 42,
-            shadowOffset: NSSize(width: 0, height: -15),
-            shadowAlpha: 0.48
-        )
+        let nag = scaled(taskNag, by: scale, topRight: NSPoint(x: 1_740, y: 384))
+        drawCapture(taskNag, in: nag, dropShadow: true)
+
+        let alert = scaled(birdAlert, by: scale, topRight: NSPoint(x: 1_880, y: 262))
+        drawCapture(birdAlert, in: alert, dropShadow: true)
     }
 
-    private func drawCroppedImage(
-        _ image: NSImage,
-        sourceRect: NSRect,
-        destinationRect: NSRect,
-        cornerRadius: CGFloat,
-        shadowBlur: CGFloat,
-        shadowOffset: NSSize,
-        shadowAlpha: CGFloat
-    ) {
-        let shape = NSBezierPath(roundedRect: destinationRect, xRadius: cornerRadius, yRadius: cornerRadius)
-
-        NSGraphicsContext.saveGraphicsState()
-        let shadow = NSShadow()
-        shadow.shadowColor = color(0x000000, alpha: shadowAlpha)
-        shadow.shadowBlurRadius = shadowBlur
-        shadow.shadowOffset = shadowOffset
-        shadow.set()
-        color(0x000000, alpha: 0.18).setFill()
-        shape.fill()
-        NSGraphicsContext.restoreGraphicsState()
-
-        NSGraphicsContext.saveGraphicsState()
-        shape.addClip()
-        image.draw(
-            in: destinationRect,
-            from: sourceRect,
-            operation: .sourceOver,
-            fraction: 1,
-            respectFlipped: false,
-            hints: [.interpolation: NSImageInterpolation.high]
-        )
-        NSGraphicsContext.restoreGraphicsState()
-
-        color(0xFFFFFF, alpha: 0.18).setStroke()
-        shape.lineWidth = 1.25
-        shape.stroke()
+    private func scaled(
+        _ capture: NudgeTrimmedCapture,
+        by scale: CGFloat,
+        topRight: NSPoint
+    ) -> NSRect {
+        let width = (capture.size.width * scale).rounded()
+        let height = (capture.size.height * scale).rounded()
+        return NSRect(x: topRight.x - width, y: topRight.y - height, width: width, height: height)
     }
 
-    private func drawEdgeTreatment(in context: CGContext, canvas: NSRect) {
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let vignette = CGGradient(
-            colorsSpace: colorSpace,
-            colors: [
-                color(0x000000, alpha: 0).cgColor,
-                color(0x000000, alpha: 0.24).cgColor,
-            ] as CFArray,
-            locations: [0.68, 1]
-        )
-        if let vignette {
-            context.drawRadialGradient(
-                vignette,
-                startCenter: CGPoint(x: canvas.midX, y: canvas.midY),
-                startRadius: 0,
-                endCenter: CGPoint(x: canvas.midX, y: canvas.midY),
-                endRadius: 1_160,
-                options: [.drawsAfterEndLocation]
-            )
+    private func drawCapture(_ capture: NudgeTrimmedCapture, in destination: NSRect, dropShadow: Bool) {
+        NSGraphicsContext.saveGraphicsState()
+        if dropShadow {
+            let shadow = NSShadow()
+            shadow.shadowColor = color(NudgeArtworkPalette.ink, alpha: 0.30)
+            shadow.shadowBlurRadius = 34
+            shadow.shadowOffset = NSSize(width: 0, height: -14)
+            shadow.set()
         }
+        capture.draw(in: destination)
+        NSGraphicsContext.restoreGraphicsState()
     }
 
+    @discardableResult
     private func drawText(
         _ text: String,
         at point: NSPoint,
         font: NSFont,
         color: NSColor,
         kern: CGFloat = 0
-    ) {
+    ) -> CGFloat {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineBreakMode = .byClipping
-        (text as NSString).draw(
-            at: point,
-            withAttributes: [
-                .font: font,
-                .foregroundColor: color,
-                .kern: kern,
-                .paragraphStyle: paragraphStyle,
-            ]
-        )
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: color,
+            .kern: kern,
+            .paragraphStyle: paragraphStyle,
+        ]
+        (text as NSString).draw(at: point, withAttributes: attributes)
+        return (text as NSString).size(withAttributes: attributes).width
     }
 
     private func color(_ hexadecimal: Int, alpha: CGFloat = 1) -> NSColor {
@@ -327,6 +369,10 @@ private func writeJPEG(_ bitmap: NSBitmapImageRep, to url: URL) throws {
 private func generateAssets(repositoryRoot: URL) throws {
     let outputDirectory = repositoryRoot.appendingPathComponent("docs/assets")
     try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+    let iconExportURL = repositoryRoot.appendingPathComponent(".build/readme-assets/app-icon-export.png")
+    let icon = try ReadmeIconRenderer.render(exportURL: iconExportURL)
+    try writePNG(icon, to: outputDirectory.appendingPathComponent("nudge-icon.png"))
 
     let generator = try HeroArtworkGenerator(repositoryRoot: repositoryRoot)
     let hero = try generator.render(pixelWidth: 2_000, pixelHeight: 1_000)

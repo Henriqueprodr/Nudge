@@ -14,4 +14,6 @@ struct Reminder: Codable, Hashable, Sendable {
     let presentationMode: PresentationMode
     var sourceURL: URL? = nil
     var eventContext: ReminderEventContext? = nil
+    var taskContext: ReminderTaskContext? = nil
+    var actions: [ReminderAction] = []
 }

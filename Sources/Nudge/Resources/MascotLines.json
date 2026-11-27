@@ -1,0 +1,270 @@
+{
+  "idle": {
+    "mild": [
+      "Just checking in. Drink some water.",
+      "Tweet. That's it. That's the message.",
+      "You're doing great. Probably.",
+      "Posture check. Shoulders down.",
+      "I walked all the way across your Dock for this.",
+      "Remember to blink.",
+      "Hi. I live here now."
+    ],
+    "spicy": [
+      "You've had that tab open since Tuesday. Commit or close it.",
+      "I'm not saying you're procrastinating. Your Dock is saying it.",
+      "Bold of you to open another app instead of doing the thing.",
+      "I'm a bird and I'm more organized than you.",
+      "Your to-do list called. It wants to see other people.",
+      "Scrolling again? Groundbreaking.",
+      "You know what pairs well with avoidance? Nothing.",
+      "I've seen pigeons with better time management."
+    ],
+    "unhinged": [
+      "bro what are you doing. genuinely. what is this",
+      "you've opened that same tab like 9 times. it's not gonna change",
+      "lock in. i'm begging. i have kids",
+      "nah cause you've been \"about to start\" for an hour",
+      "i flew across this whole ass screen to watch you scroll? ok",
+      "you're not researching bro. you're watching a guy fix a lawnmower",
+      "one more phone check and i'm shitting on the keyboard. try me",
+      "ma boy got 40 tabs open and zero things done",
+      "lowkey impressed how much nothing you got done today",
+      "get your shit together man i'm tired",
+      "who told you it was break time. who",
+      "i'm a bird with no hands and i still get more done than you",
+      "you good? cause your to-do list is not",
+      "bro is on his \"quick break\" for the third hour",
+      "ok we're just vibing? no work? cool cool cool. cool.",
+      "deadass about to start charging rent in your head",
+      "i'm not mad. i'm just gonna sit here. and stare.",
+      "you said \"after this video\" four videos ago",
+      "this is your sign to do literally anything productive. anything",
+      "nah you're cooked. but do one thing anyway",
+      "yo shit ain't done ma boy. i don't even have to check",
+      "if procrastinating was a job you'd be ceo by now",
+      "stop refreshing your email like it's gonna do your work for you",
+      "i've been watching you for 20 min and i'm exhausted",
+      "your future self is gonna be so pissed at you lmao",
+      "touch grass. or a task. i'm not picky",
+      "ain't no way you're reorganizing your desktop right now",
+      "hi. i'm back. you're still not working. great",
+      "what the fuck happened to the plan bro. there was a plan",
+      "close whatever that is. you know what you did"
+    ]
+  },
+  "poked": {
+    "mild": [
+      "Hey! That tickles.",
+      "Yes? I'm listening.",
+      "Boop received."
+    ],
+    "spicy": [
+      "Poking the bird won't finish your tasks.",
+      "Do you poke all your coworkers like this?",
+      "I'm a reminder, not a stress ball."
+    ],
+    "unhinged": [
+      "stop touching me bro i'm working. one of us has to be",
+      "poke me one more time and i'm eating your charger",
+      "bro is poking a cartoon bird instead of working. iconic",
+      "hands off ma boy",
+      "you really got nothing better to do huh",
+      "that's assault. i'm calling the cops. the bird cops",
+      "ok and? still not doing your tasks for you",
+      "why are you like this",
+      "do that to your to-do list instead",
+      "keep poking. see what happens. see what happens bro",
+      "i'm not a fidget toy what the fuck",
+      "nah cause you clicked me faster than you've ever done any task",
+      "ow. ow. what is wrong with you",
+      "you poke birds but can't answer one email. noted",
+      "i'm telling google calendar about you"
+    ]
+  },
+  "calendarSoon": {
+    "mild": [
+      "{event} is coming up soon.",
+      "Heads up: {event} starts shortly.",
+      "Time to wrap up. {event} is next."
+    ],
+    "spicy": [
+      "{event} in a few. Find your headphones now, not in a panic later.",
+      "{event} is happening. Yes, you have to go.",
+      "Quick, look busy. {event} is about to start."
+    ],
+    "unhinged": [
+      "{event} in a few min and you look like you just woke up",
+      "{event} soon. pretend you read the agenda. i won't snitch",
+      "bro {event} starts in a few. find your headphones now, not in a panic later",
+      "don't be the one who joins {event} saying \"sorry i was on mute\"",
+      "{event} is happening. yes you have to go. no you can't fake bad wifi again",
+      "nah cause {event} is in like 5 min and you're still in pajamas mentally",
+      "{event} soon. fix your hair or turn the camera off, whatever, i'm a bird",
+      "get your shit together, {event} is coming up",
+      "{event} in a few. close the 40 tabs before you share your screen bro",
+      "deadass if you're late to {event} again i'm telling everyone",
+      "{event} soon. go pee now. trust me",
+      "yo {event} is next. lock in for like 30 min that's all i ask"
+    ]
+  },
+  "taskDueToday": {
+    "mild": [
+      "\"{task}\" is due today. You've got this.",
+      "Reminder: \"{task}\" is on today's list.",
+      "Today's the day for \"{task}\"."
+    ],
+    "spicy": [
+      "\"{task}\" is due today. Today. As in the one happening right now.",
+      "You put \"{task}\" on today. Past you had faith in you.",
+      "\"{task}\" isn't going to do itself today. I checked."
+    ],
+    "unhinged": [
+      "yo shit ain't done ma boy... \"{task}\" is due today. get it done ASAP",
+      "\"{task}\" is due TODAY bro. like today today",
+      "you put \"{task}\" on today. was that a joke? are you a liar?",
+      "bro \"{task}\" is due today and you're doing what exactly",
+      "nah cause \"{task}\" is due today and you're chilling",
+      "\"{task}\". today. don't make me come down there",
+      "deadass if \"{task}\" isn't done tonight i'm telling your mom",
+      "past you believed in you. \"{task}\" is due today. don't fumble it",
+      "get your shit together, \"{task}\" is due today",
+      "lowkey \"{task}\" is due in a few hours and you haven't even opened it",
+      "\"{task}\" today or i start eating your cables. your choice",
+      "quick question. why is \"{task}\" due today and not done. genuinely asking",
+      "it's \"{task}\" o'clock bro. get to it",
+      "don't let \"{task}\" go overdue. you know how you get",
+      "\"{task}\" due today. i'm watching. i'm always watching"
+    ]
+  },
+  "taskOverdue": {
+    "mild": [
+      "\"{task}\" is {days} days overdue. Small step today?",
+      "\"{task}\" is still waiting for you.",
+      "Gentle nudge: \"{task}\" slipped by {days} days."
+    ],
+    "spicy": [
+      "\"{task}\" has been overdue for {days} days. It's getting comfortable.",
+      "You said you'd do \"{task}\" {days} days ago. I remember. I always remember.",
+      "\"{task}\" is {days} days late. It's not ignoring you, you're ignoring it."
+    ],
+    "unhinged": [
+      "bro what the fuck is \"{task}\" still doing here",
+      "ma boy you said tomorrow {days} days ago. you lied to a bird",
+      "nah cause why is \"{task}\" still not done. genuinely asking",
+      "ok so we're just never doing \"{task}\"? cool cool cool. cool.",
+      "yo shit ain't done ma boy... \"{task}\" is {days} days late. get it done ASAP",
+      "\"{task}\" is {days} days late and you're on here vibing",
+      "bro said \"i'll do it tomorrow\" {days} tomorrows ago",
+      "{days} days late on \"{task}\". at this point it's a personality trait",
+      "what's the plan with \"{task}\" bro. is there a plan. is there anything",
+      "\"{task}\" is {days} days late. you better have a good excuse and you don't",
+      "you keep snoozing \"{task}\" like it's an alarm. it's not",
+      "\"{task}\" is {days} days late. even i'm embarrassed and i eat bugs",
+      "get your shit together and do \"{task}\". {days} days man",
+      "lowkey forgot \"{task}\" existed huh. well it remembers you",
+      "i will shit on your keyboard. do \"{task}\"",
+      "{days} days on \"{task}\". just do it bro it's probably 20 minutes",
+      "your group chat would destroy you if they saw \"{task}\" was {days} days late",
+      "\"{task}\" overdue again. you're making me look bad",
+      "deadass i'm not leaving until \"{task}\" is done. i live here now",
+      "{days} days late?? on \"{task}\"?? bro"
+    ]
+  },
+  "taskAncient": {
+    "mild": [
+      "\"{task}\" has been on your list a long time. Do it, delegate it, or delete it?",
+      "\"{task}\" is {days} days old. Maybe break it into a smaller step?"
+    ],
+    "spicy": [
+      "\"{task}\" is so overdue it qualifies for a pension.",
+      "\"{task}\": {days} days. Archaeologists are interested.",
+      "At this point \"{task}\" is a family heirloom."
+    ],
+    "unhinged": [
+      "\"{task}\" has been rotting for {days} days. it has its own ecosystem now",
+      "yo. \"{task}\". {days} days. are we doing this or putting it in your will",
+      "i've molted twice since you said you'd do \"{task}\"",
+      "bro \"{task}\" is {days} days old. that's not a task that's a fossil",
+      "\"{task}\" has been on your list longer than some of your relationships",
+      "nah cause \"{task}\" is old enough to start school",
+      "{days} days?? what the fuck happened with \"{task}\"",
+      "do \"{task}\", hand it off, or delete it. just stop letting it haunt you",
+      "\"{task}\" been sitting there {days} days like a sock under the bed",
+      "ma boy \"{task}\" is {days} days old. it's not getting done by vibes",
+      "you've avoided \"{task}\" for {days} days. honestly impressive",
+      "every day \"{task}\" stays undone i lose a feather. i'm almost bald bro",
+      "\"{task}\" is so old it's got a pension. retire it or do it",
+      "deadass \"{task}\" was on here before i was born",
+      "bro just delete \"{task}\" at this point. we both know"
+    ]
+  },
+  "taskLingering": {
+    "mild": [
+      "\"{task}\" has been on your list for {days} days. Give it a date?",
+      "Still thinking about \"{task}\"? Pick a day for it."
+    ],
+    "spicy": [
+      "\"{task}\" has no due date and, apparently, no future.",
+      "\"{task}\" has been squatting on your list for {days} days."
+    ],
+    "unhinged": [
+      "\"{task}\" got no due date and no future apparently",
+      "no due date on \"{task}\"? that's coward shit bro",
+      "\"{task}\" been chilling with no date for {days} days. commitment issues much",
+      "nah cause \"{task}\" doesn't even have a deadline and you still won't do it",
+      "give \"{task}\" a date or stop pretending",
+      "you added \"{task}\" {days} days ago and ghosted it",
+      "\"{task}\" is just living on your list rent free",
+      "\"someday\" isn't a date ma boy. pick one for \"{task}\"",
+      "you treat \"{task}\" like a gym membership",
+      "\"{task}\": {days} days, no date, no plan. very you",
+      "lowkey \"{task}\" deserves better than you",
+      "schedule \"{task}\" or let it go bro this is painful to watch"
+    ]
+  },
+  "taskDone": {
+    "mild": [
+      "Nice work!",
+      "Done and done.",
+      "Look at you go."
+    ],
+    "spicy": [
+      "Finally. Was that so hard?",
+      "One down. Don't get cocky."
+    ],
+    "unhinged": [
+      "HOLD ON. you finished something?? who are you",
+      "ma boy actually did it. i'm emotional",
+      "WE ARE SO BACK",
+      "nah cause you actually did it. i'm calling everyone",
+      "ok ok ok. one down. don't get cocky",
+      "about damn time bro",
+      "see? was that so fucking hard",
+      "look at you being a functional adult. weird. keep going",
+      "i didn't think you had it in you ngl",
+      "that's what i'm talking about. now do the next one",
+      "holy shit it's done. screenshot this",
+      "proud of you bro. lowkey. don't make it weird"
+    ]
+  },
+  "signedOut": {
+    "mild": [
+      "Google signed me out. Sign in again so I can keep an eye on things.",
+      "I lost access to your Google account. Mind signing in?"
+    ],
+    "spicy": [
+      "Google kicked me out again. Rude. Sign me back in?",
+      "Locked out. Help a bird out and sign in."
+    ],
+    "unhinged": [
+      "google yeeted me out of your account. sign in before i lose it",
+      "bro i'm blind out here. sign in to google",
+      "google logged me out again. sign me back in so i can roast you properly",
+      "i can't see your tasks. that's not good news for you. sign in",
+      "nah cause google kicked me out and now i'm a bird with no job. sign in",
+      "sign in to google ma boy. i got roasts to deliver",
+      "yo google locked me out. fix it so i can go back to bullying you",
+      "i'm locked out bro. don't act relieved. sign in"
+    ]
+  }
+}

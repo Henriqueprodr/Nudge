@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// Compact horizontal reminder surface: calendar accent, time, event content, actions.
+/// Hand-drawn reminder card: a coloured time chip, the event or task, and ink-outlined actions.
 ///
 /// The view owns no state and no timers. It is driven entirely by a `ReminderStripPresentation`
 /// so it can be reasoned about, previewed, and measured without a window.
@@ -11,67 +11,57 @@ struct ReminderControlStripView: View {
     let onOpen: () -> Void
     let onSnooze: () -> Void
     let onDismiss: () -> Void
+    var onAction: (ReminderAction) -> Void = { _ in }
 
-    @Environment(\.colorSchemeContrast) private var colorSchemeContrast
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
-        HStack(spacing: 0) {
-            accent
-            HStack(spacing: ReminderStripStyle.regionSpacing) {
-                timeRegion
-                divider
-                eventContent
-                actions
-            }
-            .padding(.horizontal, ReminderStripStyle.horizontalPadding)
-            .padding(.vertical, ReminderStripStyle.verticalPadding)
+        HStack(spacing: ReminderStripStyle.regionSpacing) {
+            timeChip
+            eventContent
+            actions
         }
-        .background(surface)
-        .clipShape(RoundedRectangle(cornerRadius: ReminderStripStyle.cornerRadius, style: .continuous))
-        .overlay {
-            RoundedRectangle(cornerRadius: ReminderStripStyle.cornerRadius, style: .continuous)
-                .strokeBorder(borderColor, lineWidth: borderWidth)
-        }
+        .padding(.horizontal, ReminderStripStyle.horizontalPadding)
+        .padding(.vertical, ReminderStripStyle.verticalPadding)
+        .background { InkCardBackground(variant: .card) }
+        // Leave room for the sticker shadow so the window measures it.
+        .padding(.bottom, InkMetrics.stickerOffset)
     }
 
-    private var accent: some View {
-        Rectangle()
-            .fill(ReminderStripStyle.accentColor(hex: presentation.accentHex))
-            .frame(width: ReminderStripStyle.accentWidth)
-            .accessibilityHidden(true)
-    }
-
-    private var timeRegion: some View {
-        VStack(alignment: .leading, spacing: ReminderStripStyle.lineSpacing) {
+    private var timeChip: some View {
+        VStack(spacing: ReminderStripStyle.lineSpacing) {
             Text(presentation.timeText)
                 .font(ReminderStripStyle.timeFont)
-                .foregroundStyle(ReminderStripStyle.primaryText)
+                .foregroundStyle(NudgePalette.onBlue)
+                .lineLimit(1)
             Text(presentation.dateText)
                 .font(ReminderStripStyle.dateFont)
                 .tracking(ReminderStripStyle.eyebrowTracking)
-                .foregroundStyle(ReminderStripStyle.secondaryText)
+                .foregroundStyle(NudgePalette.onBlue.opacity(0.9))
+                .lineLimit(1)
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 9)
+        .frame(minWidth: ReminderStripStyle.timeChipMinimumWidth)
+        .background {
+            ZStack {
+                InkShape(variant: .chip)
+                    .fill(ReminderStripStyle.accentColor(hex: presentation.accentHex))
+                InkShape(variant: .chip)
+                    .strokeBorderCompatible(NudgePalette.ink, lineWidth: InkMetrics.thinStrokeWidth)
+            }
         }
         .fixedSize()
         .accessibilityHidden(true)
     }
 
-    private var divider: some View {
-        Rectangle()
-            .fill(ReminderStripStyle.divider)
-            .frame(width: 1)
-            .frame(maxHeight: .infinity)
-            .padding(.vertical, ReminderStripStyle.lineSpacing)
-            .accessibilityHidden(true)
-    }
-
     private var eventContent: some View {
         VStack(alignment: .leading, spacing: ReminderStripStyle.lineSpacing) {
             Text(presentation.eyebrow)
+                .lineLimit(1)
                 .font(ReminderStripStyle.eyebrowFont)
                 .tracking(ReminderStripStyle.eyebrowTracking)
-                .foregroundStyle(ReminderStripStyle.secondaryText)
+                .foregroundStyle(ReminderStripStyle.accentColor(hex: presentation.accentHex))
             Text(presentation.title)
                 .font(ReminderStripStyle.titleFont)
                 .foregroundStyle(ReminderStripStyle.primaryText)
@@ -114,62 +104,56 @@ struct ReminderControlStripView: View {
                 }
             }
         }
-        .font(.body)
         .fixedSize()
         .disabled(isPerformingAction)
     }
 
     @ViewBuilder
     private var actionControls: some View {
+        ForEach(Array(presentation.actions.enumerated()), id: \.element) { index, action in
+            Button(action.title) { onAction(action) }
+                .buttonStyle(InkButtonStyle(role: role(for: action, at: index)))
+                .accessibilityLabel(action.accessibilityLabel)
+        }
         if presentation.hasSource {
-            quietButton("Open", accessibilityLabel: "Open reminder source", action: onOpen)
+            if presentation.actions.isEmpty {
+                Button("Open", action: onOpen)
+                    .buttonStyle(InkButtonStyle(role: .primary))
+                    .keyboardShortcut("o", modifiers: [.command])
+                    .accessibilityLabel("Open reminder source")
+            } else {
+                // With task actions on the card, Open shrinks to an icon so the title fits.
+                Button(action: onOpen) {
+                    Image(systemName: "arrow.up.right")
+                        .font(.system(size: 13, weight: .heavy, design: .rounded))
+                }
+                .buttonStyle(InkButtonStyle(role: .secondary))
                 .keyboardShortcut("o", modifiers: [.command])
+                .help("Open in Google Tasks")
+                .accessibilityLabel("Open reminder source")
+            }
         }
-        Button("Snooze", action: onSnooze)
-            .buttonStyle(.bordered)
-            .controlSize(.regular)
-            .frame(minHeight: ReminderStripStyle.minimumActionHeight)
+        Button(presentation.snoozeTitle, action: onSnooze)
+            .buttonStyle(InkButtonStyle(role: .secondary))
             .keyboardShortcut("s", modifiers: [.command])
-            .accessibilityLabel("Snooze reminder for 10 minutes")
-        quietButton("Dismiss", accessibilityLabel: "Dismiss reminder", action: onDismiss)
-            .keyboardShortcut(.cancelAction)
-    }
-
-    @ViewBuilder
-    private var surface: some View {
-        if reduceTransparency {
-            ReminderStripStyle.opaqueSurface
-        } else {
-            Rectangle().fill(.thickMaterial)
+            .accessibilityLabel(presentation.snoozeAccessibilityLabel)
+        Button(action: onDismiss) {
+            Image(systemName: "xmark")
+                .font(.system(size: 13, weight: .heavy, design: .rounded))
         }
+        .buttonStyle(InkButtonStyle(role: .quiet))
+        .keyboardShortcut(.cancelAction)
+        .accessibilityLabel("Dismiss reminder")
     }
 
-    /// Low-emphasis text control with a hit area large enough to click comfortably.
-    private func quietButton(
-        _ title: String,
-        accessibilityLabel: String,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Text(title)
-                .foregroundStyle(ReminderStripStyle.secondaryText)
-                .frame(minHeight: ReminderStripStyle.minimumActionHeight)
-                .padding(.horizontal, ReminderStripStyle.actionSpacing)
-                .contentShape(Rectangle())
+    private func role(for action: ReminderAction, at index: Int) -> InkButtonStyle.Role {
+        switch action {
+        case .signIn:
+            return .brand
+        case .completeTask:
+            return .primary
+        case .notToday:
+            return index == 0 ? .primary : .secondary
         }
-        .buttonStyle(.plain)
-        .accessibilityLabel(accessibilityLabel)
-    }
-
-    private var borderColor: Color {
-        colorSchemeContrast == .increased
-            ? ReminderStripStyle.contrastBorder
-            : ReminderStripStyle.border
-    }
-
-    private var borderWidth: CGFloat {
-        colorSchemeContrast == .increased
-            ? ReminderStripStyle.contrastBorderWidth
-            : ReminderStripStyle.borderWidth
     }
 }

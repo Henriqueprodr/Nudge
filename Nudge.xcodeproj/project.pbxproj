@@ -10,6 +10,7 @@
 		M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */; };
 		M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000202 /* ScreenshotDemoDependencies.swift */; };
 		M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */; };
+		M0000000000000000000B101 /* ScreenshotDemoBirdAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */; };
 		M00000000000000000000151 /* ScreenshotDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = M00000000000000000000251 /* ScreenshotDemoTests.swift */; };
 		L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */; };
 		L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */; };
@@ -169,6 +170,66 @@
 		G00000000000000000000113 /* GoogleCalendarPeriodicRefreshTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = G00000000000000000000213 /* GoogleCalendarPeriodicRefreshTimer.swift */; };
 		H00000000000000000000101 /* GoogleCalendarClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = H00000000000000000000201 /* GoogleCalendarClientTests.swift */; };
 		I00000000000000000000101 /* GoogleOAuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = I00000000000000000000201 /* GoogleOAuthError.swift */; };
+		Q90000000000000000000002 /* LaunchAtLoginDefaultApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */; };
+		Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */; };
+		Q90000000000000000000007 /* NudgePalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000006 /* NudgePalette.swift */; };
+		Q90000000000000000000009 /* InkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000008 /* InkShape.swift */; };
+		Q90000000000000000000011 /* InsetInkShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000010 /* InsetInkShape.swift */; };
+		Q90000000000000000000013 /* InkMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000012 /* InkMetrics.swift */; };
+		Q90000000000000000000015 /* InkCardBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000014 /* InkCardBackground.swift */; };
+		Q90000000000000000000017 /* InkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000016 /* InkButtonStyle.swift */; };
+		Q90000000000000000000019 /* InkCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000018 /* InkCheckbox.swift */; };
+		Q90000000000000000000021 /* WavyUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000020 /* WavyUnderline.swift */; };
+		Q90000000000000000000023 /* ReminderAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000022 /* ReminderAction.swift */; };
+		Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000024 /* ReminderTaskContext.swift */; };
+		Q90000000000000000000027 /* GoogleSessionEndRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000026 /* GoogleSessionEndRecord.swift */; };
+		Q90000000000000000000029 /* GoogleSessionEndStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000028 /* GoogleSessionEndStore.swift */; };
+		Q90000000000000000000031 /* UserDefaultsGoogleSessionEndStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */; };
+		Q90000000000000000000035 /* WholePointLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000034 /* WholePointLayout.swift */; };
+		Q90000000000000000000037 /* GoogleSessionLongevityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */; };
+		Q90000000000000000000039 /* TaskNagSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000038 /* TaskNagSettings.swift */; };
+		Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000040 /* TaskNagSettingsRepository.swift */; };
+		Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */; };
+		Q90000000000000000000045 /* TaskNagObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000044 /* TaskNagObservation.swift */; };
+		Q90000000000000000000047 /* TaskNagHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000046 /* TaskNagHistory.swift */; };
+		Q90000000000000000000049 /* TaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000048 /* TaskNagHistoryRepository.swift */; };
+		Q90000000000000000000051 /* FileTaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */; };
+		Q90000000000000000000053 /* TaskNagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000052 /* TaskNagPolicy.swift */; };
+		Q90000000000000000000055 /* TaskNagCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000054 /* TaskNagCoordinator.swift */; };
+		Q90000000000000000000057 /* ReminderActionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000056 /* ReminderActionRouter.swift */; };
+		Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000058 /* TaskNagPolicyTests.swift */; };
+		Q90000000000000000000061 /* TaskDueBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000060 /* TaskDueBadge.swift */; };
+		Q90000000000000000000066 /* BirdShapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000065 /* BirdShapes.swift */; };
+		Q90000000000000000000068 /* BirdPose.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000067 /* BirdPose.swift */; };
+		Q90000000000000000000070 /* BirdView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000069 /* BirdView.swift */; };
+		Q90000000000000000000072 /* Resources/MascotLines.json in Resources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000071 /* Resources/MascotLines.json */; };
+		Q90000000000000000000074 /* MascotLineCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000073 /* MascotLineCategory.swift */; };
+		Q90000000000000000000076 /* MascotLineBook.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000075 /* MascotLineBook.swift */; };
+		Q90000000000000000000078 /* DockGeometry.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000077 /* DockGeometry.swift */; };
+		Q90000000000000000000080 /* MascotGround.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000079 /* MascotGround.swift */; };
+		Q90000000000000000000082 /* DockGeometryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000081 /* DockGeometryReader.swift */; };
+		Q90000000000000000000084 /* BirdWhistleSynth.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000083 /* BirdWhistleSynth.swift */; };
+		Q90000000000000000000086 /* MascotScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000085 /* MascotScene.swift */; };
+		Q90000000000000000000088 /* MascotSpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000087 /* MascotSpeechBubble.swift */; };
+		Q90000000000000000000090 /* MascotSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000089 /* MascotSceneView.swift */; };
+		Q90000000000000000000124 /* MascotAlertPerch.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000123 /* MascotAlertPerch.swift */; };
+		Q90000000000000000000122 /* MascotSpeechReveal.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000121 /* MascotSpeechReveal.swift */; };
+		Q90000000000000000000120 /* MascotBubbleTextLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000119 /* MascotBubbleTextLayout.swift */; };
+		Q90000000000000000000092 /* MascotWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000091 /* MascotWindow.swift */; };
+		Q90000000000000000000094 /* MascotController.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000093 /* MascotController.swift */; };
+		Q90000000000000000000096 /* MascotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000095 /* MascotSettings.swift */; };
+		Q90000000000000000000098 /* MascotSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000097 /* MascotSettingsRepository.swift */; };
+		Q90000000000000000000100 /* UserDefaultsMascotSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000099 /* UserDefaultsMascotSettingsRepository.swift */; };
+		Q90000000000000000000102 /* TaskNagSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000101 /* TaskNagSettingsSection.swift */; };
+		Q90000000000000000000104 /* MascotSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000103 /* MascotSettingsView.swift */; };
+		Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000105 /* SettingsBrandHeader.swift */; };
+		Q90000000000000000000108 /* MascotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000107 /* MascotTests.swift */; };
+		Q90000000000000000000128 /* MascotSpeechRevealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000127 /* MascotSpeechRevealTests.swift */; };
+		Q90000000000000000000126 /* MascotAlertPerchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000125 /* MascotAlertPerchTests.swift */; };
+		Q90000000000000000000110 /* InMemoryTaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */; };
+		Q90000000000000000000112 /* InMemoryTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */; };
+		Q90000000000000000000114 /* InMemoryMascotSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000113 /* InMemoryMascotSettingsRepository.swift */; };
+		Q90000000000000000000116 /* ReminderOverlayLayoutStabilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000115 /* ReminderOverlayLayoutStabilityTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -185,6 +246,7 @@
 		M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoConfiguration.swift; sourceTree = "<group>"; };
 		M00000000000000000000202 /* ScreenshotDemoDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoDependencies.swift; sourceTree = "<group>"; };
 		M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoCaptureController.swift; sourceTree = "<group>"; };
+		M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoBirdAlertView.swift; sourceTree = "<group>"; };
 		M00000000000000000000251 /* ScreenshotDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenshotDemoTests.swift; sourceTree = "<group>"; };
 		L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfiguration.swift; sourceTree = "<group>"; };
 		L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthClientConfigurationStore.swift; sourceTree = "<group>"; };
@@ -346,6 +408,66 @@
 		I00000000000000000000201 /* GoogleOAuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleOAuthError.swift; sourceTree = "<group>"; };
 		A00000000000000000000220 /* Nudge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nudge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A00000000000000000000221 /* NudgeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NudgeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginDefaultApplier.swift; sourceTree = "<group>"; };
+		Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginDefaultApplierTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000006 /* NudgePalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NudgePalette.swift; sourceTree = "<group>"; };
+		Q90000000000000000000008 /* InkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkShape.swift; sourceTree = "<group>"; };
+		Q90000000000000000000010 /* InsetInkShape.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetInkShape.swift; sourceTree = "<group>"; };
+		Q90000000000000000000012 /* InkMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkMetrics.swift; sourceTree = "<group>"; };
+		Q90000000000000000000014 /* InkCardBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkCardBackground.swift; sourceTree = "<group>"; };
+		Q90000000000000000000016 /* InkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkButtonStyle.swift; sourceTree = "<group>"; };
+		Q90000000000000000000018 /* InkCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkCheckbox.swift; sourceTree = "<group>"; };
+		Q90000000000000000000020 /* WavyUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavyUnderline.swift; sourceTree = "<group>"; };
+		Q90000000000000000000022 /* ReminderAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAction.swift; sourceTree = "<group>"; };
+		Q90000000000000000000024 /* ReminderTaskContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTaskContext.swift; sourceTree = "<group>"; };
+		Q90000000000000000000026 /* GoogleSessionEndRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionEndRecord.swift; sourceTree = "<group>"; };
+		Q90000000000000000000028 /* GoogleSessionEndStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionEndStore.swift; sourceTree = "<group>"; };
+		Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGoogleSessionEndStore.swift; sourceTree = "<group>"; };
+		Q90000000000000000000034 /* WholePointLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WholePointLayout.swift; sourceTree = "<group>"; };
+		Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionLongevityTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000038 /* TaskNagSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettings.swift; sourceTree = "<group>"; };
+		Q90000000000000000000040 /* TaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000044 /* TaskNagObservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagObservation.swift; sourceTree = "<group>"; };
+		Q90000000000000000000046 /* TaskNagHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagHistory.swift; sourceTree = "<group>"; };
+		Q90000000000000000000048 /* TaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000052 /* TaskNagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagPolicy.swift; sourceTree = "<group>"; };
+		Q90000000000000000000054 /* TaskNagCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagCoordinator.swift; sourceTree = "<group>"; };
+		Q90000000000000000000056 /* ReminderActionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderActionRouter.swift; sourceTree = "<group>"; };
+		Q90000000000000000000058 /* TaskNagPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagPolicyTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000060 /* TaskDueBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueBadge.swift; sourceTree = "<group>"; };
+		Q90000000000000000000065 /* BirdShapes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdShapes.swift; sourceTree = "<group>"; };
+		Q90000000000000000000067 /* BirdPose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdPose.swift; sourceTree = "<group>"; };
+		Q90000000000000000000069 /* BirdView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdView.swift; sourceTree = "<group>"; };
+		Q90000000000000000000071 /* Resources/MascotLines.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Resources/MascotLines.json; sourceTree = "<group>"; };
+		Q90000000000000000000073 /* MascotLineCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotLineCategory.swift; sourceTree = "<group>"; };
+		Q90000000000000000000075 /* MascotLineBook.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotLineBook.swift; sourceTree = "<group>"; };
+		Q90000000000000000000077 /* DockGeometry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockGeometry.swift; sourceTree = "<group>"; };
+		Q90000000000000000000079 /* MascotGround.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotGround.swift; sourceTree = "<group>"; };
+		Q90000000000000000000081 /* DockGeometryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockGeometryReader.swift; sourceTree = "<group>"; };
+		Q90000000000000000000083 /* BirdWhistleSynth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirdWhistleSynth.swift; sourceTree = "<group>"; };
+		Q90000000000000000000085 /* MascotScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotScene.swift; sourceTree = "<group>"; };
+		Q90000000000000000000087 /* MascotSpeechBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechBubble.swift; sourceTree = "<group>"; };
+		Q90000000000000000000089 /* MascotSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSceneView.swift; sourceTree = "<group>"; };
+		Q90000000000000000000123 /* MascotAlertPerch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotAlertPerch.swift; sourceTree = "<group>"; };
+		Q90000000000000000000121 /* MascotSpeechReveal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechReveal.swift; sourceTree = "<group>"; };
+		Q90000000000000000000119 /* MascotBubbleTextLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotBubbleTextLayout.swift; sourceTree = "<group>"; };
+		Q90000000000000000000091 /* MascotWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotWindow.swift; sourceTree = "<group>"; };
+		Q90000000000000000000093 /* MascotController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotController.swift; sourceTree = "<group>"; };
+		Q90000000000000000000095 /* MascotSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSettings.swift; sourceTree = "<group>"; };
+		Q90000000000000000000097 /* MascotSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000099 /* UserDefaultsMascotSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsMascotSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000101 /* TaskNagSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettingsSection.swift; sourceTree = "<group>"; };
+		Q90000000000000000000103 /* MascotSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSettingsView.swift; sourceTree = "<group>"; };
+		Q90000000000000000000105 /* SettingsBrandHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBrandHeader.swift; sourceTree = "<group>"; };
+		Q90000000000000000000107 /* MascotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000127 /* MascotSpeechRevealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechRevealTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000125 /* MascotAlertPerchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotAlertPerchTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000113 /* InMemoryMascotSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryMascotSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000115 /* ReminderOverlayLayoutStabilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderOverlayLayoutStabilityTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -403,6 +525,8 @@
 		A00000000000000000000013 /* Nudge */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000071 /* Resources/MascotLines.json */,
+				Q90000000000000000000005 /* DesignSystem */,
 				K00000000000000000000201 /* AppIcon.icon */,
 				700000000000000000000210 /* Assets.xcassets */,
 				A00000000000000000000014 /* App */,
@@ -421,6 +545,8 @@
 		A00000000000000000000014 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000056 /* ReminderActionRouter.swift */,
+				Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */,
 				700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */,
 				700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */,
 				A00000000000000000000201 /* NudgeApp.swift */,
@@ -434,6 +560,7 @@
 				600000000000000000000202 /* LaunchAtLoginManager.swift */,
 				M00000000000000000000201 /* ScreenshotDemoConfiguration.swift */,
 				M00000000000000000000202 /* ScreenshotDemoDependencies.swift */,
+				M0000000000000000000B201 /* ScreenshotDemoBirdAlertView.swift */,
 				M00000000000000000000203 /* ScreenshotDemoCaptureController.swift */,
 			);
 			path = App;
@@ -442,6 +569,17 @@
 		A00000000000000000000015 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000113 /* InMemoryMascotSettingsRepository.swift */,
+				Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */,
+				Q90000000000000000000105 /* SettingsBrandHeader.swift */,
+				Q90000000000000000000103 /* MascotSettingsView.swift */,
+				Q90000000000000000000101 /* TaskNagSettingsSection.swift */,
+				Q90000000000000000000099 /* UserDefaultsMascotSettingsRepository.swift */,
+				Q90000000000000000000097 /* MascotSettingsRepository.swift */,
+				Q90000000000000000000095 /* MascotSettings.swift */,
+				Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */,
+				Q90000000000000000000040 /* TaskNagSettingsRepository.swift */,
+				Q90000000000000000000038 /* TaskNagSettings.swift */,
 				J00000000000000000000201 /* ReminderSound.swift */,
 				700000000000000000000204 /* ReminderPresentationDuration.swift */,
 				700000000000000000000205 /* PeriodicRefreshInterval.swift */,
@@ -470,6 +608,13 @@
 		A00000000000000000000017 /* NudgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000115 /* ReminderOverlayLayoutStabilityTests.swift */,
+				Q90000000000000000000107 /* MascotTests.swift */,
+				Q90000000000000000000127 /* MascotSpeechRevealTests.swift */,
+				Q90000000000000000000125 /* MascotAlertPerchTests.swift */,
+				Q90000000000000000000058 /* TaskNagPolicyTests.swift */,
+				Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */,
+				Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */,
 				L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */,
 				900000000000000000000205 /* ReminderControlStripTests.swift */,
 				A00000000000000000000207 /* AppMenuActionTests.swift */,
@@ -503,6 +648,7 @@
 		A00000000000000000000018 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000064 /* Mascot */,
 				A00000000000000000000019 /* Windowing */,
 				A0000000000000000000001A /* ReminderOverlay */,
 				A0000000000000000000001B /* TaskPanel */,
@@ -537,6 +683,7 @@
 		A0000000000000000000001B /* TaskPanel */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000060 /* TaskDueBadge.swift */,
 				A00000000000000000000214 /* TaskPanelWindow.swift */,
 				A00000000000000000000215 /* TaskPanelView.swift */,
 				A00000000000000000000216 /* TaskPanelWindowController.swift */,
@@ -561,6 +708,8 @@
 		B00000000000000000000302 /* Reminders */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000024 /* ReminderTaskContext.swift */,
+				Q90000000000000000000022 /* ReminderAction.swift */,
 				900000000000000000000204 /* ReminderEventContext.swift */,
 				B00000000000000000000201 /* ReminderOccurrenceID.swift */,
 				B00000000000000000000202 /* Reminder.swift */,
@@ -572,6 +721,8 @@
 		B00000000000000000000303 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000046 /* TaskNagHistory.swift */,
+				Q90000000000000000000044 /* TaskNagObservation.swift */,
 				B00000000000000000000204 /* TaskItem.swift */,
 				B00000000000000000000205 /* TaskList.swift */,
 				B00000000000000000000206 /* TaskPanelState.swift */,
@@ -585,6 +736,9 @@
 		B00000000000000000000304 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */,
+				Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */,
+				Q90000000000000000000048 /* TaskNagHistoryRepository.swift */,
 				G00000000000000000000206 /* CalendarCacheRepository.swift */,
 				G00000000000000000000207 /* StoredCalendarDescriptor.swift */,
 				G00000000000000000000208 /* StoredCalendarEvent.swift */,
@@ -615,6 +769,8 @@
 		B00000000000000000000305 /* Scheduling */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000054 /* TaskNagCoordinator.swift */,
+				Q90000000000000000000052 /* TaskNagPolicy.swift */,
 				J00000000000000000000202 /* ReminderSoundPlayer.swift */,
 				B00000000000000000000224 /* ReminderClock.swift */,
 				B00000000000000000000225 /* ReminderScheduler.swift */,
@@ -673,6 +829,9 @@
 		D00000000000000000000301 /* GoogleTasks */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */,
+				Q90000000000000000000028 /* GoogleSessionEndStore.swift */,
+				Q90000000000000000000026 /* GoogleSessionEndRecord.swift */,
 				L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */,
 				L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */,
 				L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */,
@@ -702,6 +861,46 @@
 				D00000000000000000000216 /* GoogleTasksClient.swift */,
 			);
 			path = GoogleTasks;
+			sourceTree = "<group>";
+		};
+		Q90000000000000000000005 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				Q90000000000000000000034 /* WholePointLayout.swift */,
+				Q90000000000000000000020 /* WavyUnderline.swift */,
+				Q90000000000000000000018 /* InkCheckbox.swift */,
+				Q90000000000000000000016 /* InkButtonStyle.swift */,
+				Q90000000000000000000014 /* InkCardBackground.swift */,
+				Q90000000000000000000012 /* InkMetrics.swift */,
+				Q90000000000000000000010 /* InsetInkShape.swift */,
+				Q90000000000000000000008 /* InkShape.swift */,
+				Q90000000000000000000006 /* NudgePalette.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		Q90000000000000000000064 /* Mascot */ = {
+			isa = PBXGroup;
+			children = (
+				Q90000000000000000000093 /* MascotController.swift */,
+				Q90000000000000000000091 /* MascotWindow.swift */,
+				Q90000000000000000000089 /* MascotSceneView.swift */,
+				Q90000000000000000000123 /* MascotAlertPerch.swift */,
+				Q90000000000000000000121 /* MascotSpeechReveal.swift */,
+				Q90000000000000000000119 /* MascotBubbleTextLayout.swift */,
+				Q90000000000000000000087 /* MascotSpeechBubble.swift */,
+				Q90000000000000000000085 /* MascotScene.swift */,
+				Q90000000000000000000083 /* BirdWhistleSynth.swift */,
+				Q90000000000000000000081 /* DockGeometryReader.swift */,
+				Q90000000000000000000079 /* MascotGround.swift */,
+				Q90000000000000000000077 /* DockGeometry.swift */,
+				Q90000000000000000000075 /* MascotLineBook.swift */,
+				Q90000000000000000000073 /* MascotLineCategory.swift */,
+				Q90000000000000000000069 /* BirdView.swift */,
+				Q90000000000000000000067 /* BirdPose.swift */,
+				Q90000000000000000000065 /* BirdShapes.swift */,
+			);
+			path = Mascot;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -785,6 +984,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000072 /* Resources/MascotLines.json in Resources */,
 				K00000000000000000000101 /* AppIcon.icon in Resources */,
 				700000000000000000000110 /* Assets.xcassets in Resources */,
 			);
@@ -804,6 +1004,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000114 /* InMemoryMascotSettingsRepository.swift in Sources */,
+				Q90000000000000000000112 /* InMemoryTaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000110 /* InMemoryTaskNagHistoryRepository.swift in Sources */,
+				Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */,
+				Q90000000000000000000104 /* MascotSettingsView.swift in Sources */,
+				Q90000000000000000000102 /* TaskNagSettingsSection.swift in Sources */,
+				Q90000000000000000000100 /* UserDefaultsMascotSettingsRepository.swift in Sources */,
+				Q90000000000000000000098 /* MascotSettingsRepository.swift in Sources */,
+				Q90000000000000000000096 /* MascotSettings.swift in Sources */,
+				Q90000000000000000000094 /* MascotController.swift in Sources */,
+				Q90000000000000000000092 /* MascotWindow.swift in Sources */,
+				Q90000000000000000000090 /* MascotSceneView.swift in Sources */,
+				Q90000000000000000000124 /* MascotAlertPerch.swift in Sources */,
+				Q90000000000000000000122 /* MascotSpeechReveal.swift in Sources */,
+				Q90000000000000000000120 /* MascotBubbleTextLayout.swift in Sources */,
+				Q90000000000000000000088 /* MascotSpeechBubble.swift in Sources */,
+				Q90000000000000000000086 /* MascotScene.swift in Sources */,
+				Q90000000000000000000084 /* BirdWhistleSynth.swift in Sources */,
+				Q90000000000000000000082 /* DockGeometryReader.swift in Sources */,
+				Q90000000000000000000080 /* MascotGround.swift in Sources */,
+				Q90000000000000000000078 /* DockGeometry.swift in Sources */,
+				Q90000000000000000000076 /* MascotLineBook.swift in Sources */,
+				Q90000000000000000000074 /* MascotLineCategory.swift in Sources */,
+				Q90000000000000000000070 /* BirdView.swift in Sources */,
+				Q90000000000000000000068 /* BirdPose.swift in Sources */,
+				Q90000000000000000000066 /* BirdShapes.swift in Sources */,
+				Q90000000000000000000061 /* TaskDueBadge.swift in Sources */,
+				Q90000000000000000000057 /* ReminderActionRouter.swift in Sources */,
+				Q90000000000000000000055 /* TaskNagCoordinator.swift in Sources */,
+				Q90000000000000000000053 /* TaskNagPolicy.swift in Sources */,
+				Q90000000000000000000051 /* FileTaskNagHistoryRepository.swift in Sources */,
+				Q90000000000000000000049 /* TaskNagHistoryRepository.swift in Sources */,
+				Q90000000000000000000047 /* TaskNagHistory.swift in Sources */,
+				Q90000000000000000000045 /* TaskNagObservation.swift in Sources */,
+				Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000039 /* TaskNagSettings.swift in Sources */,
+				Q90000000000000000000035 /* WholePointLayout.swift in Sources */,
+				Q90000000000000000000031 /* UserDefaultsGoogleSessionEndStore.swift in Sources */,
+				Q90000000000000000000029 /* GoogleSessionEndStore.swift in Sources */,
+				Q90000000000000000000027 /* GoogleSessionEndRecord.swift in Sources */,
+				Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */,
+				Q90000000000000000000023 /* ReminderAction.swift in Sources */,
+				Q90000000000000000000021 /* WavyUnderline.swift in Sources */,
+				Q90000000000000000000019 /* InkCheckbox.swift in Sources */,
+				Q90000000000000000000017 /* InkButtonStyle.swift in Sources */,
+				Q90000000000000000000015 /* InkCardBackground.swift in Sources */,
+				Q90000000000000000000013 /* InkMetrics.swift in Sources */,
+				Q90000000000000000000011 /* InsetInkShape.swift in Sources */,
+				Q90000000000000000000009 /* InkShape.swift in Sources */,
+				Q90000000000000000000007 /* NudgePalette.swift in Sources */,
+				Q90000000000000000000002 /* LaunchAtLoginDefaultApplier.swift in Sources */,
 				L10000000000000000000101 /* GoogleOAuthClientConfiguration.swift in Sources */,
 				L10000000000000000000102 /* GoogleOAuthClientConfigurationStore.swift in Sources */,
 				L10000000000000000000103 /* KeychainGoogleOAuthClientConfigurationStore.swift in Sources */,
@@ -832,6 +1084,7 @@
 				M00000000000000000000101 /* ScreenshotDemoConfiguration.swift in Sources */,
 				M00000000000000000000102 /* ScreenshotDemoDependencies.swift in Sources */,
 				M00000000000000000000103 /* ScreenshotDemoCaptureController.swift in Sources */,
+				M0000000000000000000B101 /* ScreenshotDemoBirdAlertView.swift in Sources */,
 				A00000000000000000000109 /* ScreenCorner.swift in Sources */,
 				A00000000000000000000110 /* ScreenPlacement.swift in Sources */,
 				600000000000000000000103 /* ScreenProvider.swift in Sources */,
@@ -945,6 +1198,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000116 /* ReminderOverlayLayoutStabilityTests.swift in Sources */,
+				Q90000000000000000000108 /* MascotTests.swift in Sources */,
+				Q90000000000000000000128 /* MascotSpeechRevealTests.swift in Sources */,
+				Q90000000000000000000126 /* MascotAlertPerchTests.swift in Sources */,
+				Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */,
+				Q90000000000000000000037 /* GoogleSessionLongevityTests.swift in Sources */,
+				Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */,
 				L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */,
 				900000000000000000000105 /* ReminderControlStripTests.swift in Sources */,
 				A00000000000000000000107 /* AppMenuActionTests.swift in Sources */,

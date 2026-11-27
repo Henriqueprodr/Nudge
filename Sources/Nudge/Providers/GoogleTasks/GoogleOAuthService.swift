@@ -12,11 +12,28 @@ protocol GoogleTasksAuthenticating: AnyObject {
     func signIn() async throws
     func signOut() throws
     func validAccessToken() async throws -> String
+    /// Forces the next `validAccessToken()` to refresh. Called after an API returns 401 so a
+    /// stale access token never causes the long-lived refresh token to be discarded.
+    func invalidateAccessToken()
+    /// When the stored credential's interactive sign-in happened, if known.
+    var signedInSince: Date? { get }
+    /// A human explanation of the last time Google ended the session, if it did.
+    var sessionEndExplanation: String? { get }
 }
 
 extension GoogleTasksAuthenticating {
     var hasBundledClientSecret: Bool {
         false
+    }
+
+    func invalidateAccessToken() {}
+
+    var signedInSince: Date? {
+        nil
+    }
+
+    var sessionEndExplanation: String? {
+        nil
     }
 }
 
@@ -27,6 +44,11 @@ protocol GoogleScopeAuthenticating: AnyObject {
     func hasStoredCredential(requiredScopes: Set<String>) throws -> Bool
     func signIn(requestingFullScopeUnion scopes: Set<String>) async throws
     func validAccessToken(requiredScopes: Set<String>) async throws -> String
+    func invalidateAccessToken()
+}
+
+extension GoogleScopeAuthenticating {
+    func invalidateAccessToken() {}
 }
 
 @MainActor
@@ -41,6 +63,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
     private let browserOpener: any SystemBrowserOpening
     private let callbackSessionFactory: CallbackSessionFactory
     private let callbackValidator: OAuthCallbackValidator
+    private let sessionEndStore: (any GoogleSessionEndStore)?
     private let now: @MainActor () -> Date
     private var hasLoadedClientSecret = false
     private var cachedClientSecret: String?
@@ -55,6 +78,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
         browserOpener: any SystemBrowserOpening,
         callbackSessionFactory: @escaping CallbackSessionFactory,
         callbackValidator: OAuthCallbackValidator = OAuthCallbackValidator(),
+        sessionEndStore: (any GoogleSessionEndStore)? = nil,
         now: @escaping @MainActor () -> Date = Date.init
     ) {
         self.configurationProvider = configurationProvider
@@ -64,6 +88,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
         self.browserOpener = browserOpener
         self.callbackSessionFactory = callbackSessionFactory
         self.callbackValidator = callbackValidator
+        self.sessionEndStore = sessionEndStore
         self.now = now
     }
 
@@ -150,6 +175,7 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
             throw GoogleOAuthError.insufficientGrantedScopes
         }
         try saveCredential(credential)
+        sessionEndStore?.clearRecord()
     }
 
     func signOut() throws {
@@ -179,10 +205,27 @@ final class GoogleOAuthService: GoogleTasksAuthenticating, GoogleScopeAuthentica
         } catch {
             let normalizedError = GoogleOAuthError.normalized(error)
             if normalizedError == .authenticationRequired {
+                sessionEndStore?.saveRecord(
+                    GoogleSessionEndRecord(endedAt: now(), signedInAt: credential.signedInAt)
+                )
                 try? deleteCredential()
             }
             throw normalizedError
         }
+    }
+
+    func invalidateAccessToken() {
+        guard hasLoadedCredential, var credential = cachedCredential else { return }
+        credential.expirationDate = .distantPast
+        cachedCredential = credential
+    }
+
+    var signedInSince: Date? {
+        (try? loadCredential())?.signedInAt
+    }
+
+    var sessionEndExplanation: String? {
+        sessionEndStore?.loadRecord()?.explanation()
     }
 
     private func configuredClient(requesting scopes: Set<String>) throws -> GoogleOAuthConfiguration {

@@ -14,6 +14,8 @@ final class ScreenshotDemoCaptureController {
     private let launchAtLoginManager: LaunchAtLoginManager
     private let repositoryContainer: LocalRepositoryContainer
     private let permissionChecker: ScreenshotCapturePermissionChecking
+    private let taskNagCoordinator: TaskNagCoordinator
+    private let mascotController: MascotController
     private var captureWindow: NSWindow?
     private var menuTarget: ScreenshotDemoMenuTarget?
 
@@ -36,6 +38,23 @@ final class ScreenshotDemoCaptureController {
         self.launchAtLoginManager = launchAtLoginManager
         self.repositoryContainer = repositoryContainer
         self.permissionChecker = permissionChecker
+        // Settings-only stand-ins: in-memory stores, a fixed clock, and no line-book user
+        // file, so the Task nags section and Bird tab never read or write real state.
+        taskNagCoordinator = TaskNagCoordinator(
+            taskRepository: repositoryContainer.taskRepository,
+            historyRepository: InMemoryTaskNagHistoryRepository(),
+            settingsRepository: InMemoryTaskNagSettingsRepository(),
+            reminderSink: { _ in },
+            now: { ScreenshotDemoDependencies.referenceDate },
+            calendar: Calendar(identifier: .gregorian)
+        )
+        mascotController = MascotController(
+            screenProvider: ScreenshotDemoDependencies.FixedScreenProvider(),
+            settingsRepository: InMemoryMascotSettingsRepository(),
+            lineBook: .load(userFileURL: nil),
+            now: { ScreenshotDemoDependencies.referenceDate },
+            reduceMotion: { true }
+        )
     }
 
     func start() {
@@ -84,7 +103,19 @@ final class ScreenshotDemoCaptureController {
             window.contentView?.layoutSubtreeIfNeeded()
             try await Task.sleep(for: .seconds(1))
             window.contentView?.layoutSubtreeIfNeeded()
-            pngData = try await Self.captureWindowPNG(windowNumber: window.windowNumber)
+            // Titled Settings windows render differently when inactive (grey controls, a
+            // smaller shadow), so capture only while key; the capture script retries otherwise.
+            let requiresKeyWindow = window.styleMask.contains(.titled)
+            if requiresKeyWindow {
+                try await waitUntilKey(window)
+            }
+            pngData = try await Self.captureWindowPNG(
+                windowNumber: window.windowNumber,
+                expectedSize: window.frame.size
+            )
+            if requiresKeyWindow, !isKeyAndActive(window) {
+                throw CaptureError.windowNotKey
+            }
         }
 
         try FileManager.default.createDirectory(
@@ -94,12 +125,41 @@ final class ScreenshotDemoCaptureController {
         try pngData.write(to: configuration.outputURL, options: .atomic)
     }
 
+    private func isKeyAndActive(_ window: NSWindow) -> Bool {
+        NSApplication.shared.isActive && window.isKeyWindow
+    }
+
+    private func waitUntilKey(_ window: NSWindow) async throws {
+        guard !isKeyAndActive(window) else { return }
+        let clock = ContinuousClock()
+        let deadline = clock.now.advanced(by: .seconds(3))
+        while clock.now < deadline {
+            NSApplication.shared.activate(ignoringOtherApps: true)
+            window.makeKeyAndOrderFront(nil)
+            try await Task.sleep(for: .milliseconds(100))
+            if isKeyAndActive(window) {
+                // Let the active-state appearance finish redrawing before capture.
+                try await Task.sleep(for: .milliseconds(500))
+                window.contentView?.layoutSubtreeIfNeeded()
+                return
+            }
+        }
+        throw CaptureError.windowNotKey
+    }
+
     private func makeWindow(for page: ScreenshotDemoPage) throws -> NSWindow {
         switch page {
-        case .account, .reminders, .tasks, .application:
+        case .account, .reminders, .tasks, .mascot, .application:
             return makeSettingsWindow(for: page)
         case .overlay:
             return makeReminderWindow()
+        case .birdAlert:
+            return makeBirdAlertWindow()
+        case .taskNag:
+            return makeReminderWindow(
+                reminder: ScreenshotDemoDependencies.taskNagFixture(),
+                width: 760
+            )
         case .taskPanel:
             return makeTaskPanelWindow()
         case .menu:
@@ -116,6 +176,8 @@ final class ScreenshotDemoCaptureController {
             tab = .reminders
         case .tasks:
             tab = .tasks
+        case .mascot:
+            tab = .mascot
         case .application:
             tab = .application
         default:
@@ -129,6 +191,8 @@ final class ScreenshotDemoCaptureController {
             windowCoordinator: windowCoordinator,
             launchAtLoginManager: launchAtLoginManager,
             persistenceStatusMessage: nil,
+            taskNagCoordinator: taskNagCoordinator,
+            mascotController: mascotController,
             initialTab: tab
         )
         .environment(\.colorScheme, .light)
@@ -157,25 +221,48 @@ final class ScreenshotDemoCaptureController {
         return window
     }
 
-    private func makeReminderWindow() -> NSWindow {
+    private func makeReminderWindow(
+        reminder: Reminder = ScreenshotDemoDependencies.reminderFixture(),
+        width: CGFloat = 700
+    ) -> NSWindow {
+        let store = ReminderOverlayStore()
+        store.present(reminder, now: ScreenshotDemoDependencies.referenceDate)
+        let view = ReminderOverlayView(
+            store: store,
+            onDismiss: {},
+            onSnooze: {},
+            onOpen: {},
+            onAction: { _ in }
+        )
+        .environment(\.colorScheme, .light)
+        .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!)
+        .frame(width: width, height: 150)
+
+        let window = ReminderOverlayWindow(
+            contentRect: CGRect(x: 0, y: 0, width: width, height: 150)
+        )
+        window.contentView = NSHostingView(rootView: view)
+        return window
+    }
+
+    /// The calendar alert with the bird clinging to its left edge and talking, frozen in one
+    /// pose so every capture is identical.
+    private func makeBirdAlertWindow() -> NSWindow {
         let store = ReminderOverlayStore()
         store.present(
             ScreenshotDemoDependencies.reminderFixture(),
             now: ScreenshotDemoDependencies.referenceDate
         )
-        let view = ReminderOverlayView(
+        let size = CGSize(width: 1_080, height: 240)
+        let view = ScreenshotDemoBirdAlertView(
             store: store,
-            onDismiss: {},
-            onSnooze: {},
-            onOpen: {}
+            line: ScreenshotDemoDependencies.birdAlertLine
         )
         .environment(\.colorScheme, .light)
         .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!)
-        .frame(width: 700, height: 150)
+        .frame(width: size.width, height: size.height)
 
-        let window = ReminderOverlayWindow(
-            contentRect: CGRect(x: 0, y: 0, width: 700, height: 150)
-        )
+        let window = ReminderOverlayWindow(contentRect: CGRect(origin: .zero, size: size))
         window.contentView = NSHostingView(rootView: view)
         return window
     }
@@ -211,6 +298,7 @@ final class ScreenshotDemoCaptureController {
         let knownWindowIdentifiers = try await Self.nudgeWindowIdentifiers()
         let target = ScreenshotDemoMenuTarget()
         let menu = ScreenshotDemoNativeMenu.makeMenu(target: target)
+        menu.delegate = target
         menuTarget = target
 
         let anchorWindow = NSWindow(
@@ -223,7 +311,15 @@ final class ScreenshotDemoCaptureController {
         anchorWindow.isOpaque = false
         anchorWindow.hasShadow = false
         anchorWindow.sharingType = .none
-        anchorWindow.setFrameOrigin(CGPoint(x: 300, y: 700))
+        // A menu item under the real pointer is highlighted, so open the menu on the other
+        // half of the screen. The pointer itself is never moved.
+        let screenFrame = NSScreen.screens.first?.visibleFrame
+            ?? CGRect(x: 0, y: 0, width: 1_440, height: 900)
+        let opensOnRight = NSEvent.mouseLocation.x < screenFrame.midX
+        let anchorX = opensOnRight
+            ? max(screenFrame.midX + 40, screenFrame.maxX - 720)
+            : screenFrame.minX + 60
+        anchorWindow.setFrameOrigin(CGPoint(x: anchorX, y: screenFrame.maxY - 40))
         anchorWindow.orderFrontRegardless()
         captureWindow = anchorWindow
 
@@ -233,16 +329,32 @@ final class ScreenshotDemoCaptureController {
                 timeout: .seconds(5)
             )
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 4.5) {
-            menu.cancelTrackingWithoutAnimation()
+        // Keep cancelling until tracking ends: a single cancel can land before a slow
+        // activation lets tracking begin, which would leave the menu open indefinitely.
+        nonisolated(unsafe) let trackedMenu = menu
+        let cancelTimer = Timer(
+            fire: Date().addingTimeInterval(4.5),
+            interval: 0.5,
+            repeats: true
+        ) { _ in
+            MainActor.assumeIsolated {
+                trackedMenu.cancelTrackingWithoutAnimation()
+            }
         }
+        RunLoop.main.add(cancelTimer, forMode: .common)
+        RunLoop.main.add(cancelTimer, forMode: .eventTracking)
         menu.popUp(
             positioning: nil,
             at: CGPoint(x: 0, y: anchorWindow.frame.height),
             in: anchorWindow.contentView
         )
+        cancelTimer.invalidate()
         anchorWindow.orderOut(nil)
-        return try await captureTask.value
+        let data = try await captureTask.value
+        if target.didHighlightItem {
+            throw CaptureError.menuItemHighlighted
+        }
+        return data
     }
 
     nonisolated private static func nudgeWindowIdentifiers() async throws -> Set<CGWindowID> {
@@ -389,7 +501,12 @@ final class ScreenshotDemoCaptureController {
         return cropped
     }
 
-    nonisolated private static func captureWindowPNG(windowNumber: Int) async throws -> Data {
+    /// Captures the window once the capture service reports its real frame; a transient,
+    /// mismatched frame would otherwise yield an undersized image.
+    nonisolated private static func captureWindowPNG(
+        windowNumber: Int,
+        expectedSize: CGSize
+    ) async throws -> Data {
         let clock = ContinuousClock()
         let deadline = clock.now.advanced(by: .seconds(3))
         while clock.now < deadline {
@@ -399,7 +516,9 @@ final class ScreenshotDemoCaptureController {
             )
             if let window = content.windows.first(where: {
                 $0.windowID == CGWindowID(windowNumber)
-            }), let data = try? await captureWindowPNG(window) {
+            }), abs(window.frame.width - expectedSize.width) < 1,
+               abs(window.frame.height - expectedSize.height) < 1,
+               let data = try? await captureWindowPNG(window) {
                 return data
             }
             try await Task.sleep(for: .milliseconds(80))
@@ -449,13 +568,26 @@ private final class ScreenshotDemoSettingsWindow: NSWindow {
 }
 
 @MainActor
-final class ScreenshotDemoMenuTarget: NSObject {
+final class ScreenshotDemoMenuTarget: NSObject, NSMenuDelegate {
+    /// Set when any item is highlighted during tracking, by the pointer or by keyboard
+    /// type-select, so a capture showing a selected row can be rejected.
+    private(set) var didHighlightItem = false
+
     @objc func performDemoAction(_ sender: Any?) {}
+
+    func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
+        if item != nil {
+            didHighlightItem = true
+        }
+    }
 }
 
 enum ScreenshotDemoNativeMenu {
+    /// Mirrors `MenuBarContent` with the bird enabled and not muted (the default settings).
     static let orderedTitles = [
         AppMenuAction.showTestReminder.rawValue,
+        AppMenuAction.showTestTaskNag.rawValue,
+        AppMenuAction.summonBird.rawValue,
         AppMenuAction.showTaskPanel.rawValue,
         AppMenuAction.hideTaskPanel.rawValue,
         AppMenuLabel.taskPanelCorner,
@@ -463,6 +595,7 @@ enum ScreenshotDemoNativeMenu {
         AppMenuLabel.allowReminderOverFullScreenApps,
         AppMenuLabel.allowTaskPanelOverFullScreenApps,
         AppMenuAction.refreshTasks.rawValue,
+        AppMenuAction.muteBird.rawValue,
         AppMenuAction.settings.rawValue + "…",
         AppMenuAction.quit.rawValue,
     ]
@@ -474,6 +607,8 @@ enum ScreenshotDemoNativeMenu {
         menu.minimumWidth = 368
 
         addItem(AppMenuAction.showTestReminder.rawValue, to: menu, target: target)
+        addItem(AppMenuAction.showTestTaskNag.rawValue, to: menu, target: target)
+        addItem(AppMenuAction.summonBird.rawValue, to: menu, target: target)
         menu.addItem(.separator())
         addItem(AppMenuAction.showTaskPanel.rawValue, to: menu, target: target)
         addItem(AppMenuAction.hideTaskPanel.rawValue, to: menu, target: target)
@@ -489,6 +624,8 @@ enum ScreenshotDemoNativeMenu {
         addToggle(AppMenuLabel.allowReminderOverFullScreenApps, to: menu, target: target)
         addToggle(AppMenuLabel.allowTaskPanelOverFullScreenApps, to: menu, target: target)
         addItem(AppMenuAction.refreshTasks.rawValue, to: menu, target: target)
+        menu.addItem(.separator())
+        addItem(AppMenuAction.muteBird.rawValue, to: menu, target: target)
         menu.addItem(.separator())
 
         let settingsItem = addItem(
@@ -545,6 +682,8 @@ extension ScreenshotDemoCaptureController {
         case menuWindowUnavailable
         case couldNotEncodePNG
         case unsupportedPage
+        case windowNotKey
+        case menuItemHighlighted
 
         var errorDescription: String? {
             switch self {
@@ -558,6 +697,10 @@ extension ScreenshotDemoCaptureController {
                 return "The captured Nudge window could not be encoded as PNG."
             case .unsupportedPage:
                 return "The requested screenshot page does not have a native window."
+            case .windowNotKey:
+                return "The Nudge Settings window was not active during capture."
+            case .menuItemHighlighted:
+                return "A demo menu item was highlighted during capture (pointer or typing)."
             }
         }
     }

@@ -1,33 +1,16 @@
 {
   "fill" : {
-    "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+    "automatic-gradient" : "extended-srgb:0.29020,0.56471,0.88627,1.00000"
   },
   "groups" : [
     {
       "layers" : [
         {
-          "image-name" : "PeekingMonkeyForeground.png",
-          "name" : "PeekingMonkeyForeground"
+          "image-name" : "NudgeHandForeground.svg",
+          "name" : "NudgeHandForeground"
         }
       ],
-      "name" : "Peeking Monkey",
-      "shadow" : {
-        "kind" : "neutral",
-        "opacity" : 0.5
-      },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.5
-      }
-    },
-    {
-      "layers" : [
-        {
-          "image-name" : "DeepNavyBackground.png",
-          "name" : "DeepNavyBackground"
-        }
-      ],
-      "name" : "Deep Navy Background",
+      "name" : "Nudge Hand",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5

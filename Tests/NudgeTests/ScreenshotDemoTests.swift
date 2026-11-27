@@ -30,7 +30,27 @@ final class ScreenshotDemoTests: XCTestCase {
             XCTAssertEqual(configuration.outputURL.path, output)
             XCTAssertEqual(configuration.outputURL.lastPathComponent, page.outputFilename)
         }
+        XCTAssertEqual(ScreenshotDemoPage.mascot.outputFilename, "settings-bird.png")
+        XCTAssertEqual(ScreenshotDemoPage.birdAlert.outputFilename, "bird-alert.png")
+        XCTAssertEqual(ScreenshotDemoPage.taskNag.outputFilename, "task-nag.png")
     }
+
+    func testDemoSettingsStandInsStartEmptyAndStayInMemory() {
+        let mascotSettings = InMemoryMascotSettingsRepository()
+        let nagSettings = InMemoryTaskNagSettingsRepository()
+        let nagHistory = InMemoryTaskNagHistoryRepository()
+
+        XCTAssertNil(mascotSettings.fetchSettings())
+        XCTAssertNil(nagSettings.fetchSettings())
+        XCTAssertEqual(nagHistory.fetchHistory(), .empty)
+
+        var muted = MascotSettings.defaultValue
+        muted.doNotDisturbUntil = ScreenshotDemoDependencies.referenceDate
+        mascotSettings.save(muted)
+        XCTAssertEqual(mascotSettings.fetchSettings(), muted)
+        XCTAssertNil(InMemoryMascotSettingsRepository().fetchSettings())
+    }
+
 
     func testConfigurationRejectsMissingInvalidAndNonPNGValues() {
         XCTAssertThrowsError(
@@ -111,7 +131,10 @@ final class ScreenshotDemoTests: XCTestCase {
             ScreenshotDemoDependencies.referenceDate
         )
         XCTAssertEqual(ScreenshotDemoDependencies.reminderFixture().title, "Design review")
-        XCTAssertEqual(Set(SettingsTab.allCases), Set([.account, .reminders, .tasks, .application]))
+        XCTAssertEqual(
+            Set(SettingsTab.allCases),
+            Set([.account, .reminders, .tasks, .mascot, .application])
+        )
     }
 
     func testDemoAdaptersBlockExternalEffects() async throws {
@@ -144,6 +167,8 @@ final class ScreenshotDemoTests: XCTestCase {
             actionItems.map(\.title),
             [
                 AppMenuAction.showTestReminder.rawValue,
+                AppMenuAction.showTestTaskNag.rawValue,
+                AppMenuAction.summonBird.rawValue,
                 AppMenuAction.showTaskPanel.rawValue,
                 AppMenuAction.hideTaskPanel.rawValue,
                 AppMenuLabel.taskPanelCorner,
@@ -151,6 +176,7 @@ final class ScreenshotDemoTests: XCTestCase {
                 AppMenuLabel.allowReminderOverFullScreenApps,
                 AppMenuLabel.allowTaskPanelOverFullScreenApps,
                 AppMenuAction.refreshTasks.rawValue,
+                AppMenuAction.muteBird.rawValue,
                 "Settings…",
                 AppMenuAction.quit.rawValue,
             ]
@@ -158,20 +184,31 @@ final class ScreenshotDemoTests: XCTestCase {
         XCTAssertEqual(actionItems.map(\.title), ScreenshotDemoNativeMenu.orderedTitles)
         XCTAssertFalse(menu.autoenablesItems)
         XCTAssertTrue(actionItems.allSatisfy(\.isEnabled))
-        XCTAssertEqual(menu.items.filter(\.isSeparatorItem).count, 2)
+        XCTAssertEqual(menu.items.filter(\.isSeparatorItem).count, 3)
 
-        let cornerItem = actionItems[3]
+        let cornerItem = actionItems[5]
         XCTAssertEqual(cornerItem.submenu?.items.map(\.title), ScreenCorner.allCases.map(\.rawValue))
         XCTAssertEqual(
             cornerItem.submenu?.items.map(\.state),
             ScreenCorner.allCases.map { _ in .off }
         )
-        XCTAssertEqual(actionItems[5].state, .off)
-        XCTAssertEqual(actionItems[6].state, .off)
-        XCTAssertEqual(actionItems[8].keyEquivalent, ",")
-        XCTAssertEqual(actionItems[8].keyEquivalentModifierMask, [.command])
-        XCTAssertEqual(actionItems[9].keyEquivalent, "q")
-        XCTAssertEqual(actionItems[9].keyEquivalentModifierMask, [.command])
+        XCTAssertEqual(actionItems[7].state, .off)
+        XCTAssertEqual(actionItems[8].state, .off)
+        XCTAssertEqual(actionItems[11].keyEquivalent, ",")
+        XCTAssertEqual(actionItems[11].keyEquivalentModifierMask, [.command])
+        XCTAssertEqual(actionItems[12].keyEquivalent, "q")
+        XCTAssertEqual(actionItems[12].keyEquivalentModifierMask, [.command])
+    }
+
+    func testMenuTargetRecordsAnyItemHighlight() {
+        let target = ScreenshotDemoMenuTarget()
+        let menu = ScreenshotDemoNativeMenu.makeMenu(target: target)
+
+        target.menu(menu, willHighlight: nil)
+        XCTAssertFalse(target.didHighlightItem)
+
+        target.menu(menu, willHighlight: menu.items.first)
+        XCTAssertTrue(target.didHighlightItem)
     }
 
     func testCapturePermissionDenialIsExplicitAndValueFree() {

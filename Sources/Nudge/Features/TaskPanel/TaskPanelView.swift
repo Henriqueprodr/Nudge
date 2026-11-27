@@ -56,8 +56,9 @@ struct TaskPanelView: View {
 
                 Button(action: onHide) {
                     Image(systemName: "xmark")
+                        .font(.system(size: 12, weight: .heavy, design: .rounded))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(InkButtonStyle(role: .quiet, minimumHeight: 24))
                 .help("Hide Task Panel")
                 .accessibilityLabel("Hide task panel")
 
@@ -67,30 +68,32 @@ struct TaskPanelView: View {
                             ? "arrow.up.left.and.arrow.down.right"
                             : "arrow.down.right.and.arrow.up.left"
                     )
+                    .font(.system(size: 12, weight: .heavy, design: .rounded))
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(InkButtonStyle(role: .quiet, minimumHeight: 24))
                 .help(store.state.displayMode == .compact ? "Expand Task Panel" : "Compact Task Panel")
                 .accessibilityLabel(
                     store.state.displayMode == .compact ? "Expand task panel" : "Compact task panel"
                 )
             }
 
-            Divider()
+            WavyUnderline(amplitude: 1, wavelength: 10)
+                .stroke(NudgePalette.ink.opacity(0.35), style: StrokeStyle(lineWidth: 1.5, lineCap: .round))
+                .frame(height: 4)
+                .accessibilityHidden(true)
 
             Group {
                 if store.displayedTasks.isEmpty {
                     emptyState
                 } else {
                     ScrollView(.vertical) {
-                        LazyVStack(alignment: .leading, spacing: 0) {
+                        LazyVStack(alignment: .leading, spacing: 4) {
                             ForEach(store.displayedTasks) { task in
                                 taskRow(task)
-                                    .padding(.horizontal, 7)
-                                    .padding(.vertical, 5)
-                                    .background(
-                                        priorityBackground(for: task),
-                                        in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-                                    )
+                                    .padding(.leading, 12)
+                                    .padding(.trailing, 4)
+                                    .padding(.vertical, 6)
+                                    .background(alignment: .leading) { priorityTab(for: task) }
                                     .accessibilityValue("\(task.priority.displayName) priority")
                             }
                         }
@@ -117,32 +120,24 @@ struct TaskPanelView: View {
                     .help("Dismiss Task Message")
                     .accessibilityLabel("Dismiss task message")
                 }
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(InkMetrics.captionFont)
+                .foregroundStyle(NudgePalette.red)
             }
 
             Text(footerPresentation.summary)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(InkMetrics.captionFont)
+                .foregroundStyle(NudgePalette.inkSecondary)
                 .lineLimit(1)
                 .truncationMode(.tail)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .help(footerPresentation.detail)
                 .accessibilityLabel("\(footerPresentation.summary). \(footerPresentation.detail)")
         }
-        .padding(18)
+        .padding(16)
         .frame(width: 330)
         .frame(maxHeight: .infinity)
-        .background(panelBackground, in: RoundedRectangle(cornerRadius: 20))
-        .overlay {
-            RoundedRectangle(cornerRadius: 20)
-                .strokeBorder(
-                    colorSchemeContrast == .increased
-                        ? Color.primary.opacity(0.55)
-                        : Color.white.opacity(0.18),
-                    lineWidth: colorSchemeContrast == .increased ? 2 : 1
-                )
-        }
+        .foregroundStyle(NudgePalette.ink)
+        .background { InkCardBackground(variant: .panel) }
         .overlay(alignment: resizeEdge.overlayAlignment) {
             if store.state.displayMode == .expanded {
                 ZStack {
@@ -178,6 +173,7 @@ struct TaskPanelView: View {
         }
         .opacity(panelOpacity)
         .padding(8)
+        .padding(.bottom, InkMetrics.stickerOffset)
     }
 
     @ViewBuilder
@@ -242,26 +238,34 @@ struct TaskPanelView: View {
                 if store.isCompleting(task) {
                     ProgressView()
                         .controlSize(.small)
+                        .frame(width: 18, height: 18)
                 } else {
-                    Image(systemName: "circle")
+                    InkCheckbox(isChecked: false)
                 }
             }
             .buttonStyle(.plain)
             .disabled(store.isCompleting(task))
             .help("Complete Task")
             .accessibilityLabel("Complete \(task.title)")
-            .padding(.top, 2)
+            .padding(.top, 1)
 
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(task.title)
+                    .font(InkMetrics.bodyFont)
+                    .foregroundStyle(NudgePalette.ink)
                     .lineLimit(2)
                     .truncationMode(.tail)
                     .fixedSize(horizontal: false, vertical: true)
 
-                if let overrideText = localTimeOverrideText(for: task) {
-                    Text(overrideText)
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
+                HStack(spacing: 6) {
+                    if let badge = TaskDueBadge(dueDate: task.dueDate, now: footerNow ?? Date()) {
+                        dueBadge(badge)
+                    }
+                    if let overrideText = localTimeOverrideText(for: task) {
+                        Text(overrideText)
+                            .font(InkMetrics.captionFont)
+                            .foregroundStyle(NudgePalette.inkSecondary)
+                    }
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -310,7 +314,9 @@ struct TaskPanelView: View {
                 }
                 .disabled(task.localTimeOverride == nil)
             } label: {
-                Image(systemName: "ellipsis.circle")
+                Image(systemName: "ellipsis")
+                    .font(.system(size: 13, weight: .heavy, design: .rounded))
+                    .foregroundStyle(NudgePalette.inkSecondary)
             }
             .menuStyle(.borderlessButton)
             .menuIndicator(.hidden)
@@ -331,16 +337,14 @@ struct TaskPanelView: View {
 
     private var emptyState: some View {
         VStack(spacing: 6) {
-            Image(systemName: "checkmark.circle")
-                .font(.title2)
-                .foregroundStyle(.secondary)
+            InkCheckbox(isChecked: true, size: 26)
 
-            Text(store.selectedTaskList == nil ? "No cached tasks" : "No incomplete tasks")
-                .font(.subheadline.weight(.medium))
+            Text(store.selectedTaskList == nil ? "No cached tasks" : "All done here")
+                .font(InkMetrics.headlineFont)
 
             Text(emptyStateDescription)
-                .font(.caption)
-                .foregroundStyle(.secondary)
+                .font(InkMetrics.captionFont)
+                .foregroundStyle(NudgePalette.inkSecondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(2)
                 .truncationMode(.tail)
@@ -382,13 +386,6 @@ struct TaskPanelView: View {
         return "Local time: \(date.formatted(date: .omitted, time: .shortened))"
     }
 
-    private var panelBackground: AnyShapeStyle {
-        if reduceTransparency || colorSchemeContrast == .increased {
-            return AnyShapeStyle(Color(nsColor: .windowBackgroundColor))
-        }
-        return AnyShapeStyle(.regularMaterial)
-    }
-
     private var panelOpacity: Double {
         TaskPanelState.effectiveOpacity(
             store.state.opacity,
@@ -406,12 +403,38 @@ struct TaskPanelView: View {
         }
     }
 
-    private func priorityBackground(for task: TaskItem) -> Color {
-        guard let hex = store.state.priorityPalette.colorHex(for: task.priority) else {
-            return .clear
+    /// A short ink-outlined tab in the priority colour along the row's leading edge.
+    @ViewBuilder
+    private func priorityTab(for task: TaskItem) -> some View {
+        if let hex = store.state.priorityPalette.colorHex(for: task.priority) {
+            ZStack {
+                InkShape(variant: .chip).fill(TaskPriorityColor.color(hex: hex))
+                InkShape(variant: .chip)
+                    .strokeBorderCompatible(NudgePalette.ink, lineWidth: 1.5)
+            }
+            .frame(width: 6)
+            .padding(.vertical, 4)
+            .accessibilityHidden(true)
         }
-        return TaskPriorityColor.color(hex: hex).opacity(
-            colorSchemeContrast == .increased ? 0.32 : 0.20
-        )
+    }
+
+    private func dueBadge(_ badge: TaskDueBadge) -> some View {
+        let tint: Color = switch badge.kind {
+        case .late: NudgePalette.red
+        case .today: NudgePalette.green
+        case .upcoming: NudgePalette.blue
+        }
+        return Text(badge.text)
+            .font(.system(.caption2, design: .rounded).weight(.heavy))
+            .foregroundStyle(badge.kind == .today ? NudgePalette.onFill : Color.white)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 1.5)
+            .background {
+                ZStack {
+                    InkShape(variant: .chip).fill(tint)
+                    InkShape(variant: .chip).strokeBorderCompatible(NudgePalette.ink, lineWidth: 1.2)
+                }
+            }
+            .accessibilityLabel(badge.kind == .late ? "Overdue, \(badge.text)" : "Due \(badge.text)")
     }
 }

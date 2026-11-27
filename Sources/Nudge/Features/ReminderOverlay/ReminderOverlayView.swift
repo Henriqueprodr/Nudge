@@ -8,20 +8,24 @@ struct ReminderOverlayView: View {
     let onDismiss: () -> Void
     let onSnooze: () -> Void
     let onOpen: () -> Void
+    let onAction: (ReminderAction) -> Void
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var presentationScale = ReminderStripStyle.transitionScale
 
     var body: some View {
         Group {
             if let presentation = store.stripPresentation {
-                ReminderControlStripView(
+                WholePointLayout {
+                    ReminderControlStripView(
                     presentation: presentation,
                     isPerformingAction: store.isPerformingAction,
                     actionErrorMessage: store.actionErrorMessage,
                     onOpen: onOpen,
                     onSnooze: onSnooze,
-                    onDismiss: onDismiss
-                )
+                    onDismiss: onDismiss,
+                    onAction: onAction
+                    )
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)

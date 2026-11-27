@@ -5,6 +5,7 @@ enum SettingsTab: String, CaseIterable, Sendable {
     case account
     case reminders
     case tasks
+    case mascot
     case application
 }
 
@@ -31,6 +32,8 @@ struct SettingsView: View {
     let windowCoordinator: WindowPresentationCoordinator
     let launchAtLoginManager: LaunchAtLoginManager
     let persistenceStatusMessage: String?
+    let taskNagCoordinator: TaskNagCoordinator?
+    let mascotController: MascotController?
     @State private var selectedTab: SettingsTab
     @State private var googleClientSecretDraft = GoogleOAuthClientSecretDraft()
     @State private var isImportingGoogleOAuthConfiguration = false
@@ -43,6 +46,8 @@ struct SettingsView: View {
         windowCoordinator: WindowPresentationCoordinator,
         launchAtLoginManager: LaunchAtLoginManager,
         persistenceStatusMessage: String?,
+        taskNagCoordinator: TaskNagCoordinator? = nil,
+        mascotController: MascotController? = nil,
         initialTab: SettingsTab = .account
     ) {
         self.calendarCoordinator = calendarCoordinator
@@ -51,6 +56,8 @@ struct SettingsView: View {
         self.windowCoordinator = windowCoordinator
         self.launchAtLoginManager = launchAtLoginManager
         self.persistenceStatusMessage = persistenceStatusMessage
+        self.taskNagCoordinator = taskNagCoordinator
+        self.mascotController = mascotController
         _selectedTab = State(initialValue: initialTab)
     }
 
@@ -65,11 +72,17 @@ struct SettingsView: View {
             taskSettings
                 .tabItem { Label("Tasks", systemImage: "checklist") }
                 .tag(SettingsTab.tasks)
+            if let mascotController {
+                MascotSettingsView(controller: mascotController)
+                    .tabItem { Label("Bird", systemImage: "bird") }
+                    .tag(SettingsTab.mascot)
+            }
             applicationSettings
                 .tabItem { Label("Application", systemImage: "gearshape") }
                 .tag(SettingsTab.application)
         }
         .frame(width: 640, height: 700)
+        .tint(NudgePalette.blue)
         .fileImporter(
             isPresented: $isImportingGoogleOAuthConfiguration,
             allowedContentTypes: [.json],
@@ -80,6 +93,10 @@ struct SettingsView: View {
 
     private var accountSettings: some View {
         Form {
+            Section {
+                SettingsBrandHeader()
+            }
+
             Section("Google account") {
                 LabeledContent(
                     "OAuth configuration",
@@ -171,6 +188,12 @@ struct SettingsView: View {
             Section("Provider status") {
                 LabeledContent("Google Calendar", value: calendarCoordinator.statusMessage)
                 LabeledContent("Google Tasks", value: googleTasksCoordinator.authenticationStatusMessage)
+                if let signedInSince = googleTasksCoordinator.signedInSince {
+                    LabeledContent(
+                        "Signed in since",
+                        value: signedInSince.formatted(date: .abbreviated, time: .shortened)
+                    )
+                }
                 Text("Calendar and Tasks use separate clients, caches, status, and refresh coordinators.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
@@ -312,6 +335,10 @@ struct SettingsView: View {
                 Text(googleTasksCoordinator.metadata.freshnessSummary)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+
+            if let taskNagCoordinator {
+                TaskNagSettingsSection(coordinator: taskNagCoordinator)
             }
 
             Section("Persistent corner panel") {

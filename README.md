@@ -1,69 +1,88 @@
 <p align="center">
-  <img src="docs/assets/nudge-icon.png" width="120" height="120" alt="Nudge app icon">
+  <img src="docs/assets/nudge-icon.png" width="160" height="160" alt="Nudge app icon: a hand tapping, on a blue rounded square">
 </p>
 
 <h1 align="center">Nudge</h1>
 
 <p align="center">
-  A native macOS menu-bar app that puts Google Calendar reminders directly on screen and keeps Google Tasks within reach.
+  <strong>Your calendar, impossible to ignore.</strong><br>
+  A native macOS menu-bar app that puts Google Calendar reminders directly on screen, keeps Google Tasks in view, and sends a small blue bird to make sure you noticed.
 </p>
 
 <p align="center">
-  <img src="docs/assets/nudge-hero.png" width="1000" alt="Nudge hero artwork showing a fictional Google Calendar reminder beside a populated Google Tasks panel">
+  <img src="docs/assets/nudge-hero.png" width="1000" alt="Nudge hero artwork: a Design review alert with the bird perched on it, an overdue task nag, and the Google Tasks panel">
 </p>
 
-Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders appear in an always-on-top control strip instead of disappearing into Notification Center, while incomplete Google Tasks can remain visible in a configurable corner panel.
+Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders appear as an always-on-top alert instead of disappearing into Notification Center, unfinished Google Tasks get their own nags, and your open tasks can stay pinned in a corner of the screen.
 
-## Screenshots
+## What it looks like
 
 <p align="center">
-  <img src="docs/screenshots/reminder-overlay.png" width="900" alt="Nudge reminder overlay showing a fictional design review event">
+  <img src="docs/screenshots/bird-alert.png" width="1000" alt="A Design review calendar alert with the Nudge bird clinging to its edge and saying: Design review in a few. Find your headphones now, not in a panic later.">
   <br>
-  <sub>Calendar reminders appear directly on screen with open, snooze, and dismiss actions.</sub>
+  <sub><b>Calendar alerts</b> land on top of every window. The bird flies in, perches on the alert, and comments.</sub>
+</p>
+
+<p align="center">
+  <img src="docs/screenshots/task-nag.png" width="900" alt="A task nag reading 3 days late, 2 tasks still not done: Review the project brief plus 1 more, with Done, Not today, Open, and Snooze 1h buttons">
+  <br>
+  <sub><b>Task nags</b> chase overdue Google Tasks. Finish one right from the alert, or tell Nudge "Not today".</sub>
 </p>
 
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/screenshots/task-panel.png" alt="Nudge Tasks panel populated with fictional demo tasks">
-      <br><sub>Persistent Google Tasks panel</sub>
+      <img src="docs/screenshots/task-panel.png" alt="The Nudge Tasks panel listing five demo tasks with late and today badges">
+      <br><sub><b>Tasks panel.</b> Your Google Tasks, always in view in a corner you choose.</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/screenshots/menu-bar.png" alt="Nudge menu-bar menu">
-      <br><sub>Menu-bar controls</sub>
+      <img src="docs/screenshots/menu-bar.png" alt="The Nudge menu-bar menu">
+      <br><sub><b>Menu bar.</b> Everything one click away, including summoning the bird.</sub>
     </td>
   </tr>
 </table>
+
+### Settings
 
 <table>
   <tr>
     <td align="center" width="50%">
       <img src="docs/screenshots/settings-account.png" alt="Nudge Account settings in the public onboarding state">
-      <br><sub>Account and OAuth setup</sub>
+      <br><sub><b>Account.</b> Bring your own Google OAuth client and sign in.</sub>
     </td>
     <td align="center" width="50%">
       <img src="docs/screenshots/settings-reminders.png" alt="Nudge reminder and Google Calendar settings with fictional calendars">
-      <br><sub>Reminder presentation and Calendar selection</sub>
+      <br><sub><b>Reminders.</b> Calendars, timing, sound, displays, and Spaces.</sub>
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/screenshots/settings-tasks.png" alt="Nudge Google Tasks synchronization and panel settings">
-      <br><sub>Tasks synchronization and panel appearance</sub>
+      <img src="docs/screenshots/settings-tasks.png" alt="Nudge Google Tasks synchronization, task nag, and panel settings">
+      <br><sub><b>Tasks.</b> Sync, task nags, quiet hours, and the panel's look.</sub>
     </td>
     <td align="center" width="50%">
-      <img src="docs/screenshots/settings-application.png" alt="Nudge application settings">
-      <br><sub>Application and local-data settings</sub>
+      <img src="docs/screenshots/settings-bird.png" alt="Nudge Bird settings for the animated mascot">
+      <br><sub><b>Bird.</b> Alerts, idle visits, whistling, and how spicy it gets.</sub>
     </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-application.png" alt="Nudge application settings">
+      <br><sub><b>Application.</b> Launch at login, Dock icon, and local data.</sub>
+    </td>
+    <td width="50%"></td>
   </tr>
 </table>
 
 ## Features
 
-- Direct on-screen Google Calendar reminder overlays with dismiss, snooze, open, sound, display, Spaces, and full-screen controls.
-- A persistent Google Tasks panel with list filtering, local priorities, completion, snooze, fixed corners, free placement, resizing, and configurable appearance.
+- **On-screen Google Calendar alerts** that float above ordinary windows, with open, snooze, and dismiss, plus sound, display, Spaces, and full-screen controls.
+- **Task nags** for overdue or forgotten Google Tasks, built from the local cache. Mark a task done from the alert, snooze it for an hour, or choose **Not today**. Nags respect your quiet hours.
+- **A persistent Google Tasks panel** with list filtering, local priorities, completion, snooze, fixed corners, free placement, resizing, and configurable appearance.
+- **The Nudge bird**, an optional animated mascot. It perches on alerts, walks along your Dock between them, whistles, and roasts you at a Mild, Spicy, or Unhinged level. You can add your own lines.
+- **Sessions that stay signed in.** If Google does sign Nudge out, an on-screen alert explains why and offers a one-click **Sign in** button.
 - Independent Calendar and Tasks synchronization with cached offline data and bounded periodic refreshes.
-- Optional Notification Center fallback, launch at login, and Dock icon.
+- Launch at login (turned on once automatically for installed copies), an optional Notification Center fallback, and an optional Dock icon.
 - Native universal support for Apple silicon and Intel Macs.
 - No backend, analytics service, Electron runtime, Apple Calendar access, or third-party dependency.
 
@@ -104,6 +123,8 @@ After a successful import, Nudge stores the client configuration and Google acco
 
 - **Calendar reminders:** choose calendars, reminder timing, sounds, display behavior, Spaces, and optional Notification Center fallback in **Settings → Reminders**.
 - **Google Tasks:** show or hide the corner panel from the menu bar, then configure its task list, refresh interval, placement, size, opacity, and priority colors in **Settings → Tasks**.
+- **Task nags:** turn on **Nag me about unfinished tasks** and set quiet hours in **Settings → Tasks**. Optionally include tasks without a due date.
+- **The bird:** turn it on or off, choose whether it delivers alerts or drops by between them, and pick its spice level in **Settings → Bird**. Summon or mute it from the menu bar. Add your own lines in `~/Library/Application Support/Nudge/MascotLines.json`, using the same categories as the bundled file.
 - **Application:** configure launch at login and whether Nudge also appears in the Dock under **Settings → Application**.
 
 Calendar refresh defaults to five minutes and Tasks refresh defaults to fifteen minutes. Nudge also refreshes after sign-in, wake, manual requests, relevant settings changes, and task actions; it does not poll Google every second.
@@ -146,15 +167,15 @@ Regenerate the credential-free screenshot gallery with:
 ./script/capture_screenshots.sh
 ```
 
-The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It presents Nudge's real AppKit windows and native menu, captures only Nudge-owned surfaces through ScreenCaptureKit, and composites them over the same blue artwork used by the hero. macOS requires one-time **Screen & System Audio Recording** approval for the development-signed Nudge capture app; no desktop or other-app pixels are included. The seven checked-in PNGs are replaced only after every native capture and composition succeeds.
+The script builds with empty Google OAuth values and launches only the Debug-only, in-memory screenshot mode. It presents Nudge's real AppKit windows and native menu, including the bird perched on an alert and a task nag. It captures only Nudge-owned surfaces through ScreenCaptureKit and composites them over the same paper-and-grid artwork used by the hero. macOS requires one-time **Screen & System Audio Recording** approval for the development-signed Nudge capture app; no desktop or other-app pixels are included. The ten checked-in PNGs are replaced only after every native capture and composition succeeds.
 
-Regenerate the README hero and GitHub social-preview artwork from the checked-in fictional screenshots with:
+Regenerate the README icon, hero, and GitHub social-preview artwork with:
 
 ```sh
 ./script/generate_readme_assets.sh
 ```
 
-This dependency-free generator uses AppKit and Core Graphics plus the gallery's shared navy-to-blue background renderer. It validates the source image dimensions, crops only the demo overlay and Tasks panel, and writes the finished assets under `docs/assets/` without reading application data.
+This dependency-free generator renders the shipped `AppIcon.icon` with Xcode's Icon Composer tool, then uses AppKit and Core Graphics to lay out the hero from the transparent native captures. Run `capture_screenshots.sh` first. It writes the finished assets under `docs/assets/` without reading application data.
 
 Create the public credential-free release artifact with:
 

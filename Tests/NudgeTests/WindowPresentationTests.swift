@@ -713,7 +713,11 @@ final class WindowPresentationTests: XCTestCase {
         guard let frame else { return }
         XCTAssertTrue(screen.visibleFrame.contains(frame))
         XCTAssertEqual(frame.midX, screen.visibleFrame.midX, accuracy: 0.5)
-        XCTAssertEqual(frame.maxY, screen.visibleFrame.maxY - 8, accuracy: 0.5)
+        XCTAssertEqual(
+            frame.maxY,
+            screen.visibleFrame.maxY - ReminderStripStyle.screenTopInset,
+            accuracy: 0.5
+        )
         XCTAssertGreaterThanOrEqual(frame.width, ReminderStripStyle.minimumWidth)
         XCTAssertLessThanOrEqual(frame.width, ReminderStripStyle.maximumWidth)
         XCTAssertGreaterThan(frame.height, 0)

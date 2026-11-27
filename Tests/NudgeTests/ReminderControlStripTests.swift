@@ -15,15 +15,14 @@ final class ReminderControlStripTests: XCTestCase {
 
     private var locale: Locale { Locale(identifier: "en_US") }
 
-    func testBalancedScaleUsesApprovedProminentSizingTokens() {
-        XCTAssertEqual(ReminderStripStyle.accentWidth, 5)
-        XCTAssertEqual(ReminderStripStyle.cornerRadius, 13)
-        XCTAssertEqual(ReminderStripStyle.horizontalPadding, 18)
-        XCTAssertEqual(ReminderStripStyle.verticalPadding, 13)
-        XCTAssertEqual(ReminderStripStyle.regionSpacing, 18)
+    func testHandDrawnStripUsesApprovedSizingTokens() {
+        XCTAssertEqual(ReminderStripStyle.horizontalPadding, 14)
+        XCTAssertEqual(ReminderStripStyle.verticalPadding, 12)
+        XCTAssertEqual(ReminderStripStyle.regionSpacing, 14)
         XCTAssertEqual(ReminderStripStyle.lineSpacing, 3)
         XCTAssertEqual(ReminderStripStyle.actionSpacing, 8)
-        XCTAssertEqual(ReminderStripStyle.minimumActionHeight, 35)
+        XCTAssertEqual(ReminderStripStyle.timeChipMinimumWidth, 78)
+        XCTAssertEqual(ReminderStripStyle.screenTopInset, 44)
         XCTAssertEqual(ReminderStripStyle.minimumWidth, 450)
         XCTAssertEqual(ReminderStripStyle.maximumWidth, 700)
     }

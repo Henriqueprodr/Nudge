@@ -62,8 +62,11 @@ pages=(
     account
     reminders
     tasks
+    mascot
     application
     overlay
+    bird-alert
+    task-nag
     task-panel
 )
 filenames=(
@@ -71,8 +74,11 @@ filenames=(
     settings-account.png
     settings-reminders.png
     settings-tasks.png
+    settings-bird.png
     settings-application.png
     reminder-overlay.png
+    bird-alert.png
+    task-nag.png
     task-panel.png
 )
 
@@ -125,7 +131,10 @@ xcrun --sdk macosx swiftc \
 for filename in "${filenames[@]}"; do
     /bin/rm -f "$composed_directory/$filename"
 done
-"$compositor" "$raw_directory" "$composed_directory"
+"$compositor" \
+    "$raw_directory" \
+    "$composed_directory" \
+    "$repository_root/Sources/Nudge/Resources/Assets.xcassets/MenuBarIcon.imageset/MenuBarIcon.svg"
 
 for filename in "${filenames[@]}"; do
     composed_path="$composed_directory/$filename"

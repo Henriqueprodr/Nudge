@@ -12,7 +12,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let googleTasksActionCoordinator: GoogleTasksActionCoordinator
     let googleOAuthClientConfigurationManager: GoogleOAuthClientConfigurationManager
     let launchAtLoginManager: LaunchAtLoginManager
+    let taskNagCoordinator: TaskNagCoordinator
+    let mascotController: MascotController
     let persistenceStatusMessage: String?
+    private let reminderActionRouter: ReminderActionRouter
     private let applicationInstanceLock: ApplicationInstanceLock?
     private let isHostedTestProcess: Bool
     private let lifecycleCoordinator: ApplicationLifecycleCoordinator
@@ -153,6 +156,40 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             soundPlayer: soundPlayer
         )
         self.windowPresentationCoordinator = windowPresentationCoordinator
+        // Screenshot captures and hosted tests must never read or write the user's real
+        // preferences or Application Support files.
+#if DEBUG
+        let usesIsolatedLocalState = isHostedTestProcess || screenshotDemoWasRequested
+#else
+        let usesIsolatedLocalState = isHostedTestProcess
+#endif
+        let taskNagCoordinator = TaskNagCoordinator(
+            taskRepository: repositoryContainer.taskRepository,
+            historyRepository: usesIsolatedLocalState
+                ? InMemoryTaskNagHistoryRepository()
+                : FileTaskNagHistoryRepository(),
+            settingsRepository: usesIsolatedLocalState
+                ? InMemoryTaskNagSettingsRepository()
+                : UserDefaultsTaskNagSettingsRepository(),
+            reminderSink: { [weak windowPresentationCoordinator] reminders in
+                try windowPresentationCoordinator?.replaceTaskReminders(with: reminders)
+            }
+        )
+        self.taskNagCoordinator = taskNagCoordinator
+        let mascotController = MascotController(
+            screenProvider: screenProvider,
+            settingsRepository: usesIsolatedLocalState
+                ? InMemoryMascotSettingsRepository()
+                : UserDefaultsMascotSettingsRepository(),
+            lineBook: .load(userFileURL: usesIsolatedLocalState ? nil : MascotLineBook.userFileURL),
+            overlayFrame: { [weak windowPresentationCoordinator] in
+                windowPresentationCoordinator?.reminderOverlayFrame
+            },
+            isQuietHours: { [weak taskNagCoordinator] date in
+                taskNagCoordinator?.isInQuietHours(date) ?? false
+            }
+        )
+        self.mascotController = mascotController
         let oauthService = GoogleOAuthService(
             configurationProvider: {
                 try oauthConfigurationManager.configuration()
@@ -168,10 +205,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
 #endif
                 return LoopbackOAuthCallbackSession()
-            }
+            },
+            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore()
         )
         let googleTasksClient = GoogleTasksClient(transport: httpTransport)
-        calendarScheduleCoordinator = GoogleCalendarSyncCoordinator(
+        let calendarCoordinator = GoogleCalendarSyncCoordinator(
             authentication: oauthService,
             provider: GoogleCalendarClient(transport: httpTransport),
             cacheRepository: repositoryContainer.calendarCacheRepository,
@@ -180,6 +218,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             periodicScheduler: calendarScheduler,
             notificationFallback: notificationFallback
         )
+        calendarScheduleCoordinator = calendarCoordinator
         let googleTasksSyncCoordinator = GoogleTasksSyncCoordinator(
             authentication: oauthService,
             provider: googleTasksClient,
@@ -187,11 +226,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             metadataRepository: repositoryContainer.syncMetadataRepository,
             periodicScheduler: tasksScheduler,
             settingsRepository: tasksSettingsRepository,
-            cacheDidChange: { [weak windowPresentationCoordinator] in
+            cacheDidChange: { [weak windowPresentationCoordinator, weak taskNagCoordinator] in
                 windowPresentationCoordinator?.reloadTaskPanelCache()
+                taskNagCoordinator?.recompute()
+            },
+            authenticationDidExpire: { [weak windowPresentationCoordinator] message in
+                windowPresentationCoordinator?.presentReauthenticationReminder(message: message)
             }
         )
         self.googleTasksSyncCoordinator = googleTasksSyncCoordinator
+        calendarCoordinator.onAuthenticationExpired = {
+            [weak windowPresentationCoordinator] message in
+            windowPresentationCoordinator?.presentReauthenticationReminder(message: message)
+        }
         googleTasksActionCoordinator = GoogleTasksActionCoordinator(
             authentication: oauthService,
             provider: googleTasksClient,
@@ -201,11 +248,42 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             requestPostActionRefresh: { [weak googleTasksSyncCoordinator] in
                 googleTasksSyncCoordinator?.requestRefreshAfterTaskMutation()
             },
-            cacheDidChange: { [weak windowPresentationCoordinator] in
+            cacheDidChange: { [weak windowPresentationCoordinator, weak taskNagCoordinator] in
                 windowPresentationCoordinator?.reloadTaskPanelCache()
+                taskNagCoordinator?.recompute()
             }
         )
         windowPresentationCoordinator.configureTaskActions(googleTasksActionCoordinator)
+        let reminderActionRouter = ReminderActionRouter(
+            taskRepository: repositoryContainer.taskRepository,
+            taskActions: googleTasksActionCoordinator,
+            tasksSync: googleTasksSyncCoordinator,
+            calendarSync: calendarCoordinator,
+            taskNags: taskNagCoordinator
+        )
+        reminderActionRouter.onTaskCompleted = { [weak mascotController] in
+            mascotController?.celebrateTaskDone()
+        }
+        self.reminderActionRouter = reminderActionRouter
+        windowPresentationCoordinator.configureReminderHooks(
+            actionHandler: { [weak reminderActionRouter] action, reminder in
+                await reminderActionRouter?.perform(action, for: reminder) ?? false
+            },
+            onPresented: { [weak taskNagCoordinator, weak mascotController] reminder in
+                if reminder.occurrenceID.sourceKind == .task {
+                    taskNagCoordinator?.reminderWasPresented(reminder)
+                }
+                mascotController?.deliver(reminder)
+            },
+            onSnoozed: { [weak taskNagCoordinator] reminder, date in
+                if reminder.occurrenceID.sourceKind == .task {
+                    taskNagCoordinator?.reminderWasSnoozed(reminder, until: date)
+                }
+            }
+        )
+        windowPresentationCoordinator.onLifecycleRecovery = { [weak taskNagCoordinator] in
+            taskNagCoordinator?.recompute()
+        }
         googleTasksActionCoordinator.recoverPendingActions()
 #if DEBUG
         try? screenshotDemoDependencies?.restoreCurrentTaskMetadata()
@@ -244,6 +322,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 #endif
         guard continueAsPrimaryApplicationInstance() else { return }
+        if !isHostedTestProcess {
+            LaunchAtLoginDefaultApplier().applyIfNeeded(to: launchAtLoginManager)
+        }
         windowPresentationCoordinator.applyApplicationActivationPolicy()
         windowPresentationCoordinator.restoreAtLaunch()
 #if DEBUG
@@ -253,6 +334,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 #endif
         googleTasksSyncCoordinator.restoreAtLaunch()
+        taskNagCoordinator.recompute()
+        if !isHostedTestProcess {
+            mascotController.start()
+        }
         lifecycleCoordinator.start()
         Task { @MainActor [calendarScheduleCoordinator] in
             await calendarScheduleCoordinator.restoreAtLaunch()
@@ -262,6 +347,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_ notification: Notification) {
         calendarScheduleCoordinator.stop()
         googleTasksSyncCoordinator.stop()
+        mascotController.stop()
         lifecycleCoordinator.stop()
     }
 

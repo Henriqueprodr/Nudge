@@ -39,6 +39,9 @@ final class GoogleCalendarSyncCoordinator {
 
     private(set) var periodicInterval: TimeInterval
 
+    /// Called when Google ends the shared session so the app can ask the user to sign in.
+    @ObservationIgnored var onAuthenticationExpired: (@MainActor (String) -> Void)?
+
     init(
         authentication: any GoogleScopeAuthenticating,
         provider: any GoogleCalendarProviding,
@@ -264,11 +267,14 @@ final class GoogleCalendarSyncCoordinator {
         saveMetadataBestEffort()
 
         var failedAttempt = 0
+        var hasRetriedAfterUnauthorizedResponse = false
         while failedAttempt < retryPolicy.maximumAttempts, !Task.isCancelled {
+            var didObtainAccessToken = false
             do {
                 let token = try await authentication.validAccessToken(
                     requiredScopes: GoogleOAuthConfiguration.calendarReadScopes
                 )
+                didObtainAccessToken = true
                 let fetchedCalendars = try await provider.fetchCalendars(accessToken: token)
                 do {
                     try cacheRepository.replaceCalendars(fetchedCalendars)
@@ -324,9 +330,19 @@ final class GoogleCalendarSyncCoordinator {
             } catch {
                 let normalized = normalize(error)
                 if normalized == .cancelled { return }
+                if normalized == .authenticationRequired, didObtainAccessToken,
+                   !hasRetriedAfterUnauthorizedResponse {
+                    // Refresh a stale access token once before treating the session as ended.
+                    hasRetriedAfterUnauthorizedResponse = true
+                    authentication.invalidateAccessToken()
+                    continue
+                }
                 if normalized == .authenticationRequired || normalized == .authorizationRequired {
                     hasCalendarAuthorization = false
                     markRefreshFailed(normalized)
+                    if normalized == .authenticationRequired {
+                        onAuthenticationExpired?(normalized.userMessage)
+                    }
                     return
                 }
                 failedAttempt += 1
