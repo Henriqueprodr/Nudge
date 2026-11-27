@@ -361,7 +361,13 @@ final class GoogleTasksSyncCoordinator {
     }
 
     private func handleAuthenticationFailure() {
-        try? authentication.signOut()
+        // Only Google rejecting the refresh token ends the session, and `GoogleOAuthService`
+        // removes the stored credential when that happens. If the credential is still here,
+        // the connection is intact: keep it and let the next trigger retry.
+        if (try? authentication.hasStoredCredential()) == true {
+            markRefreshFailed(.httpStatus(401))
+            return
+        }
         isAuthenticated = false
         let message = authentication.sessionEndExplanation
             ?? GoogleTasksError.authenticationRequired.userMessage

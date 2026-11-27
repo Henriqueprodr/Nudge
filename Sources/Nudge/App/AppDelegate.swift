@@ -83,8 +83,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             oauthConfigurationManager = GoogleOAuthClientConfigurationManager(
                 store: screenshotDemoDependencies.clientConfigurationStore,
                 environment: [:],
-                bundledClientID: nil,
-                bundledClientSecret: nil
+                // Fictional values so the Account page shows the release's one-click Connect
+                // state. The demo transport never sends them anywhere.
+                bundledClientID: ScreenshotDemoDependencies.builtInClientID,
+                bundledClientSecret: ScreenshotDemoDependencies.builtInClientSecret
             )
             launchAtLoginManager = LaunchAtLoginManager(
                 service: screenshotDemoDependencies.launchAtLoginService
@@ -206,7 +208,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 #endif
                 return LoopbackOAuthCallbackSession()
             },
-            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore()
+            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore(),
+            usesOwnOAuthClient: {
+                oauthConfigurationManager.source != .bundled
+            }
         )
         let googleTasksClient = GoogleTasksClient(transport: httpTransport)
         let calendarCoordinator = GoogleCalendarSyncCoordinator(

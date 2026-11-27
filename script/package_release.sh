@@ -3,6 +3,7 @@ set -euo pipefail
 
 MODE=""
 SHOULD_LAUNCH=0
+INCLUDES_BUILT_IN_CLIENT=1
 
 for argument in "$@"; do
   case "$argument" in
@@ -15,8 +16,11 @@ for argument in "$@"; do
     --no-launch)
       SHOULD_LAUNCH=0
       ;;
+    --no-built-in-client)
+      INCLUDES_BUILT_IN_CLIENT=0
+      ;;
     *)
-      echo "usage: $0 --public [--launch|--no-launch]" >&2
+      echo "usage: $0 --public [--launch|--no-launch] [--no-built-in-client]" >&2
       exit 2
       ;;
   esac
@@ -48,10 +52,52 @@ BUILD_ARGUMENTS=(
   "CODE_SIGN_STYLE=Manual"
   "CODE_SIGN_IDENTITY=-"
   "DEVELOPMENT_TEAM="
-  "GOOGLE_OAUTH_CLIENT_ID="
   "GOOGLE_TASKS_CLIENT_ID="
-  "GOOGLE_OAUTH_CLIENT_SECRET="
 )
+
+# The public release ships Nudge's own Google Desktop OAuth client, so people connect their
+# Google account with one click instead of creating a Google Cloud project. Google documents
+# that an installed app cannot keep a Desktop client secret confidential, so shipping it is
+# expected; it still stays out of Git, logs, and command-line arguments.
+EXPECTED_CLIENT_ID=""
+EXPECTED_CLIENT_SECRET=""
+OAUTH_XCCONFIG=""
+cleanup_oauth_xcconfig() {
+  if [[ -n "$OAUTH_XCCONFIG" ]]; then
+    rm -f "$OAUTH_XCCONFIG"
+  fi
+}
+trap cleanup_oauth_xcconfig EXIT
+
+if [[ "$INCLUDES_BUILT_IN_CLIENT" -eq 1 ]]; then
+  OAUTH_CLIENT_JSON="${NUDGE_OAUTH_CLIENT_JSON:-$ROOT_DIR/.private/google-oauth-client.json}"
+  EXPECTED_CLIENT_ID="${GOOGLE_OAUTH_CLIENT_ID:-}"
+  EXPECTED_CLIENT_SECRET="${GOOGLE_OAUTH_CLIENT_SECRET:-}"
+  if [[ -z "$EXPECTED_CLIENT_ID" || -z "$EXPECTED_CLIENT_SECRET" ]]; then
+    if [[ ! -f "$OAUTH_CLIENT_JSON" ]]; then
+      echo "Nudge's Google Desktop OAuth client is required for the public release." >&2
+      echo "Save its JSON as .private/google-oauth-client.json, set NUDGE_OAUTH_CLIENT_JSON," >&2
+      echo "or pass --no-built-in-client for a build where people import their own." >&2
+      exit 1
+    fi
+    EXPECTED_CLIENT_ID="$(plutil -extract installed.client_id raw -o - "$OAUTH_CLIENT_JSON" 2>/dev/null || true)"
+    EXPECTED_CLIENT_SECRET="$(plutil -extract installed.client_secret raw -o - "$OAUTH_CLIENT_JSON" 2>/dev/null || true)"
+  fi
+  if [[ ! "$EXPECTED_CLIENT_ID" =~ ^[A-Za-z0-9._-]+\.apps\.googleusercontent\.com$ ]]; then
+    echo "The Google OAuth configuration does not contain a valid Desktop client ID." >&2
+    exit 1
+  fi
+  if [[ ! "$EXPECTED_CLIENT_SECRET" =~ ^[A-Za-z0-9._~-]+$ ]]; then
+    echo "The Google OAuth configuration does not contain a valid Desktop client secret." >&2
+    exit 1
+  fi
+  OAUTH_XCCONFIG="$(umask 077 && mktemp "${TMPDIR:-/tmp}/NudgeReleaseOAuth.xcconfig.XXXXXX")"
+  printf 'GOOGLE_OAUTH_CLIENT_ID = %s\nGOOGLE_OAUTH_CLIENT_SECRET = %s\n' \
+    "$EXPECTED_CLIENT_ID" "$EXPECTED_CLIENT_SECRET" > "$OAUTH_XCCONFIG"
+  BUILD_ARGUMENTS+=("-xcconfig" "$OAUTH_XCCONFIG")
+else
+  BUILD_ARGUMENTS+=("GOOGLE_OAUTH_CLIENT_ID=" "GOOGLE_OAUTH_CLIENT_SECRET=")
+fi
 
 xcodebuild \
   -quiet \
@@ -75,20 +121,32 @@ BUNDLED_OAUTH_CLIENT_ID="$(oauth_value GoogleOAuthClientID)"
 BUNDLED_LEGACY_CLIENT_ID="$(oauth_value GoogleTasksClientID)"
 BUNDLED_OAUTH_CLIENT_SECRET="$(oauth_value GoogleOAuthClientSecret)"
 
-if [[ -n "$BUNDLED_OAUTH_CLIENT_ID" ||
-      -n "$BUNDLED_LEGACY_CLIENT_ID" ||
-      -n "$BUNDLED_OAUTH_CLIENT_SECRET" ]]; then
-  echo "The public app contains embedded Google OAuth configuration." >&2
+if [[ -n "$BUNDLED_LEGACY_CLIENT_ID" ]]; then
+  echo "The public app contains the legacy Google Tasks client ID key." >&2
   exit 1
 fi
-if grep -RIlE --binary-files=text \
-  '[A-Za-z0-9._-]+\.apps\.googleusercontent\.com' \
-  "$RELEASE_APP" >/dev/null 2>&1; then
-  echo "The public app contains a concrete Google OAuth client identifier." >&2
-  exit 1
+if [[ "$INCLUDES_BUILT_IN_CLIENT" -eq 1 ]]; then
+  if [[ "$BUNDLED_OAUTH_CLIENT_ID" != "$EXPECTED_CLIENT_ID" ||
+        "$BUNDLED_OAUTH_CLIENT_SECRET" != "$EXPECTED_CLIENT_SECRET" ]]; then
+    echo "The public app does not contain Nudge's Google OAuth client." >&2
+    exit 1
+  fi
+  echo "Public app contains Nudge's built-in Google OAuth client (values not printed)."
+else
+  if [[ -n "$BUNDLED_OAUTH_CLIENT_ID" || -n "$BUNDLED_OAUTH_CLIENT_SECRET" ]]; then
+    echo "The credential-free app contains embedded Google OAuth configuration." >&2
+    exit 1
+  fi
+  if grep -RIlE --binary-files=text \
+    '[A-Za-z0-9._-]+\.apps\.googleusercontent\.com' \
+    "$RELEASE_APP" >/dev/null 2>&1; then
+    echo "The credential-free app contains a concrete Google OAuth client identifier." >&2
+    exit 1
+  fi
+  echo "Credential-free app contains no embedded Google OAuth client values."
 fi
-echo "Public app contains no embedded Google OAuth client values."
 unset BUNDLED_OAUTH_CLIENT_ID BUNDLED_LEGACY_CLIENT_ID BUNDLED_OAUTH_CLIENT_SECRET
+unset EXPECTED_CLIENT_ID EXPECTED_CLIENT_SECRET
 
 ARCHITECTURES="$(lipo -archs "$RELEASE_APP/Contents/MacOS/$APP_NAME")"
 if [[ "$ARCHITECTURES" != *arm64* || "$ARCHITECTURES" != *x86_64* ]]; then

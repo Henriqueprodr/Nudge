@@ -5,7 +5,7 @@ import XCTest
 final class GoogleOAuthClientConfigurationTests: XCTestCase {
     func testConfigurationSourceLabelsStayProviderNeutral() {
         XCTAssertEqual(GoogleOAuthClientConfigurationSource.environment.label, "Build environment")
-        XCTAssertEqual(GoogleOAuthClientConfigurationSource.bundled.label, "Included in this build")
+        XCTAssertEqual(GoogleOAuthClientConfigurationSource.bundled.label, "Built into Nudge")
         XCTAssertEqual(GoogleOAuthClientConfigurationSource.imported.label, "Imported into Keychain")
     }
 
@@ -97,7 +97,7 @@ final class GoogleOAuthClientConfigurationTests: XCTestCase {
     }
 
     @MainActor
-    func testConfigurationPrecedenceIsEnvironmentThenBundleThenImport() throws {
+    func testConfigurationPrecedenceIsEnvironmentThenImportThenBuiltIn() throws {
         let imported = try GoogleOAuthClientConfiguration(
             clientID: clientID(prefix: "imported"),
             clientSecret: "imported-secret"
@@ -118,26 +118,28 @@ final class GoogleOAuthClientConfigurationTests: XCTestCase {
             clientID(prefix: "environment")
         )
 
-        let bundledManager = GoogleOAuthClientConfigurationManager(
+        // An imported client keeps working after updating to a release with a built-in one.
+        let importedManager = GoogleOAuthClientConfigurationManager(
             store: store,
             environment: [:],
             bundledClientID: clientID(prefix: "bundled"),
             bundledClientSecret: "bundled-secret"
         )
-        XCTAssertEqual(bundledManager.source, .bundled)
-        XCTAssertEqual(
-            try bundledManager.configuration().clientID,
-            clientID(prefix: "bundled")
-        )
-
-        let importedManager = GoogleOAuthClientConfigurationManager(
-            store: store,
-            environment: [:],
-            bundledClientID: nil,
-            bundledClientSecret: nil
-        )
         XCTAssertEqual(importedManager.source, .imported)
         XCTAssertEqual(try importedManager.configuration().clientID, imported.clientID)
+
+        let builtInManager = GoogleOAuthClientConfigurationManager(
+            store: InMemoryGoogleOAuthClientConfigurationStore(configuration: nil),
+            environment: [:],
+            bundledClientID: clientID(prefix: "bundled"),
+            bundledClientSecret: "bundled-secret"
+        )
+        XCTAssertEqual(builtInManager.source, .bundled)
+        XCTAssertEqual(
+            try builtInManager.configuration().clientID,
+            clientID(prefix: "bundled")
+        )
+        XCTAssertEqual(try builtInManager.configuration().clientSecret, "bundled-secret")
     }
 
     func testConfigurationCanChangeOnlyWhileSignedOutAndIdle() {

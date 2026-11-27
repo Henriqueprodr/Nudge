@@ -23,11 +23,15 @@ struct GoogleSessionEndRecord: Codable, Equatable, Sendable {
         return abs(sessionLifetime - Self.testingModeLifetime) <= Self.testingModeTolerance
     }
 
+    /// - Parameter usesOwnOAuthClient: `true` when the user brought their own Google Cloud
+    ///   OAuth client, so the Testing-mode advice is theirs to act on. Users of the client built
+    ///   into Nudge cannot change its publishing status, so they only get the plain explanation.
     func explanation(
+        usesOwnOAuthClient: Bool = true,
         locale: Locale = .current,
         timeZone: TimeZone = .current
     ) -> String {
-        if matchesTestingModeExpiry {
+        if usesOwnOAuthClient, matchesTestingModeExpiry {
             return "Google ended this session exactly a week after sign-in. Your Google Cloud "
                 + "OAuth app is probably still in Testing mode; publish it to production so "
                 + "sign-in lasts."

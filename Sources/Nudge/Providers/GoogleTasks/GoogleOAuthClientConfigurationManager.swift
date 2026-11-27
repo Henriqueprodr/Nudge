@@ -11,7 +11,7 @@ enum GoogleOAuthClientConfigurationSource: Equatable, Sendable {
         case .environment:
             return "Build environment"
         case .bundled:
-            return "Included in this build"
+            return "Built into Nudge"
         case .imported:
             return "Imported into Keychain"
         }
@@ -117,16 +117,8 @@ final class GoogleOAuthClientConfigurationManager {
             )
         }
 
-        if let bundledClientID = usable(bundledClientID) {
-            return (
-                try validatedConfiguration(
-                    clientID: bundledClientID,
-                    clientSecret: usable(bundledClientSecret)
-                ),
-                .bundled
-            )
-        }
-
+        // A client the user imported is an explicit choice, and their stored Google credential
+        // belongs to it, so it wins over the client built into this release.
         if let importedConfiguration {
             return (
                 GoogleOAuthConfiguration(
@@ -134,6 +126,16 @@ final class GoogleOAuthClientConfigurationManager {
                     clientSecret: importedConfiguration.clientSecret
                 ),
                 .imported
+            )
+        }
+
+        if let bundledClientID = usable(bundledClientID) {
+            return (
+                try validatedConfiguration(
+                    clientID: bundledClientID,
+                    clientSecret: usable(bundledClientSecret)
+                ),
+                .bundled
             )
         }
         throw GoogleOAuthError.configurationMissing

@@ -47,8 +47,8 @@ Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders
 <table>
   <tr>
     <td align="center" width="50%">
-      <img src="docs/screenshots/settings-account.png" alt="Nudge Account settings in the public onboarding state">
-      <br><sub><b>Account.</b> Bring your own Google OAuth client and sign in.</sub>
+      <img src="docs/screenshots/settings-account.png" alt="Nudge Account settings with the Connect Google Account button">
+      <br><sub><b>Account.</b> Connect your Google account in one click.</sub>
     </td>
     <td align="center" width="50%">
       <img src="docs/screenshots/settings-reminders.png" alt="Nudge reminder and Google Calendar settings with fictional calendars">
@@ -104,20 +104,26 @@ Nudge appears in the menu bar rather than opening a normal app window. Choose **
 
 ## Connect your Google account
 
-The public Nudge download contains no Google OAuth client ID or client secret. Each user supplies a Desktop OAuth credential from a Google Cloud project they control.
+1. Open **Settings → Account** from Nudge's menu and choose **Connect Google Account**.
+2. Google opens in your browser. Pick your account and approve the Calendar and Tasks access.
+3. You're done. Nudge stays connected until you disconnect it in Settings or remove its access in your [Google Account](https://myaccount.google.com/connections).
+
+Nudge requests read-only Calendar-list and Calendar-event access plus Google Tasks access so it can display and complete tasks. It uses the system browser, a local loopback callback, and PKCE for sign-in. Account tokens are stored in macOS Keychain, and Nudge refreshes them quietly in the background, so you never have to sign in again unless Google or you revoke access.
+
+### Use your own Google Cloud project (optional)
+
+Builds from source contain no Google OAuth client, and some people prefer their own Google Cloud project. In that case, supply a Desktop OAuth credential:
 
 1. Create or select a project in [Google Cloud Console](https://console.cloud.google.com/).
 2. Enable both the [Google Calendar API](https://console.cloud.google.com/apis/library/calendar-json.googleapis.com) and [Google Tasks API](https://console.cloud.google.com/apis/library/tasks.googleapis.com).
 3. Configure the Google Auth Platform consent screen and audience.
 4. Create an OAuth client with application type **Desktop app**, then download its JSON file. Google documents this under [Create access credentials](https://developers.google.com/workspace/guides/create-credentials#desktop-app).
-5. In Nudge, open **Settings → Account → Import Desktop OAuth JSON…** and select the downloaded file.
-6. Choose **Sign in with Google** and approve the requested Calendar and Tasks access.
+5. In Nudge, open **Settings → Account**, expand **Use your own Google OAuth client** if it is shown, and choose **Import Desktop OAuth JSON…**.
+6. Choose **Connect Google Account** and approve the requested Calendar and Tasks access.
 
-Nudge requests read-only Calendar-list and Calendar-event access plus Google Tasks access so it can display and complete tasks. It uses the system browser, a local loopback callback, and PKCE for sign-in.
+An imported client takes priority over the one built into the release, so an existing connection keeps working after updates. Disconnect first if you want to switch clients.
 
-Google projects left in **Testing** allow only listed test users, and authorizations involving these scopes expire after seven days. For persistent personal use, the project can be moved to **In production**; an unverified personal-use app can show a warning that the user must explicitly continue through. See Google's [audience guidance](https://support.google.com/cloud/answer/15549945) and [personal-use verification exemption](https://support.google.com/cloud/answer/13464323).
-
-After a successful import, Nudge stores the client configuration and Google account tokens in macOS Keychain. It does not copy the selected JSON file.
+Google projects left in **Testing** allow only listed test users, and authorizations involving these scopes expire after seven days. For persistent use, move the project to **In production**; an unverified personal-use app can show a warning that the user must explicitly continue through. See Google's [audience guidance](https://support.google.com/cloud/answer/15549945) and [personal-use verification exemption](https://support.google.com/cloud/answer/13464323). Nudge stores an imported client configuration in Keychain and does not copy the selected JSON file.
 
 ## Use Nudge
 
@@ -132,10 +138,10 @@ Calendar refresh defaults to five minutes and Tasks refresh defaults to fifteen 
 ## Privacy and security
 
 - Nudge talks directly to Google's OAuth, Calendar, and Tasks endpoints. There is no Nudge server or analytics service.
-- OAuth client configuration and account tokens are stored in Keychain. Calendar and task caches and presentation settings remain on the Mac.
+- Account tokens, and any OAuth client you import, are stored in Keychain. Calendar and task caches and presentation settings remain on the Mac.
 - Cached data stays visible during temporary network or Google API failures.
 - Nudge never reads Apple Calendar or requests EventKit permission.
-- The public source, build, and ZIP are checked for embedded Google client values before release.
+- Release downloads include Nudge's own Google Desktop OAuth client so you can connect in one click. Google [treats a desktop app's client secret as non-confidential](https://developers.google.com/identity/protocols/oauth2/native-app), because it cannot be hidden inside a distributed app; it only identifies Nudge to Google and grants no access to anyone's data. The source repository contains no client values.
 
 Disconnect the Google account in Nudge to remove its stored account token. You can separately remove an imported OAuth configuration while signed out.
 
@@ -155,7 +161,7 @@ xcodebuild -project Nudge.xcodeproj -scheme Nudge -configuration Debug -derivedD
 open .build/DerivedData/Build/Products/Debug/Nudge.app
 ```
 
-Then import your Desktop OAuth JSON from Nudge's Account settings. Run the unit tests with:
+Source builds have no built-in Google client, so [import your own Desktop OAuth JSON](#use-your-own-google-cloud-project-optional) from Nudge's Account settings. Run the unit tests with:
 
 ```sh
 xcodebuild -project Nudge.xcodeproj -scheme Nudge -configuration Debug -derivedDataPath .build/DerivedData test
@@ -177,11 +183,13 @@ Regenerate the README icon, hero, and GitHub social-preview artwork with:
 
 This dependency-free generator renders the shipped `AppIcon.icon` with Xcode's Icon Composer tool, then uses AppKit and Core Graphics to lay out the hero from the transparent native captures. Run `capture_screenshots.sh` first. It writes the finished assets under `docs/assets/` without reading application data.
 
-Create the public credential-free release artifact with:
+Create the public release artifact with:
 
 ```sh
 ./script/package_release.sh --public --no-launch
 ```
+
+The release embeds Nudge's Google Desktop OAuth client, read from the ignored `.private/google-oauth-client.json` (or `NUDGE_OAUTH_CLIENT_JSON`, or the `GOOGLE_OAUTH_CLIENT_ID` and `GOOGLE_OAUTH_CLIENT_SECRET` environment variables). The script verifies the embedded values without printing them. Forks can pass `--no-built-in-client` to build a credential-free app whose users import their own client.
 
 ## License
 

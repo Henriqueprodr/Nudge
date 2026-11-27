@@ -98,90 +98,32 @@ struct SettingsView: View {
             }
 
             Section("Google account") {
-                LabeledContent(
-                    "OAuth configuration",
-                    value: googleOAuthConfigurationManager.source?.label ?? "Not configured"
-                )
-                LabeledContent(
-                    "OAuth client secret",
-                    value: clientSecretStatus
-                )
-
-                if googleOAuthConfigurationManager.source == nil {
+                if usesBuiltInGoogleClient {
                     Text(
-                        "Import the JSON downloaded for a Google Desktop OAuth client. " +
-                            "Nudge stores the client ID and secret together in Keychain on this Mac."
+                        "Nudge opens Google in your browser. Approve access to your calendars " +
+                            "and tasks, and you're connected. Nudge stays connected until you " +
+                            "disconnect it here or remove its access in your Google Account."
                     )
                     .font(.callout)
                     .foregroundStyle(.secondary)
-                } else if googleOAuthConfigurationManager.source == .bundled {
-                    Text("This build includes its Desktop OAuth configuration.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                } else if googleOAuthConfigurationManager.source == .imported {
-                    Text("The imported Desktop OAuth configuration is stored only in Keychain.")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                }
-
-                if googleOAuthConfigurationManager.source == nil ||
-                    googleOAuthConfigurationManager.source == .imported {
-                    HStack {
-                        Button(
-                            googleOAuthConfigurationManager.hasImportedConfiguration
-                                ? "Import Replacement JSON…"
-                                : "Import Desktop OAuth JSON…"
-                        ) {
-                            isImportingGoogleOAuthConfiguration = true
-                        }
-                        .disabled(!canModifyGoogleOAuthConfiguration)
-
-                        if googleOAuthConfigurationManager.hasImportedConfiguration {
-                            Button("Remove Imported Configuration", role: .destructive) {
-                                removeImportedGoogleOAuthConfiguration()
-                            }
-                            .disabled(!canModifyGoogleOAuthConfiguration)
-                        }
-                    }
-                } else if !googleTasksCoordinator.hasBundledClientSecret {
-                    if !googleTasksCoordinator.hasStoredClientSecret {
-                        HStack {
-                            SecureField(
-                                "Optional desktop client secret",
-                                text: $googleClientSecretDraft.value
-                            )
-                            Button("Save") {
-                                _ = googleClientSecretDraft.save {
-                                    googleTasksCoordinator.saveClientSecret($0)
-                                }
-                            }
-                            .disabled(googleClientSecretDraft.value.isEmpty)
-                        }
-                    } else {
-                        Button("Remove Client Secret") {
-                            googleTasksCoordinator.removeClientSecret()
-                        }
-                        .disabled(
-                            googleTasksCoordinator.isAuthenticated || providerOperationInProgress
-                        )
-                    }
-                }
-
-                if let googleOAuthConfigurationStatusMessage {
-                    Text(googleOAuthConfigurationStatusMessage)
-                        .font(.callout)
-                        .foregroundStyle(.secondary)
-                } else if let secureStoreStatusMessage =
-                    googleOAuthConfigurationManager.secureStoreStatusMessage {
-                    Text(secureStoreStatusMessage)
-                        .font(.callout)
-                        .foregroundStyle(.orange)
+                } else {
+                    oauthClientControls
                 }
 
                 accountAction
 
                 if calendarCoordinator.isAuthenticating || googleTasksCoordinator.isAuthenticating {
                     ProgressView().controlSize(.small)
+                }
+            }
+
+            if usesBuiltInGoogleClient {
+                Section {
+                    DisclosureGroup("Use your own Google OAuth client") {
+                        oauthClientControls
+                    }
+                } footer: {
+                    Text("Optional. Most people never need this.")
                 }
             }
 
@@ -455,6 +397,115 @@ struct SettingsView: View {
         .formStyle(.grouped)
     }
 
+    /// Lets people who build Nudge themselves, or prefer their own Google Cloud project,
+    /// import a Desktop OAuth client instead of the one built into the release.
+    @ViewBuilder
+    private var oauthClientControls: some View {
+        LabeledContent(
+            "OAuth configuration",
+            value: googleOAuthConfigurationManager.source?.label ?? "Not configured"
+        )
+        LabeledContent(
+            "OAuth client secret",
+            value: clientSecretStatus
+        )
+
+        if googleOAuthConfigurationManager.source == nil {
+            Text(
+                "Import the JSON downloaded for a Google Desktop OAuth client. " +
+                    "Nudge stores the client ID and secret together in Keychain on this Mac."
+            )
+            .font(.callout)
+            .foregroundStyle(.secondary)
+        } else if googleOAuthConfigurationManager.source == .bundled {
+            Text(
+                "Import a Desktop OAuth JSON to sign in through your own Google Cloud project " +
+                    "instead of Nudge's."
+            )
+            .font(.callout)
+            .foregroundStyle(.secondary)
+        } else if googleOAuthConfigurationManager.source == .imported {
+            Text("The imported Desktop OAuth configuration is stored only in Keychain.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        }
+
+        if canImportGoogleOAuthConfiguration {
+            HStack {
+                Button(
+                    googleOAuthConfigurationManager.hasImportedConfiguration
+                        ? "Import Replacement JSON…"
+                        : "Import Desktop OAuth JSON…"
+                ) {
+                    isImportingGoogleOAuthConfiguration = true
+                }
+                .disabled(!canModifyGoogleOAuthConfiguration)
+
+                if googleOAuthConfigurationManager.hasImportedConfiguration {
+                    Button("Remove Imported Configuration", role: .destructive) {
+                        removeImportedGoogleOAuthConfiguration()
+                    }
+                    .disabled(!canModifyGoogleOAuthConfiguration)
+                }
+            }
+            if !canModifyGoogleOAuthConfiguration {
+                Text("Disconnect the Google account before changing its OAuth client.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        } else if !googleTasksCoordinator.hasBundledClientSecret {
+            if !googleTasksCoordinator.hasStoredClientSecret {
+                HStack {
+                    SecureField(
+                        "Optional desktop client secret",
+                        text: $googleClientSecretDraft.value
+                    )
+                    Button("Save") {
+                        _ = googleClientSecretDraft.save {
+                            googleTasksCoordinator.saveClientSecret($0)
+                        }
+                    }
+                    .disabled(googleClientSecretDraft.value.isEmpty)
+                }
+            } else {
+                Button("Remove Client Secret") {
+                    googleTasksCoordinator.removeClientSecret()
+                }
+                .disabled(
+                    googleTasksCoordinator.isAuthenticated || providerOperationInProgress
+                )
+            }
+        }
+
+        if let googleOAuthConfigurationStatusMessage {
+            Text(googleOAuthConfigurationStatusMessage)
+                .font(.callout)
+                .foregroundStyle(.secondary)
+        } else if let secureStoreStatusMessage =
+            googleOAuthConfigurationManager.secureStoreStatusMessage {
+            Text(secureStoreStatusMessage)
+                .font(.callout)
+                .foregroundStyle(.orange)
+        }
+    }
+
+    /// The release ships a complete Desktop client, so signing in needs no setup.
+    private var usesBuiltInGoogleClient: Bool {
+        googleOAuthConfigurationManager.source == .bundled &&
+            googleTasksCoordinator.hasBundledClientSecret
+    }
+
+    private var canImportGoogleOAuthConfiguration: Bool {
+        switch googleOAuthConfigurationManager.source {
+        case nil, .imported:
+            return true
+        case .bundled:
+            return googleTasksCoordinator.hasBundledClientSecret
+        case .environment:
+            return false
+        }
+    }
+
     @ViewBuilder
     private var accountAction: some View {
         if calendarCoordinator.needsScopeUpgrade {
@@ -472,7 +523,7 @@ struct SettingsView: View {
             }
             .disabled(providerOperationInProgress)
         } else {
-            Button("Sign in with Google") {
+            Button("Connect Google Account") {
                 Task {
                     _ = await calendarCoordinator.signInWithGoogle()
                     googleTasksCoordinator.accountDidAuthenticate()

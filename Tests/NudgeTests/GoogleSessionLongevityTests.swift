@@ -15,6 +15,17 @@ final class GoogleSessionLongevityTests: XCTestCase {
         XCTAssertTrue(record.explanation().contains("Testing mode"))
     }
 
+    func testBuiltInClientUsersAreNotToldToPublishAGoogleCloudApp() {
+        let record = GoogleSessionEndRecord(
+            endedAt: signInDate.addingTimeInterval(7 * 24 * 60 * 60),
+            signedInAt: signInDate
+        )
+
+        let explanation = record.explanation(usesOwnOAuthClient: false)
+        XCTAssertTrue(explanation.hasPrefix("Google ended Nudge's session on"))
+        XCTAssertFalse(explanation.contains("Testing"))
+    }
+
     func testOtherSessionLengthsGetANeutralExplanation() {
         let record = GoogleSessionEndRecord(
             endedAt: signInDate.addingTimeInterval(30 * 24 * 60 * 60),

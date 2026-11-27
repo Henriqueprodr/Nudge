@@ -337,6 +337,14 @@ final class GoogleCalendarSyncCoordinator {
                     authentication.invalidateAccessToken()
                     continue
                 }
+                if normalized == .authenticationRequired, didObtainAccessToken,
+                   storedCredentialHasCalendarScopes {
+                    // Google accepted the refresh token moments ago, so the connection is
+                    // intact. Only a rejected refresh token (which removes the stored
+                    // credential) ends the session; retry on the next trigger instead.
+                    markRefreshFailed(.httpStatus(401))
+                    return
+                }
                 if normalized == .authenticationRequired || normalized == .authorizationRequired {
                     hasCalendarAuthorization = false
                     markRefreshFailed(normalized)
@@ -443,6 +451,12 @@ final class GoogleCalendarSyncCoordinator {
         } catch {
             statusMessage = "Cached Calendar reminders could not be rebuilt."
         }
+    }
+
+    private var storedCredentialHasCalendarScopes: Bool {
+        (try? authentication.hasStoredCredential(
+            requiredScopes: GoogleOAuthConfiguration.calendarReadScopes
+        )) == true
     }
 
     private func refreshAuthorizationState() {
