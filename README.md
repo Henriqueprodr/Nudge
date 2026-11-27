@@ -88,17 +88,20 @@ Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders
 
 ## Download and install
 
-1. Download `Nudge-v0.1.0.zip` and its `.sha256` file from the [latest GitHub release](https://github.com/Henriqueprodr/Nudge/releases/latest).
+1. Download `Nudge-vX.Y.Z.zip` and its `.sha256` file from the [latest GitHub release](https://github.com/Henriqueprodr/Nudge/releases/latest).
 2. Optionally verify the download in Terminal from the folder containing both files:
 
    ```sh
-   shasum -a 256 -c Nudge-v0.1.0.zip.sha256
+   shasum -a 256 -c Nudge-v*.zip.sha256
    ```
 
 3. Open the ZIP and move `Nudge.app` to `/Applications`.
-4. Control-click `Nudge.app`, choose **Open**, then confirm **Open**. If macOS does not offer that choice, open **System Settings → Privacy & Security** and choose **Open Anyway** for Nudge.
+4. Open `Nudge.app`. macOS says it could not verify the app; click **Done**.
+5. Open **System Settings → Privacy & Security**, scroll to **Security**, and choose **Open Anyway** for Nudge. Confirm with Touch ID or your password, then choose **Open Anyway** again.
 
-The 0.1.0 download is ad-hoc signed, not Developer ID signed or notarized. Gatekeeper therefore cannot identify its developer and requires the manual approval above. Do not disable Gatekeeper or remove quarantine globally; download Nudge only from this repository and verify its checksum if you want an additional integrity check. Apple describes Developer ID and notarization as the normal path for apps distributed outside the Mac App Store in its [macOS distribution guidance](https://developer.apple.com/macos/distribution/).
+On macOS 14 you can instead Control-click `Nudge.app`, choose **Open**, and confirm **Open**. Since macOS 15, that shortcut no longer works and **Open Anyway** is the only path.
+
+Public downloads are ad-hoc signed, not Developer ID signed or notarized. Gatekeeper therefore cannot identify the developer and requires the manual approval above. Do not disable Gatekeeper or remove quarantine globally; download Nudge only from this repository and verify its checksum if you want an additional integrity check. Apple describes Developer ID and notarization as the normal path for apps distributed outside the Mac App Store in its [macOS distribution guidance](https://developer.apple.com/macos/distribution/).
 
 Nudge appears in the menu bar rather than opening a normal app window. Choose **Settings** from its menu to configure it.
 
