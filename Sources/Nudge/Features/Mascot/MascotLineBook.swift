@@ -79,4 +79,19 @@ struct MascotLineBook: Sendable {
             text.replacingOccurrences(of: "{\(pair.key)}", with: pair.value)
         }
     }
+
+    /// Trims a title the bird quotes to about `limit` characters at a word boundary, adding "…".
+    /// The alert itself still shows the full title.
+    static func shortened(_ title: String, limit: Int = 48) -> String {
+        let trimmed = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard trimmed.count > limit else { return trimmed }
+        let prefix = String(trimmed.prefix(limit))
+        let endsOnWordBoundary = trimmed[trimmed.index(trimmed.startIndex, offsetBy: limit)]
+            .isWhitespace
+        let cut = endsOnWordBoundary
+            ? prefix
+            : prefix.lastIndex(where: { $0.isWhitespace }).map { String(prefix[..<$0]) } ?? prefix
+        let base = cut.count >= limit / 2 ? cut : prefix
+        return base.trimmingCharacters(in: .whitespacesAndNewlines.union(.punctuationCharacters)) + "…"
+    }
 }

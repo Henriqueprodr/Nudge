@@ -16,7 +16,9 @@ struct BirdView: View {
             let lineWidth = max(proxy.size.width * 0.045, 1.5)
             let stroke = StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)
             ZStack {
-                if !pose.areLegsTucked {
+                if pose.isClinging {
+                    clingingLegs(stroke: stroke)
+                } else if !pose.areLegsTucked {
                     legs(stroke: stroke)
                 }
                 Group {
@@ -53,6 +55,7 @@ struct BirdView: View {
                         .offset(y: pose.bob / BirdShapes.canvas.height * proxy.size.height)
                 }
             }
+            .rotationEffect(.degrees(pose.tilt), anchor: Self.gripAnchor)
             .scaleEffect(x: facesLeft ? -1 : 1, y: 1)
         }
         .aspectRatio(BirdShapes.canvas, contentMode: .fit)
@@ -68,6 +71,22 @@ struct BirdView: View {
         BirdFootShape(heelX: 36, reach: -12, swing: -pose.legSwing).stroke(ink, style: footStroke)
         BirdFootShape(heelX: 54, reach: 13, swing: pose.legSwing).fill(paper)
         BirdFootShape(heelX: 54, reach: 13, swing: pose.legSwing).stroke(ink, style: footStroke)
+    }
+
+    /// Where the clinging feet grip, as a unit point of the canvas; the body tilts around it.
+    static let gripAnchor = UnitPoint(x: BirdShapes.clingGrip.x, y: BirdShapes.clingGrip.y)
+
+    /// Both legs reach forward to the edge just right of the body and grip it with upright feet.
+    @ViewBuilder
+    private func clingingLegs(stroke: StrokeStyle) -> some View {
+        let footStroke = StrokeStyle(lineWidth: stroke.lineWidth * 0.75, lineCap: .round)
+        let grips = BirdClingFootShape.grips
+        BirdClingLegShape(hip: CGPoint(x: 41, y: 82), grip: grips[0]).stroke(ink, style: stroke)
+        BirdClingLegShape(hip: CGPoint(x: 55, y: 82), grip: grips[1]).stroke(ink, style: stroke)
+        ForEach(grips.indices, id: \.self) { index in
+            BirdClingFootShape(grip: grips[index]).fill(paper)
+            BirdClingFootShape(grip: grips[index]).stroke(ink, style: footStroke)
+        }
     }
 
     private func tuckedLegs(stroke: StrokeStyle) -> some View {

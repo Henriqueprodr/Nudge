@@ -16,6 +16,10 @@ struct BirdPose: Equatable, Sendable {
     var isBeakOpen = false
     /// Legs tucked up while flying.
     var areLegsTucked = false
+    /// Gripping a vertical edge just right of the canvas (the alert's side) with both feet.
+    var isClinging = false
+    /// Whole-body lean in degrees around the grip point; positive leans toward the beak.
+    var tilt: CGFloat = 0
 
     static let standing = BirdPose()
 }

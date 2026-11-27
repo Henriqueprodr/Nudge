@@ -81,11 +81,13 @@ final class ReminderOverlayLayoutStabilityTests: XCTestCase {
     }
 
     /// The crash itself: a speech bubble in the bird window, in every placement. Before the fix
-    /// the bubble's alignment guides grew the root view past the window and AppKit raised.
+    /// the bubble's alignment guides grew the root view past the window and AppKit raised. The
+    /// bird clings and pecks beside the bubble, and the bubble is mid-reveal, as in the app.
     @MainActor
     func testBirdSpeechBubbleInEveryPlacementSurvivesRealDisplayCycles() throws {
         let frame = try XCTUnwrap(NSScreen.main?.frame)
-        for placement in [MascotScene.BubblePlacement.above, .leading, .below] {
+        let placements: [MascotScene.BubblePlacement] = [.above, .leading, .belowCard(topY: 200)]
+        for placement in placements {
             let window = MascotWindow(frame: frame)
             let scene = MascotScene()
             let host = NSHostingView(rootView: MascotSceneView(scene: scene))
@@ -98,10 +100,15 @@ final class ReminderOverlayLayoutStabilityTests: XCTestCase {
             scene.position = CGPoint(x: 40, y: placement == .above ? frame.height - 20 : 120)
             scene.isVisible = true
             scene.opacity = 1
-            scene.motion = .lookingAtViewer
+            scene.isClinging = placement != .above
+            scene.peckStart = Date().timeIntervalSinceReferenceDate
+            scene.motion = .pecking
             scene.isTalking = true
+            scene.speechStart = Date()
             scene.speech = "FYI: this task has been sitting here for nine days and I am tired"
-            RunLoop.main.run(until: Date().addingTimeInterval(1))
+            RunLoop.main.run(until: Date().addingTimeInterval(0.5))
+            scene.motion = .lookingAtViewer
+            RunLoop.main.run(until: Date().addingTimeInterval(0.8))
             XCTAssertEqual(window.frame, frame, "\(placement)")
             window.orderOut(nil)
         }

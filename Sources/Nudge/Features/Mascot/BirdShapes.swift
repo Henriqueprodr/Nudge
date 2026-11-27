@@ -6,6 +6,9 @@ import SwiftUI
 /// between profile and facing-the-viewer poses. Every shape scales to the rect it is given.
 enum BirdShapes {
     static let canvas = CGSize(width: 100, height: 125)
+    /// Where a clinging bird's feet press on the edge it grips, as a fraction of the canvas.
+    /// The body tilts around this point and the perch lines it up with the alert's border.
+    static let clingGrip = CGPoint(x: 0.87, y: 0.85)
 
     /// Maps a point in the 100 × 125 canvas into `rect`.
     static func point(_ x: CGFloat, _ y: CGFloat, in rect: CGRect) -> CGPoint {
@@ -167,5 +170,37 @@ struct BirdFlyingWingShape: Shape {
                 .rotated(by: angle)
                 .translatedBy(x: -shoulder.x, y: -shoulder.y)
         )
+    }
+}
+
+/// A straight leg from the hip to a grip point, used while clinging to a vertical edge.
+struct BirdClingLegShape: Shape {
+    var hip: CGPoint
+    var grip: CGPoint
+
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: BirdShapes.point(hip.x, hip.y, in: rect))
+        path.addLine(to: BirdShapes.point(grip.x - 3, grip.y, in: rect))
+        return path
+    }
+}
+
+/// An upright oval foot pressed against a vertical edge at the canvas's right side.
+struct BirdClingFootShape: Shape {
+    /// Upper and lower grip points, in canvas units.
+    static let grips = [CGPoint(x: 85, y: 100), CGPoint(x: 87, y: 112)]
+
+    var grip: CGPoint
+
+    func path(in rect: CGRect) -> Path {
+        let topLeft = BirdShapes.point(grip.x - 4.5, grip.y - 7, in: rect)
+        let bottomRight = BirdShapes.point(grip.x + 2.5, grip.y + 7, in: rect)
+        return Path(ellipseIn: CGRect(
+            x: topLeft.x,
+            y: topLeft.y,
+            width: bottomRight.x - topLeft.x,
+            height: bottomRight.y - topLeft.y
+        ))
     }
 }

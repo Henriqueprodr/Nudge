@@ -51,16 +51,40 @@ struct MascotSceneView: View {
 
     private var isAnimating: Bool {
         guard !reduceMotion else { return scene.isTalking }
-        return scene.motion == .walking || scene.motion == .flying || scene.isTalking
+        return scene.motion == .walking || scene.motion == .flying || scene.motion == .pecking
+            || scene.isTalking
+    }
+
+    /// The resting woodpecker lean, away from the alert.
+    static let clingingTilt: CGFloat = -8
+    /// How far each peck swings the bird toward the alert, so the beak tip taps its edge.
+    static let peckSwing: CGFloat = 12
+    static let peckInterval: TimeInterval = 0.24
+    static let peckCount = 3
+
+    /// 0 at rest, 1 at the moment the beak hits the edge: a quick strike and a slower recoil.
+    static func peckPulse(elapsed: TimeInterval) -> CGFloat {
+        guard elapsed >= 0, elapsed < peckInterval * Double(peckCount) else { return 0 }
+        let phase = elapsed.truncatingRemainder(dividingBy: peckInterval)
+        let strike = 0.035
+        let recoil = 0.07
+        if phase < strike { return CGFloat(phase / strike) }
+        return CGFloat(max(0, 1 - (phase - strike) / recoil))
     }
 
     private func pose(at time: TimeInterval) -> BirdPose {
         var pose = BirdPose()
         let blinkPhase = time.truncatingRemainder(dividingBy: 3.4)
         pose.isBlinking = blinkPhase < 0.12
+        if scene.isClinging {
+            pose.isClinging = true
+            pose.tilt = Self.clingingTilt
+        }
         switch scene.motion {
         case .standing:
             break
+        case .pecking:
+            pose.tilt += Self.peckSwing * Self.peckPulse(elapsed: time - scene.peckStart)
         case .walking:
             pose.legSwing = reduceMotion ? 0 : CGFloat(sin(time * 13) * 0.8)
             pose.bob = reduceMotion ? 0 : CGFloat(abs(sin(time * 13)) * 1.8)
@@ -87,25 +111,35 @@ struct MascotSceneView: View {
         let anchor: CGPoint
         let alignment: Alignment
         let tailEdge: Edge
+        let tailPosition: CGFloat
         switch scene.bubblePlacement {
         case .above:
             anchor = CGPoint(x: bird.midX, y: bird.minY - 10)
             alignment = .bottom
             tailEdge = .bottom
+            tailPosition = 0.5
         case .leading:
-            anchor = CGPoint(x: bird.minX - 12, y: bird.midY)
-            alignment = .trailing
+            // Top-aligned with the bird so a long line grows downwards, away from the menu bar.
+            anchor = CGPoint(x: bird.minX - 12, y: bird.minY - 4)
+            alignment = .topTrailing
             tailEdge = .trailing
-        case .below:
-            anchor = CGPoint(x: bird.midX, y: bird.maxY + 12)
-            alignment = .top
+            tailPosition = 0
+        case let .belowCard(topY):
+            anchor = CGPoint(x: bird.minX, y: topY)
+            alignment = .topLeading
             tailEdge = .top
+            tailPosition = 0
         }
         return Color.clear
             .frame(width: 0, height: 0)
             .overlay(alignment: alignment) {
-                MascotSpeechBubble(text: text, tailEdge: tailEdge)
-                    .fixedSize()
+                MascotSpeechBubble(
+                    text: text,
+                    tailEdge: tailEdge,
+                    tailPosition: tailPosition,
+                    revealStart: scene.speechStart
+                )
+                .fixedSize()
             }
             .position(anchor)
     }

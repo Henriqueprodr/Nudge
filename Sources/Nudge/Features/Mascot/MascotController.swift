@@ -157,9 +157,10 @@ final class MascotController {
         let days = reminder.taskContext.map { context in
             String(context.daysOverdue.flatMap { $0 > 0 ? $0 : nil } ?? context.daysOpen)
         } ?? ""
+        let title = MascotLineBook.shortened(reminder.title)
         let line = pickLine(category, substitutions: [
-            "task": reminder.title,
-            "event": reminder.title,
+            "task": title,
+            "event": title,
             "days": days,
             "count": String(reminder.taskContext?.taskIDs.count ?? 1),
         ])
@@ -193,6 +194,7 @@ final class MascotController {
 
     private func poke() {
         guard scene.isVisible, scene.speech != nil else { return }
+        scene.speechStart = reduceMotion() ? nil : now()
         scene.speech = pickLine(.poked)
         if settings.whistles {
             synth.play(.trill, volume: 0.25)
@@ -296,55 +298,95 @@ final class MascotController {
         }
     }
 
-    /// Fly onto the alert card's top edge and comment on it.
+    /// Fly to the alert's left edge, cling to it like a woodpecker, peck it, and comment.
     private func perch(on card: CGRect, saying line: String) async throws {
         guard let screen = screenProvider.screens.first(where: { $0.frame.intersects(card) })
             ?? screenProvider.mainScreen else { return }
-        prepareWindow(on: screen)
         scene.scale = 0.8
-        let perchX = local(x: card.minX + 34)
-        let perchY = local(y: card.maxY - 2)
-        let spaceOnLeading = card.minX - screen.frame.minX
-        scene.bubblePlacement = spaceOnLeading > 280 ? .leading : .below
+        guard let perch = MascotAlertPerch(
+            card: card,
+            screenFrame: screen.frame,
+            visibleFrame: screen.visibleFrame,
+            birdSize: scene.birdSize
+        ) else {
+            // No room beside the card (a very narrow display): talk from the Dock instead.
+            try await dockVisit(saying: line, whistle: false)
+            return
+        }
+        prepareWindow(on: screen)
+        scene.bubblePlacement = perch.bubblePlacement
         scene.facesLeft = false
 
         if reduceMotion() {
-            scene.position = CGPoint(x: perchX, y: perchY)
+            scene.position = perch.position
+            scene.isClinging = true
             try await fadeIn()
         } else {
-            scene.position = CGPoint(x: -40, y: perchY + 120)
+            scene.position = CGPoint(x: -40, y: perch.position.y + 120)
             scene.motion = .flying
             scene.opacity = 1
             scene.isVisible = true
-            try await move(to: CGPoint(x: perchX, y: perchY), duration: 1.1, curve: .easeOut)
+            try await move(to: perch.position, duration: 1.1, curve: .easeOut)
+            scene.isClinging = true
+            scene.motion = .standing
+            try await pause(0.15)
+            try await peck()
         }
         scene.motion = .lookingAtViewer
         try await pause(0.25)
-        try await speak(line, hold: 5.5)
+        try await speak(line)
 
         if reduceMotion() {
             try await fadeOut()
         } else {
+            // Let go and fly off to the left, slightly downwards, well clear of the menu bar.
             scene.speech = nil
+            scene.isClinging = false
             scene.facesLeft = true
             scene.motion = .flying
-            try await move(to: CGPoint(x: -60, y: perchY - 40), duration: 1.0, curve: .easeIn)
+            try await move(
+                to: CGPoint(x: -60, y: perch.position.y + 30),
+                duration: 1.0,
+                curve: .easeIn
+            )
         }
     }
 
-    private func speak(_ line: String, hold: TimeInterval? = nil) async throws {
+    /// Taps the alert a few times, with a soft "tok" on each strike when whistles are on.
+    private func peck() async throws {
+        scene.peckStart = Date().timeIntervalSinceReferenceDate
+        scene.motion = .pecking
+        for _ in 0..<MascotSceneView.peckCount {
+            if settings.whistles {
+                // The strike lands ~35 ms into each peck; the sound is short enough to match.
+                synth.play(.tok, volume: 0.25)
+            }
+            try await pause(MascotSceneView.peckInterval)
+        }
+        scene.motion = .standing
+    }
+
+    private func speak(_ line: String) async throws {
+        let reveal = MascotSpeechReveal(text: line)
+        let animatesReveal = !reduceMotion()
         scene.isTalking = true
         withAnimation(.spring(duration: 0.3, bounce: 0.3)) {
+            scene.speechStart = animatesReveal ? now() : nil
             scene.speech = line
         }
-        try await pause(0.9)
+        try await pause(animatesReveal ? reveal.totalDuration : 0.9)
         scene.isTalking = false
-        let reading = hold ?? min(max(Double(line.count) / 14, 3.2), 7)
-        try await pause(reading)
+        try await pause(Self.readingTime(for: line, revealDuration: reveal.duration))
         withAnimation(.easeIn(duration: 0.2)) {
             scene.speech = nil
         }
         try await pause(0.2)
+        scene.speechStart = nil
+    }
+
+    /// How long a fully shown line stays up. Part of the reading happens during the reveal.
+    static func readingTime(for line: String, revealDuration: TimeInterval) -> TimeInterval {
+        min(max(Double(line.count) / 16 - revealDuration / 2, 2.5), 7)
     }
 
     // MARK: Motion primitives
@@ -418,6 +460,8 @@ final class MascotController {
         hoverTimer?.invalidate()
         hoverTimer = nil
         scene.speech = nil
+        scene.speechStart = nil
+        scene.isClinging = false
         scene.isVisible = false
         scene.opacity = 0
         scene.motion = .standing

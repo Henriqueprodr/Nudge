@@ -12,6 +12,8 @@ final class BirdWhistleSynth {
         case wolfWhistle
         /// Three descending tweets.
         case trill
+        /// One soft, low wooden tap, played for each peck on an alert.
+        case tok
     }
 
     private let engine = AVAudioEngine()
@@ -59,6 +61,8 @@ final class BirdWhistleSynth {
             return [(1_400, 3_200, 0.28), (0, 0, 0.12), (1_600, 3_400, 0.16), (3_400, 1_300, 0.42)]
         case .trill:
             return [(3_800, 3_200, 0.07), (0, 0, 0.04), (3_500, 2_900, 0.07), (0, 0, 0.04), (3_200, 2_500, 0.09)]
+        case .tok:
+            return [(900, 500, 0.025)]
         }
     }
 

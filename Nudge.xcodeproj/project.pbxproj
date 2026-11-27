@@ -211,6 +211,9 @@
 		Q90000000000000000000086 /* MascotScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000085 /* MascotScene.swift */; };
 		Q90000000000000000000088 /* MascotSpeechBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000087 /* MascotSpeechBubble.swift */; };
 		Q90000000000000000000090 /* MascotSceneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000089 /* MascotSceneView.swift */; };
+		Q90000000000000000000124 /* MascotAlertPerch.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000123 /* MascotAlertPerch.swift */; };
+		Q90000000000000000000122 /* MascotSpeechReveal.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000121 /* MascotSpeechReveal.swift */; };
+		Q90000000000000000000120 /* MascotBubbleTextLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000119 /* MascotBubbleTextLayout.swift */; };
 		Q90000000000000000000092 /* MascotWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000091 /* MascotWindow.swift */; };
 		Q90000000000000000000094 /* MascotController.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000093 /* MascotController.swift */; };
 		Q90000000000000000000096 /* MascotSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000095 /* MascotSettings.swift */; };
@@ -220,6 +223,8 @@
 		Q90000000000000000000104 /* MascotSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000103 /* MascotSettingsView.swift */; };
 		Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000105 /* SettingsBrandHeader.swift */; };
 		Q90000000000000000000108 /* MascotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000107 /* MascotTests.swift */; };
+		Q90000000000000000000128 /* MascotSpeechRevealTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000127 /* MascotSpeechRevealTests.swift */; };
+		Q90000000000000000000126 /* MascotAlertPerchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000125 /* MascotAlertPerchTests.swift */; };
 		Q90000000000000000000110 /* InMemoryTaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */; };
 		Q90000000000000000000112 /* InMemoryTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */; };
 		Q90000000000000000000114 /* InMemoryMascotSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000113 /* InMemoryMascotSettingsRepository.swift */; };
@@ -443,6 +448,9 @@
 		Q90000000000000000000085 /* MascotScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotScene.swift; sourceTree = "<group>"; };
 		Q90000000000000000000087 /* MascotSpeechBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechBubble.swift; sourceTree = "<group>"; };
 		Q90000000000000000000089 /* MascotSceneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSceneView.swift; sourceTree = "<group>"; };
+		Q90000000000000000000123 /* MascotAlertPerch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotAlertPerch.swift; sourceTree = "<group>"; };
+		Q90000000000000000000121 /* MascotSpeechReveal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechReveal.swift; sourceTree = "<group>"; };
+		Q90000000000000000000119 /* MascotBubbleTextLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotBubbleTextLayout.swift; sourceTree = "<group>"; };
 		Q90000000000000000000091 /* MascotWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotWindow.swift; sourceTree = "<group>"; };
 		Q90000000000000000000093 /* MascotController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotController.swift; sourceTree = "<group>"; };
 		Q90000000000000000000095 /* MascotSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSettings.swift; sourceTree = "<group>"; };
@@ -452,6 +460,8 @@
 		Q90000000000000000000103 /* MascotSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSettingsView.swift; sourceTree = "<group>"; };
 		Q90000000000000000000105 /* SettingsBrandHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBrandHeader.swift; sourceTree = "<group>"; };
 		Q90000000000000000000107 /* MascotTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000127 /* MascotSpeechRevealTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSpeechRevealTests.swift; sourceTree = "<group>"; };
+		Q90000000000000000000125 /* MascotAlertPerchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotAlertPerchTests.swift; sourceTree = "<group>"; };
 		Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagHistoryRepository.swift; sourceTree = "<group>"; };
 		Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
 		Q90000000000000000000113 /* InMemoryMascotSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryMascotSettingsRepository.swift; sourceTree = "<group>"; };
@@ -597,6 +607,8 @@
 			children = (
 				Q90000000000000000000115 /* ReminderOverlayLayoutStabilityTests.swift */,
 				Q90000000000000000000107 /* MascotTests.swift */,
+				Q90000000000000000000127 /* MascotSpeechRevealTests.swift */,
+				Q90000000000000000000125 /* MascotAlertPerchTests.swift */,
 				Q90000000000000000000058 /* TaskNagPolicyTests.swift */,
 				Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */,
 				Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */,
@@ -870,6 +882,9 @@
 				Q90000000000000000000093 /* MascotController.swift */,
 				Q90000000000000000000091 /* MascotWindow.swift */,
 				Q90000000000000000000089 /* MascotSceneView.swift */,
+				Q90000000000000000000123 /* MascotAlertPerch.swift */,
+				Q90000000000000000000121 /* MascotSpeechReveal.swift */,
+				Q90000000000000000000119 /* MascotBubbleTextLayout.swift */,
 				Q90000000000000000000087 /* MascotSpeechBubble.swift */,
 				Q90000000000000000000085 /* MascotScene.swift */,
 				Q90000000000000000000083 /* BirdWhistleSynth.swift */,
@@ -998,6 +1013,9 @@
 				Q90000000000000000000094 /* MascotController.swift in Sources */,
 				Q90000000000000000000092 /* MascotWindow.swift in Sources */,
 				Q90000000000000000000090 /* MascotSceneView.swift in Sources */,
+				Q90000000000000000000124 /* MascotAlertPerch.swift in Sources */,
+				Q90000000000000000000122 /* MascotSpeechReveal.swift in Sources */,
+				Q90000000000000000000120 /* MascotBubbleTextLayout.swift in Sources */,
 				Q90000000000000000000088 /* MascotSpeechBubble.swift in Sources */,
 				Q90000000000000000000086 /* MascotScene.swift in Sources */,
 				Q90000000000000000000084 /* BirdWhistleSynth.swift in Sources */,
@@ -1178,6 +1196,8 @@
 			files = (
 				Q90000000000000000000116 /* ReminderOverlayLayoutStabilityTests.swift in Sources */,
 				Q90000000000000000000108 /* MascotTests.swift in Sources */,
+				Q90000000000000000000128 /* MascotSpeechRevealTests.swift in Sources */,
+				Q90000000000000000000126 /* MascotAlertPerchTests.swift in Sources */,
 				Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */,
 				Q90000000000000000000037 /* GoogleSessionLongevityTests.swift in Sources */,
 				Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */,

@@ -140,4 +140,22 @@ final class MascotTests: XCTestCase {
             XCTAssertLessThanOrEqual(samples.map { abs($0) }.max() ?? 1, 1)
         }
     }
+
+    func testQuotedTitlesAreShortenedAtAWordBoundary() {
+        XCTAssertEqual(MascotLineBook.shortened("Taxes"), "Taxes")
+        XCTAssertEqual(MascotLineBook.shortened("  Taxes  "), "Taxes")
+        let long = "Finish the extremely long quarterly report draft and send it to the whole team"
+        let short = MascotLineBook.shortened(long)
+        XCTAssertEqual(short, "Finish the extremely long quarterly report draft…")
+        XCTAssertLessThanOrEqual(short.count, 49)
+        let unbroken = String(repeating: "x", count: 80)
+        XCTAssertEqual(MascotLineBook.shortened(unbroken), String(repeating: "x", count: 48) + "…")
+    }
+
+    @MainActor
+    func testReadingTimeGrowsWithTheLineAndStaysBounded() {
+        XCTAssertEqual(MascotController.readingTime(for: "Hi!", revealDuration: 0.8), 2.5)
+        let long = String(repeating: "pecking ", count: 40)
+        XCTAssertEqual(MascotController.readingTime(for: long, revealDuration: 2.6), 7)
+    }
 }
