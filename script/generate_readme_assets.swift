@@ -54,6 +54,67 @@ private enum GeneratorError: LocalizedError {
     }
 }
 
+/// Frames the full-bleed Icon Composer export the way macOS shows app icons: the rounded
+/// square inset on a transparent canvas with a soft shadow beneath it.
+private enum ReadmeIconRenderer {
+    static let pixelSize: CGFloat = 1_024
+    /// macOS app icons occupy 824 of 1024 points, centred.
+    static let bodySize: CGFloat = 824
+
+    static func render(exportURL: URL) throws -> NSBitmapImageRep {
+        guard FileManager.default.fileExists(atPath: exportURL.path) else {
+            throw GeneratorError.missingInput(exportURL.lastPathComponent)
+        }
+        guard let data = try? Data(contentsOf: exportURL),
+              let representation = NSBitmapImageRep(data: data)
+        else {
+            throw GeneratorError.unreadableImage(exportURL.lastPathComponent)
+        }
+        let exported = NSImage(
+            size: NSSize(width: representation.pixelsWide, height: representation.pixelsHigh)
+        )
+        exported.addRepresentation(representation)
+
+        let size = Int(pixelSize)
+        guard let bitmap = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: size,
+            pixelsHigh: size,
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        ), let graphicsContext = NSGraphicsContext(bitmapImageRep: bitmap) else {
+            throw GeneratorError.contextCreationFailed
+        }
+
+        NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.current = graphicsContext
+        graphicsContext.imageInterpolation = .high
+        let inset = (pixelSize - bodySize) / 2
+        let body = NSRect(x: inset, y: inset + 8, width: bodySize, height: bodySize)
+        let shadow = NSShadow()
+        shadow.shadowColor = NSColor(deviceWhite: 0, alpha: 0.30)
+        shadow.shadowBlurRadius = 30
+        shadow.shadowOffset = NSSize(width: 0, height: -12)
+        shadow.set()
+        exported.draw(
+            in: body,
+            from: NSRect(origin: .zero, size: exported.size),
+            operation: .sourceOver,
+            fraction: 1,
+            respectFlipped: false,
+            hints: [.interpolation: NSImageInterpolation.high]
+        )
+        graphicsContext.flushGraphics()
+        NSGraphicsContext.restoreGraphicsState()
+        return bitmap
+    }
+}
+
 private struct HeroArtworkGenerator {
     static let logicalSize = NSSize(width: 2_000, height: 1_000)
 
@@ -77,7 +138,10 @@ private struct HeroArtworkGenerator {
             throw GeneratorError.missingInput(inputURL.lastPathComponent)
         }
 
-        icon = try RasterAsset(url: iconURL, expectedPixelSize: NSSize(width: 256, height: 256))
+        icon = try RasterAsset(
+            url: iconURL,
+            expectedPixelSize: NSSize(width: ReadmeIconRenderer.pixelSize, height: ReadmeIconRenderer.pixelSize)
+        )
         guard let handMark = NSImage(contentsOf: handMarkURL) else {
             throw GeneratorError.unreadableImage(handMarkURL.lastPathComponent)
         }
@@ -289,6 +353,10 @@ private func writeJPEG(_ bitmap: NSBitmapImageRep, to url: URL) throws {
 private func generateAssets(repositoryRoot: URL) throws {
     let outputDirectory = repositoryRoot.appendingPathComponent("docs/assets")
     try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+    let iconExportURL = repositoryRoot.appendingPathComponent(".build/readme-assets/app-icon-export.png")
+    let icon = try ReadmeIconRenderer.render(exportURL: iconExportURL)
+    try writePNG(icon, to: outputDirectory.appendingPathComponent("nudge-icon.png"))
 
     let generator = try HeroArtworkGenerator(repositoryRoot: repositoryRoot)
     let hero = try generator.render(pixelWidth: 2_000, pixelHeight: 1_000)
