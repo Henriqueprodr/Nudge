@@ -120,7 +120,8 @@ private struct HeroArtworkGenerator {
 
     let icon: RasterAsset
     let handMark: NSImage
-    let reminderOverlay: NudgeTrimmedCapture
+    let birdAlert: NudgeTrimmedCapture
+    let taskNag: NudgeTrimmedCapture
     let taskPanel: NudgeTrimmedCapture
 
     /// The hero uses the transparent native captures staged by `capture_screenshots.sh`, so
@@ -128,13 +129,14 @@ private struct HeroArtworkGenerator {
     init(repositoryRoot: URL) throws {
         let iconURL = repositoryRoot.appendingPathComponent("docs/assets/nudge-icon.png")
         let rawDirectory = repositoryRoot.appendingPathComponent(".build/screenshots/raw")
-        let reminderURL = rawDirectory.appendingPathComponent("reminder-overlay.png")
+        let birdAlertURL = rawDirectory.appendingPathComponent("bird-alert.png")
+        let taskNagURL = rawDirectory.appendingPathComponent("task-nag.png")
         let taskPanelURL = rawDirectory.appendingPathComponent("task-panel.png")
         let handMarkURL = repositoryRoot.appendingPathComponent(
             "Sources/Nudge/Resources/Assets.xcassets/MenuBarIcon.imageset/MenuBarIcon.svg"
         )
 
-        for inputURL in [iconURL, reminderURL, taskPanelURL, handMarkURL] where !FileManager.default.fileExists(atPath: inputURL.path) {
+        for inputURL in [iconURL, birdAlertURL, taskNagURL, taskPanelURL, handMarkURL] where !FileManager.default.fileExists(atPath: inputURL.path) {
             throw GeneratorError.missingInput(inputURL.lastPathComponent)
         }
 
@@ -146,7 +148,8 @@ private struct HeroArtworkGenerator {
             throw GeneratorError.unreadableImage(handMarkURL.lastPathComponent)
         }
         self.handMark = handMark
-        reminderOverlay = try NudgeTrimmedCapture(url: reminderURL)
+        birdAlert = try NudgeTrimmedCapture(url: birdAlertURL)
+        taskNag = try NudgeTrimmedCapture(url: taskNagURL)
         taskPanel = try NudgeTrimmedCapture(url: taskPanelURL)
     }
 
@@ -193,7 +196,7 @@ private struct HeroArtworkGenerator {
 
     /// A blue sticker card, outlined in ink like the app's surfaces, behind the product UI.
     private func drawInterfaceStage(in context: CGContext) {
-        let frame = NSRect(x: 880, y: 78, width: 1_040, height: 846)
+        let frame = NSRect(x: 900, y: 214, width: 1_020, height: 710)
         let path = NudgeInk.unevenRoundedRect(
             frame, topLeft: 64, topRight: 56, bottomRight: 68, bottomLeft: 58
         )
@@ -220,7 +223,7 @@ private struct HeroArtworkGenerator {
         NSGraphicsContext.restoreGraphicsState()
 
         // The logo's tapping hand, in paper white, fills the stage beside the Tasks panel.
-        let handRect = NSRect(x: 900, y: 372, width: 420, height: 420)
+        let handRect = NSRect(x: 960, y: 440, width: 400, height: 400)
         let whiteHand = NSImage(size: handRect.size, flipped: false) { [handMark] rect in
             handMark.draw(in: rect)
             NudgeArtworkPalette.color(NudgeArtworkPalette.paper).setFill()
@@ -232,7 +235,7 @@ private struct HeroArtworkGenerator {
 
     private func drawBrandAndCopy() {
         let ink = color(NudgeArtworkPalette.ink)
-        let iconRect = NSRect(x: 92, y: 772, width: 132, height: 132)
+        let iconRect = NSRect(x: 84, y: 760, width: 156, height: 156)
         icon.image.draw(
             in: iconRect,
             from: NSRect(origin: .zero, size: icon.pixelSize),
@@ -279,20 +282,33 @@ private struct HeroArtworkGenerator {
 
         let body = color(NudgeArtworkPalette.ink, alpha: 0.78)
         let bodyFont = NSFont.systemFont(ofSize: 29, weight: .medium)
-        drawText("On-screen Google Calendar reminders", at: NSPoint(x: 108, y: 272), font: bodyFont, color: body)
-        drawText("and Google Tasks that stay within reach.", at: NSPoint(x: 108, y: 230), font: bodyFont, color: body)
+        drawText("Google Calendar alerts that land on screen,", at: NSPoint(x: 108, y: 276), font: bodyFont, color: body)
+        drawText("Google Tasks that stay in view, and a bird", at: NSPoint(x: 108, y: 234), font: bodyFont, color: body)
+        drawText("that won't let you forget either.", at: NSPoint(x: 108, y: 192), font: bodyFont, color: body)
     }
 
     private func drawProductSurfaces() {
-        let taskBounds = NSRect(x: 1_330, y: 150, width: 560, height: 740)
-        drawCapture(taskPanel, in: taskPanel.fittedRect(in: taskBounds), dropShadow: false)
+        // The two alerts share one scale so they read as the same screen.
+        let scale: CGFloat = 0.55
+        // The Tasks panel is its own corner window, so it may sit a touch larger.
+        let panel = scaled(taskPanel, by: 0.62, topRight: NSPoint(x: 1_884, y: 894))
+        drawCapture(taskPanel, in: panel, dropShadow: true)
 
-        let reminderBounds = NSRect(x: 640, y: 120, width: 1_120, height: 190)
-        drawCapture(
-            reminderOverlay,
-            in: reminderOverlay.fittedRect(in: reminderBounds),
-            dropShadow: true
-        )
+        let nag = scaled(taskNag, by: scale, topRight: NSPoint(x: 1_740, y: 384))
+        drawCapture(taskNag, in: nag, dropShadow: true)
+
+        let alert = scaled(birdAlert, by: scale, topRight: NSPoint(x: 1_880, y: 262))
+        drawCapture(birdAlert, in: alert, dropShadow: true)
+    }
+
+    private func scaled(
+        _ capture: NudgeTrimmedCapture,
+        by scale: CGFloat,
+        topRight: NSPoint
+    ) -> NSRect {
+        let width = (capture.size.width * scale).rounded()
+        let height = (capture.size.height * scale).rounded()
+        return NSRect(x: topRight.x - width, y: topRight.y - height, width: width, height: height)
     }
 
     private func drawCapture(_ capture: NudgeTrimmedCapture, in destination: NSRect, dropShadow: Bool) {
