@@ -309,7 +309,7 @@ final class GoogleTasksSyncCoordinatorTests: XCTestCase {
     }
 
     @MainActor
-    func testRepeatedAuthenticationFailureStopsRetriesAndRequestsReauthentication() async {
+    func testRepeatedUnauthorizedResponseKeepsWorkingConnection() async {
         let authentication = FakeGoogleAuthentication(hasCredential: true)
         let taskRepository = InMemoryTaskRepository(tasks: [.incomplete(id: "cached")])
         let provider = FakeGoogleTasksProvider(outcomes: [
@@ -327,10 +327,33 @@ final class GoogleTasksSyncCoordinatorTests: XCTestCase {
 
         await coordinator.refresh(.manual)
 
-        XCTAssertFalse(coordinator.isAuthenticated)
-        XCTAssertEqual(authentication.signOutCount, 1)
+        XCTAssertTrue(coordinator.isAuthenticated)
+        XCTAssertEqual(authentication.signOutCount, 0)
         XCTAssertEqual(authentication.invalidateCount, 1)
         XCTAssertEqual(provider.callCount, 2)
+        XCTAssertEqual(taskRepository.tasks.map(\.id), ["cached"])
+        XCTAssertEqual(coordinator.metadata.status, .failed)
+        XCTAssertTrue(expiredMessages.isEmpty)
+    }
+
+    @MainActor
+    func testRejectedRefreshTokenEndsSessionAndRequestsReauthentication() async {
+        let authentication = FakeGoogleAuthentication(hasCredential: true)
+        authentication.rejectsRefreshToken = true
+        let taskRepository = InMemoryTaskRepository(tasks: [.incomplete(id: "cached")])
+        let provider = FakeGoogleTasksProvider(outcomes: [.success(.empty)])
+        var expiredMessages: [String] = []
+        let coordinator = makeCoordinator(
+            authentication: authentication,
+            provider: provider,
+            taskRepository: taskRepository,
+            authenticationDidExpire: { expiredMessages.append($0) }
+        )
+
+        await coordinator.refresh(.manual)
+
+        XCTAssertFalse(coordinator.isAuthenticated)
+        XCTAssertEqual(provider.callCount, 0)
         XCTAssertEqual(taskRepository.tasks.map(\.id), ["cached"])
         XCTAssertTrue(
             coordinator.authenticationStatusMessage.localizedCaseInsensitiveContains("again")
@@ -342,10 +365,8 @@ final class GoogleTasksSyncCoordinatorTests: XCTestCase {
     func testSessionEndExplanationReplacesGenericSignedOutMessage() async {
         let authentication = FakeGoogleAuthentication(hasCredential: true)
         authentication.sessionEndExplanation = "Google ended this session exactly a week after sign-in."
-        let provider = FakeGoogleTasksProvider(outcomes: [
-            .failure(.authenticationRequired),
-            .failure(.authenticationRequired),
-        ])
+        authentication.rejectsRefreshToken = true
+        let provider = FakeGoogleTasksProvider(outcomes: [])
         let coordinator = makeCoordinator(authentication: authentication, provider: provider)
 
         await coordinator.refresh(.manual)
@@ -427,6 +448,9 @@ private final class FakeGoogleAuthentication: GoogleTasksAuthenticating {
     private(set) var credentialReadCount = 0
     private(set) var invalidateCount = 0
     var sessionEndExplanation: String?
+    /// Simulates Google answering the refresh with `invalid_grant`: the OAuth service removes
+    /// the credential and reports that sign-in is required.
+    var rejectsRefreshToken = false
 
     init(
         hasClientID: Bool = true,
@@ -480,6 +504,9 @@ private final class FakeGoogleAuthentication: GoogleTasksAuthenticating {
 
     func validAccessToken() async throws -> String {
         accessTokenCount += 1
+        if rejectsRefreshToken {
+            hasCredential = false
+        }
         guard hasCredential else {
             throw GoogleTasksError.authenticationRequired
         }

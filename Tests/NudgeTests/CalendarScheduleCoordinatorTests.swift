@@ -98,6 +98,23 @@ final class CalendarScheduleCoordinatorTests: XCTestCase {
     }
 
     @MainActor
+    func testRepeatedUnauthorizedResponseKeepsWorkingConnection() async {
+        let calendar = makeCalendar()
+        let provider = FakeGoogleCalendarProvider(calendars: [calendar], events: [])
+        provider.eventError = GoogleCalendarError.authenticationRequired
+        let coordinator = makeCoordinator(provider: provider)
+        var expiredMessages: [String] = []
+        coordinator.onAuthenticationExpired = { expiredMessages.append($0) }
+
+        await coordinator.refresh(.manual)
+
+        XCTAssertTrue(coordinator.hasCalendarAuthorization)
+        XCTAssertTrue(expiredMessages.isEmpty)
+        XCTAssertEqual(provider.eventFetchCount, 2)
+        coordinator.stop()
+    }
+
+    @MainActor
     func testSuccessfulEmptySnapshotClearsCalendarReminders() async {
         let now = Date(timeIntervalSince1970: 2_000_000_000)
         let calendar = makeCalendar()
