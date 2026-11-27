@@ -179,6 +179,12 @@ struct SettingsView: View {
             Section("Provider status") {
                 LabeledContent("Google Calendar", value: calendarCoordinator.statusMessage)
                 LabeledContent("Google Tasks", value: googleTasksCoordinator.authenticationStatusMessage)
+                if let signedInSince = googleTasksCoordinator.signedInSince {
+                    LabeledContent(
+                        "Signed in since",
+                        value: signedInSince.formatted(date: .abbreviated, time: .shortened)
+                    )
+                }
                 Text("Calendar and Tasks use separate clients, caches, status, and refresh coordinators.")
                     .font(.caption)
                     .foregroundStyle(.secondary)

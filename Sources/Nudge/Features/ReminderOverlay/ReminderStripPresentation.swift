@@ -50,6 +50,12 @@ struct ReminderStripPresentation: Equatable, Sendable {
         )
         metadata = Self.metadata(for: reminder, referenceDate: referenceDate, now: now)
 
+        if reminder.actions.contains(.signIn) {
+            eyebrow = "ACTION NEEDED"
+            accentHex = Self.actionNeededAccentHex
+            timeText = "OOPS"
+            dateText = "SIGNED OUT"
+        }
         if let taskContext = reminder.taskContext {
             applyTaskWording(taskContext, reminder: reminder, calendar: calendar, locale: locale)
         }
@@ -57,6 +63,7 @@ struct ReminderStripPresentation: Equatable, Sendable {
 
     static let taskAccentHex = "#7FBA00"
     static let lateTaskAccentHex = "#D9534F"
+    static let actionNeededAccentHex = "#4A90E2"
 
     private mutating func applyTaskWording(
         _ context: ReminderTaskContext,

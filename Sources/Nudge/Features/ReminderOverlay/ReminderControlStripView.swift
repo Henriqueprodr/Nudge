@@ -148,6 +148,8 @@ struct ReminderControlStripView: View {
 
     private func role(for action: ReminderAction, at index: Int) -> InkButtonStyle.Role {
         switch action {
+        case .signIn:
+            return .brand
         case .completeTask:
             return .primary
         case .notToday:

@@ -324,16 +324,16 @@ final class ReminderPresentationCoordinatorTests: XCTestCase {
             return true
         }
         var reminder = makeDueReminder(identifier: "action", date: now)
-        reminder.actions = [.notToday]
+        reminder.actions = [.signIn]
 
         try coordinator.process([reminder])
         coordinator.performCurrentReminderAction(.completeTask)
         XCTAssertTrue(handled.isEmpty, "Actions the reminder does not offer are ignored")
-        coordinator.performCurrentReminderAction(.notToday)
+        coordinator.performCurrentReminderAction(.signIn)
         await fulfillment(of: [finished], timeout: 1)
         await Task.yield()
 
-        XCTAssertEqual(handled, [.notToday])
+        XCTAssertEqual(handled, [.signIn])
         XCTAssertEqual(
             try container.reminderDeliveryRepository.deliveryRecord(
                 for: reminder.occurrenceID

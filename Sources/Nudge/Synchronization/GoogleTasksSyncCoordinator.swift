@@ -19,6 +19,7 @@ final class GoogleTasksSyncCoordinator {
     private let randomUnit: @MainActor () -> Double
     private let sleeper: Sleeper
     private let cacheDidChange: @MainActor () -> Void
+    private let authenticationDidExpire: @MainActor (String) -> Void
     private var refreshTask: Task<Void, Never>?
     private var followUpRefreshRequested = false
     private var hasStartedPeriodicRefresh = false
@@ -52,7 +53,8 @@ final class GoogleTasksSyncCoordinator {
             let nanoseconds = UInt64(max(0, seconds) * 1_000_000_000)
             try await Task.sleep(nanoseconds: nanoseconds)
         },
-        cacheDidChange: @escaping @MainActor () -> Void
+        cacheDidChange: @escaping @MainActor () -> Void,
+        authenticationDidExpire: @escaping @MainActor (String) -> Void = { _ in }
     ) {
         self.authentication = authentication
         self.provider = provider
@@ -69,6 +71,7 @@ final class GoogleTasksSyncCoordinator {
         self.randomUnit = randomUnit
         self.sleeper = sleeper
         self.cacheDidChange = cacheDidChange
+        self.authenticationDidExpire = authenticationDidExpire
         metadata = (try? metadataRepository.fetchMetadata()) ?? .initial
 
         refreshClientConfigurationState()
@@ -79,6 +82,10 @@ final class GoogleTasksSyncCoordinator {
         }
         if isOAuthClientConfigured {
             restoreAuthenticationState()
+        }
+        if isOAuthClientConfigured, !isAuthenticated,
+           let explanation = authentication.sessionEndExplanation {
+            authenticationStatusMessage = explanation
         }
         if !isAuthenticated {
             markRefreshUnavailable(message: unavailableRefreshMessage)
@@ -289,9 +296,12 @@ final class GoogleTasksSyncCoordinator {
         saveMetadataBestEffort()
 
         var failedAttempt = 0
+        var hasRetriedAfterUnauthorizedResponse = false
         while failedAttempt < retryPolicy.maximumAttempts, !Task.isCancelled {
+            var didObtainAccessToken = false
             do {
                 let accessToken = try await authentication.validAccessToken()
+                didObtainAccessToken = true
                 let snapshot = try await provider.fetchIncompleteTasks(accessToken: accessToken)
                 do {
                     try taskRepository.replaceCache(
@@ -318,6 +328,15 @@ final class GoogleTasksSyncCoordinator {
                     return
                 }
                 if normalizedError == .authenticationRequired {
+                    // A 401 from the Tasks API with a locally valid token usually means the
+                    // access token went stale (sleep, clock skew). Refresh it once before
+                    // treating the session as ended, so the refresh token is never discarded
+                    // for a recoverable failure.
+                    if didObtainAccessToken, !hasRetriedAfterUnauthorizedResponse {
+                        hasRetriedAfterUnauthorizedResponse = true
+                        authentication.invalidateAccessToken()
+                        continue
+                    }
                     handleAuthenticationFailure()
                     return
                 }
@@ -344,8 +363,15 @@ final class GoogleTasksSyncCoordinator {
     private func handleAuthenticationFailure() {
         try? authentication.signOut()
         isAuthenticated = false
-        authenticationStatusMessage = GoogleTasksError.authenticationRequired.userMessage
-        markCacheStale(message: GoogleTasksError.authenticationRequired.userMessage)
+        let message = authentication.sessionEndExplanation
+            ?? GoogleTasksError.authenticationRequired.userMessage
+        authenticationStatusMessage = message
+        markCacheStale(message: message)
+        authenticationDidExpire(message)
+    }
+
+    var signedInSince: Date? {
+        isAuthenticated ? authentication.signedInSince : nil
     }
 
     private func markRefreshFailed(_ error: GoogleTasksError) {

@@ -1,19 +1,25 @@
 import Foundation
 
-/// Routes provider-neutral `ReminderAction`s from the overlay to Google Tasks.
+/// Routes provider-neutral `ReminderAction`s from the overlay to Google Tasks and OAuth.
 @MainActor
 final class ReminderActionRouter {
     private let taskRepository: any TaskRepository
     private let taskActions: GoogleTasksActionCoordinator
+    private let tasksSync: GoogleTasksSyncCoordinator
+    private let calendarSync: CalendarScheduleCoordinator
     private let taskNags: TaskNagCoordinator
 
     init(
         taskRepository: any TaskRepository,
         taskActions: GoogleTasksActionCoordinator,
+        tasksSync: GoogleTasksSyncCoordinator,
+        calendarSync: CalendarScheduleCoordinator,
         taskNags: TaskNagCoordinator
     ) {
         self.taskRepository = taskRepository
         self.taskActions = taskActions
+        self.tasksSync = tasksSync
+        self.calendarSync = calendarSync
         self.taskNags = taskNags
     }
 
@@ -24,6 +30,10 @@ final class ReminderActionRouter {
         case .notToday:
             taskNags.silenceUntilTomorrow(reminder)
             return true
+        case .signIn:
+            let didSignIn = await calendarSync.signInWithGoogle()
+            tasksSync.accountDidAuthenticate()
+            return didSignIn
         }
     }
 

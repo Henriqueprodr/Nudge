@@ -71,7 +71,8 @@ final class GoogleOAuthClient {
             refreshToken: refreshToken,
             expirationDate: now().addingTimeInterval(response.expiresIn),
             scope: response.scope ?? configuration.scope,
-            tokenType: response.tokenType
+            tokenType: response.tokenType,
+            signedInAt: now()
         )
     }
 
@@ -97,7 +98,8 @@ final class GoogleOAuthClient {
             refreshToken: response.refreshToken ?? credential.refreshToken,
             expirationDate: now().addingTimeInterval(response.expiresIn),
             scope: response.scope ?? credential.scope,
-            tokenType: response.tokenType
+            tokenType: response.tokenType,
+            signedInAt: credential.signedInAt
         )
     }
 

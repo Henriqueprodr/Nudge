@@ -181,6 +181,10 @@
 		Q90000000000000000000021 /* WavyUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000020 /* WavyUnderline.swift */; };
 		Q90000000000000000000023 /* ReminderAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000022 /* ReminderAction.swift */; };
 		Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000024 /* ReminderTaskContext.swift */; };
+		Q90000000000000000000027 /* GoogleSessionEndRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000026 /* GoogleSessionEndRecord.swift */; };
+		Q90000000000000000000029 /* GoogleSessionEndStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000028 /* GoogleSessionEndStore.swift */; };
+		Q90000000000000000000031 /* UserDefaultsGoogleSessionEndStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */; };
+		Q90000000000000000000037 /* GoogleSessionLongevityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */; };
 		Q90000000000000000000039 /* TaskNagSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000038 /* TaskNagSettings.swift */; };
 		Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000040 /* TaskNagSettingsRepository.swift */; };
 		Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */; };
@@ -386,6 +390,10 @@
 		Q90000000000000000000020 /* WavyUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavyUnderline.swift; sourceTree = "<group>"; };
 		Q90000000000000000000022 /* ReminderAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAction.swift; sourceTree = "<group>"; };
 		Q90000000000000000000024 /* ReminderTaskContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTaskContext.swift; sourceTree = "<group>"; };
+		Q90000000000000000000026 /* GoogleSessionEndRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionEndRecord.swift; sourceTree = "<group>"; };
+		Q90000000000000000000028 /* GoogleSessionEndStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionEndStore.swift; sourceTree = "<group>"; };
+		Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsGoogleSessionEndStore.swift; sourceTree = "<group>"; };
+		Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSessionLongevityTests.swift; sourceTree = "<group>"; };
 		Q90000000000000000000038 /* TaskNagSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettings.swift; sourceTree = "<group>"; };
 		Q90000000000000000000040 /* TaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettingsRepository.swift; sourceTree = "<group>"; };
 		Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
@@ -536,6 +544,7 @@
 			isa = PBXGroup;
 			children = (
 				Q90000000000000000000058 /* TaskNagPolicyTests.swift */,
+				Q90000000000000000000036 /* GoogleSessionLongevityTests.swift */,
 				Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */,
 				L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */,
 				900000000000000000000205 /* ReminderControlStripTests.swift */,
@@ -750,6 +759,9 @@
 		D00000000000000000000301 /* GoogleTasks */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000030 /* UserDefaultsGoogleSessionEndStore.swift */,
+				Q90000000000000000000028 /* GoogleSessionEndStore.swift */,
+				Q90000000000000000000026 /* GoogleSessionEndRecord.swift */,
 				L10000000000000000000201 /* GoogleOAuthClientConfiguration.swift */,
 				L10000000000000000000202 /* GoogleOAuthClientConfigurationStore.swift */,
 				L10000000000000000000203 /* KeychainGoogleOAuthClientConfigurationStore.swift */,
@@ -911,6 +923,9 @@
 				Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */,
 				Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */,
 				Q90000000000000000000039 /* TaskNagSettings.swift in Sources */,
+				Q90000000000000000000031 /* UserDefaultsGoogleSessionEndStore.swift in Sources */,
+				Q90000000000000000000029 /* GoogleSessionEndStore.swift in Sources */,
+				Q90000000000000000000027 /* GoogleSessionEndRecord.swift in Sources */,
 				Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */,
 				Q90000000000000000000023 /* ReminderAction.swift in Sources */,
 				Q90000000000000000000021 /* WavyUnderline.swift in Sources */,
@@ -1064,6 +1079,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */,
+				Q90000000000000000000037 /* GoogleSessionLongevityTests.swift in Sources */,
 				Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */,
 				L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */,
 				900000000000000000000105 /* ReminderControlStripTests.swift in Sources */,

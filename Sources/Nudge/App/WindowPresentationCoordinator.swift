@@ -382,6 +382,25 @@ final class WindowPresentationCoordinator {
         reminderPresentationCoordinator.onReminderSnoozed = onSnoozed
     }
 
+    /// Asks the user to sign in again, at most once per day, directly on screen.
+    func presentReauthenticationReminder(message: String, now: Date = Date()) {
+        let reminder = Reminder(
+            occurrenceID: ReminderOccurrenceID(
+                sourceKind: .local,
+                sourceIdentifier: "google-reauthentication",
+                occurrenceDate: Calendar.current.startOfDay(for: now),
+                revision: nil
+            ),
+            title: "Google signed Nudge out",
+            detail: message,
+            triggerDate: now,
+            expirationDate: nil,
+            presentationMode: .overlay,
+            actions: [.signIn]
+        )
+        try? reminderPresentationCoordinator.process([reminder])
+    }
+
     /// A sample task nag for the menu's test action.
     func showTestTaskNag(now: Date = Date()) {
         let calendar = Calendar.current

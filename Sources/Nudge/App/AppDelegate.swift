@@ -190,10 +190,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 }
 #endif
                 return LoopbackOAuthCallbackSession()
-            }
+            },
+            sessionEndStore: usesIsolatedLocalState ? nil : UserDefaultsGoogleSessionEndStore()
         )
         let googleTasksClient = GoogleTasksClient(transport: httpTransport)
-        calendarScheduleCoordinator = GoogleCalendarSyncCoordinator(
+        let calendarCoordinator = GoogleCalendarSyncCoordinator(
             authentication: oauthService,
             provider: GoogleCalendarClient(transport: httpTransport),
             cacheRepository: repositoryContainer.calendarCacheRepository,
@@ -202,6 +203,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             periodicScheduler: calendarScheduler,
             notificationFallback: notificationFallback
         )
+        calendarScheduleCoordinator = calendarCoordinator
         let googleTasksSyncCoordinator = GoogleTasksSyncCoordinator(
             authentication: oauthService,
             provider: googleTasksClient,
@@ -212,9 +214,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             cacheDidChange: { [weak windowPresentationCoordinator, weak taskNagCoordinator] in
                 windowPresentationCoordinator?.reloadTaskPanelCache()
                 taskNagCoordinator?.recompute()
+            },
+            authenticationDidExpire: { [weak windowPresentationCoordinator] message in
+                windowPresentationCoordinator?.presentReauthenticationReminder(message: message)
             }
         )
         self.googleTasksSyncCoordinator = googleTasksSyncCoordinator
+        calendarCoordinator.onAuthenticationExpired = {
+            [weak windowPresentationCoordinator] message in
+            windowPresentationCoordinator?.presentReauthenticationReminder(message: message)
+        }
         googleTasksActionCoordinator = GoogleTasksActionCoordinator(
             authentication: oauthService,
             provider: googleTasksClient,
@@ -233,6 +242,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         let reminderActionRouter = ReminderActionRouter(
             taskRepository: repositoryContainer.taskRepository,
             taskActions: googleTasksActionCoordinator,
+            tasksSync: googleTasksSyncCoordinator,
+            calendarSync: calendarCoordinator,
             taskNags: taskNagCoordinator
         )
         self.reminderActionRouter = reminderActionRouter
