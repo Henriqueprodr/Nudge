@@ -39,8 +39,9 @@ struct MascotLineBook: Sendable {
         return MascotLineBook(lines: merged)
     }
 
-    /// Lines available at a spice level. Spicier levels include the milder ones, but the
-    /// selection is weighted toward the chosen level.
+    /// Lines available at a spice level. Spicy includes the mild lines, weighted toward its own.
+    /// Unhinged only says unhinged lines, falling back to spicy, then mild, for a category that
+    /// has none.
     func candidates(for category: MascotLineCategory, spice: MascotSettings.Spice) -> [String] {
         let levels = lines[category.rawValue] ?? [:]
         let mild = levels[MascotSettings.Spice.mild.rawValue] ?? []
@@ -52,7 +53,8 @@ struct MascotLineBook: Sendable {
         case .spicy:
             return mild + spicy + spicy
         case .unhinged:
-            return mild + spicy + unhinged + unhinged + unhinged
+            if !unhinged.isEmpty { return unhinged }
+            return spicy.isEmpty ? mild : spicy
         }
     }
 

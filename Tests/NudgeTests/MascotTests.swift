@@ -67,10 +67,19 @@ final class MascotTests: XCTestCase {
         XCTAssertEqual(book.candidates(for: .idle, spice: .mild), ["m1"])
         XCTAssertEqual(Set(book.candidates(for: .idle, spice: .spicy)), ["m1", "s1"])
         XCTAssertFalse(book.candidates(for: .idle, spice: .spicy).contains("u1"))
-        XCTAssertEqual(Set(book.candidates(for: .idle, spice: .unhinged)), ["m1", "s1", "u1"])
-        // The chosen level is weighted more heavily than milder ones.
-        let unhinged = book.candidates(for: .idle, spice: .unhinged)
-        XCTAssertGreaterThan(unhinged.filter { $0 == "u1" }.count, unhinged.filter { $0 == "m1" }.count)
+        // Spicy is weighted toward its own lines; Unhinged says nothing milder.
+        let spicy = book.candidates(for: .idle, spice: .spicy)
+        XCTAssertGreaterThan(spicy.filter { $0 == "s1" }.count, spicy.filter { $0 == "m1" }.count)
+        XCTAssertEqual(book.candidates(for: .idle, spice: .unhinged), ["u1"])
+    }
+
+    func testUnhingedFallsBackToSpicyThenMildWhenACategoryHasNoUnhingedLines() {
+        let book = MascotLineBook(lines: [
+            "poked": ["mild": ["m"], "spicy": ["s"]],
+            "taskDone": ["mild": ["m"]],
+        ])
+        XCTAssertEqual(book.candidates(for: .poked, spice: .unhinged), ["s"])
+        XCTAssertEqual(book.candidates(for: .taskDone, spice: .unhinged), ["m"])
     }
 
     func testPlaceholdersAreFilledAndMissingCategoriesFallBackToIdle() {
@@ -98,11 +107,36 @@ final class MascotTests: XCTestCase {
                 bundled.candidates(for: category, spice: .mild).isEmpty,
                 "\(category) has no mild lines"
             )
-            XCTAssertGreaterThan(
+            XCTAssertGreaterThanOrEqual(
                 Set(bundled.candidates(for: category, spice: .unhinged)).count,
-                Set(bundled.candidates(for: category, spice: .mild)).count,
-                "\(category) has no spicier lines"
+                8,
+                "\(category) needs at least 8 unhinged lines"
             )
+        }
+    }
+
+    func testBundledLinesFitTheBubbleAndOnlyUseKnownPlaceholders() throws {
+        let url = try XCTUnwrap(Bundle.main.url(forResource: "MascotLines", withExtension: "json"))
+        let lines = try JSONDecoder().decode(
+            MascotLineBook.Lines.self, from: Data(contentsOf: url)
+        )
+        let longestTitle = MascotLineBook.shortened(String(repeating: "word ", count: 30))
+        let known = ["{task}", "{event}", "{days}", "{count}"]
+        let placeholder = try NSRegularExpression(pattern: "\\{[^}]*\\}")
+        for (category, levels) in lines {
+            for (level, entries) in levels {
+                for line in entries {
+                    let range = NSRange(line.startIndex..., in: line)
+                    for match in placeholder.matches(in: line, range: range) {
+                        let token = String(line[Range(match.range, in: line)!])
+                        XCTAssertTrue(known.contains(token), "\(category)/\(level): \(token)")
+                    }
+                    let filled = MascotLineBook.fill(line, with: [
+                        "task": longestTitle, "event": longestTitle, "days": "123", "count": "12",
+                    ])
+                    XCTAssertLessThanOrEqual(filled.count, 120, "\(category)/\(level): \(line)")
+                }
+            }
         }
     }
 

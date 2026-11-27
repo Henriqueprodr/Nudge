@@ -22,7 +22,7 @@ struct MascotSettings: Codable, Equatable, Sendable {
             switch self {
             case .mild: return "Polite encouragement."
             case .spicy: return "Light roasting."
-            case .unhinged: return "Out of pocket. You asked for this."
+            case .unhinged: return "Foul-mouthed, merciless, zero filter. Not for screen sharing."
             }
         }
     }
