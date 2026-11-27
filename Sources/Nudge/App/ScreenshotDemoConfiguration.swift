@@ -6,6 +6,7 @@ enum ScreenshotDemoPage: String, CaseIterable, Sendable {
     case account
     case reminders
     case tasks
+    case mascot
     case application
     case overlay
     case taskPanel = "task-panel"
@@ -20,6 +21,8 @@ enum ScreenshotDemoPage: String, CaseIterable, Sendable {
             return "settings-reminders.png"
         case .tasks:
             return "settings-tasks.png"
+        case .mascot:
+            return "settings-bird.png"
         case .application:
             return "settings-application.png"
         case .overlay:

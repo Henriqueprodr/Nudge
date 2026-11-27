@@ -8,63 +8,59 @@ private enum ScreenshotPage: String, CaseIterable {
     case application = "settings-application.png"
     case reminders = "settings-reminders.png"
     case tasks = "settings-tasks.png"
+    case bird = "settings-bird.png"
     case taskPanel = "task-panel.png"
 
     var canvasSize: NSSize {
         switch self {
         case .menu:
-            return NSSize(width: 896, height: 1_132)
+            return NSSize(width: 1_320, height: 1_380)
         case .overlay:
-            return NSSize(width: 1_640, height: 540)
-        case .account, .application, .reminders, .tasks:
+            return NSSize(width: 1_640, height: 440)
+        case .account, .application, .reminders, .tasks, .bird:
             return NSSize(width: 1_440, height: 1_560)
         case .taskPanel:
             return NSSize(width: 932, height: 1_080)
         }
     }
 
+    /// Where the trimmed capture is centred. Captures are never scaled up.
     var contentBounds: NSRect {
         switch self {
         case .menu:
-            return NSRect(x: 80, y: 70, width: 736, height: 930)
+            return NSRect(x: 60, y: 60, width: 1_200, height: 1_160)
         case .overlay:
-            return NSRect(x: 120, y: 120, width: 1_400, height: 300)
-        case .account, .application, .reminders, .tasks:
-            return NSRect(x: 80, y: 48, width: 1_280, height: 1_464)
+            return NSRect(x: 100, y: 100, width: 1_440, height: 240)
+        case .account, .application, .reminders, .tasks, .bird:
+            return NSRect(x: 80, y: 28, width: 1_280, height: 1_504)
         case .taskPanel:
-            return NSRect(x: 120, y: 120, width: 692, height: 840)
+            return NSRect(x: 60, y: 60, width: 812, height: 960)
         }
     }
 
-    var cornerRadius: CGFloat {
+    /// Borderless surfaces without a window shadow of their own get a soft drop shadow.
+    var addsDropShadow: Bool {
         switch self {
-        case .menu:
-            return 24
-        case .overlay:
-            return 22
-        case .account, .application, .reminders, .tasks:
-            return 28
-        case .taskPanel:
-            return 40
+        case .menu, .overlay:
+            return true
+        case .account, .application, .reminders, .tasks, .bird, .taskPanel:
+            return false
         }
     }
 }
 
 private enum ComposerError: LocalizedError {
     case usage
-    case missingInput(String)
-    case unreadableInput(String)
+    case unreadableMenuBarIcon
     case contextCreationFailed
     case encodingFailed(String)
 
     var errorDescription: String? {
         switch self {
         case .usage:
-            return "usage: compose_screenshot_gallery <raw-directory> <output-directory>"
-        case .missingInput(let name):
-            return "Required native capture is missing: \(name)"
-        case .unreadableInput(let name):
-            return "Native capture is not a readable PNG: \(name)"
+            return "usage: compose_screenshot_gallery <raw-directory> <output-directory> <menu-bar-icon.svg>"
+        case .unreadableMenuBarIcon:
+            return "The menu-bar icon could not be loaded."
         case .contextCreationFailed:
             return "Could not create the screenshot artwork context."
         case .encodingFailed(let name):
@@ -73,29 +69,10 @@ private enum ComposerError: LocalizedError {
     }
 }
 
-private struct RasterImage {
-    let image: NSImage
-    let size: NSSize
-
-    init(url: URL) throws {
-        guard FileManager.default.fileExists(atPath: url.path) else {
-            throw ComposerError.missingInput(url.lastPathComponent)
-        }
-        guard let data = try? Data(contentsOf: url),
-              let representation = NSBitmapImageRep(data: data)
-        else {
-            throw ComposerError.unreadableInput(url.lastPathComponent)
-        }
-        size = NSSize(width: representation.pixelsWide, height: representation.pixelsHigh)
-        let image = NSImage(size: size)
-        image.addRepresentation(representation)
-        self.image = image
-    }
-}
-
 private struct ScreenshotGalleryComposer {
     let rawDirectory: URL
     let outputDirectory: URL
+    let menuBarIcon: NSImage
 
     func compose() throws {
         try FileManager.default.createDirectory(
@@ -103,9 +80,10 @@ private struct ScreenshotGalleryComposer {
             withIntermediateDirectories: true
         )
         for page in ScreenshotPage.allCases {
-            let inputURL = rawDirectory.appendingPathComponent(page.rawValue)
-            let raster = try RasterImage(url: inputURL)
-            let bitmap = try render(page: page, raster: raster)
+            let capture = try NudgeTrimmedCapture(
+                url: rawDirectory.appendingPathComponent(page.rawValue)
+            )
+            let bitmap = try render(page: page, capture: capture)
             let outputURL = outputDirectory.appendingPathComponent(page.rawValue)
             guard let data = bitmap.representation(using: .png, properties: [:]) else {
                 throw ComposerError.encodingFailed(page.rawValue)
@@ -114,7 +92,7 @@ private struct ScreenshotGalleryComposer {
         }
     }
 
-    private func render(page: ScreenshotPage, raster: RasterImage) throws -> NSBitmapImageRep {
+    private func render(page: ScreenshotPage, capture: NudgeTrimmedCapture) throws -> NSBitmapImageRep {
         guard let bitmap = NSBitmapImageRep(
             bitmapDataPlanes: nil,
             pixelsWide: Int(page.canvasSize.width),
@@ -132,78 +110,72 @@ private struct ScreenshotGalleryComposer {
 
         NSGraphicsContext.saveGraphicsState()
         NSGraphicsContext.current = graphicsContext
-        graphicsContext.imageInterpolation = NSImageInterpolation.high
+        graphicsContext.imageInterpolation = .high
         let canvas = NSRect(origin: .zero, size: page.canvasSize)
         NudgeArtworkBackground.drawGallery(in: graphicsContext.cgContext, canvas: canvas)
+
+        var bounds = page.contentBounds
         if page == .menu {
-            drawMenuBar(in: canvas)
+            let bar = drawMenuBar(in: canvas)
+            bounds.size.height = bar.minY - 14 - bounds.minY
         }
-        draw(raster: raster, in: page.contentBounds, cornerRadius: page.cornerRadius)
+        var destination = capture.fittedRect(in: bounds)
+        if page == .menu {
+            // A status-item menu hangs from the menu bar rather than floating in the middle.
+            destination.origin.y = bounds.maxY - destination.height
+        }
+        draw(capture: capture, in: destination, addsDropShadow: page.addsDropShadow)
+
         graphicsContext.flushGraphics()
         NSGraphicsContext.restoreGraphicsState()
         return bitmap
     }
 
-    private func draw(raster: RasterImage, in bounds: NSRect, cornerRadius: CGFloat) {
-        let scale = min(bounds.width / raster.size.width, bounds.height / raster.size.height)
-        let destinationSize = NSSize(
-            width: raster.size.width * scale,
-            height: raster.size.height * scale
-        )
-        let destination = NSRect(
-            x: bounds.midX - destinationSize.width / 2,
-            y: bounds.midY - destinationSize.height / 2,
-            width: destinationSize.width,
-            height: destinationSize.height
-        )
-        let shape = NSBezierPath(
-            roundedRect: destination,
-            xRadius: cornerRadius,
-            yRadius: cornerRadius
-        )
-
+    private func draw(capture: NudgeTrimmedCapture, in destination: NSRect, addsDropShadow: Bool) {
         NSGraphicsContext.saveGraphicsState()
-        let shadow = NSShadow()
-        shadow.shadowColor = NudgeArtworkPalette.color(0x000000, alpha: 0.48)
-        shadow.shadowBlurRadius = 42
-        shadow.shadowOffset = NSSize(width: 0, height: -16)
-        shadow.set()
-        NudgeArtworkPalette.color(0x000000, alpha: 0.16).setFill()
-        shape.fill()
-        NSGraphicsContext.restoreGraphicsState()
-
-        NSGraphicsContext.saveGraphicsState()
-        shape.addClip()
-        raster.image.draw(
-            in: destination,
-            from: NSRect(origin: .zero, size: raster.size),
-            operation: .sourceOver,
-            fraction: 1,
-            respectFlipped: false,
-            hints: [.interpolation: NSImageInterpolation.high]
-        )
+        if addsDropShadow {
+            let shadow = NSShadow()
+            shadow.shadowColor = NudgeArtworkPalette.color(NudgeArtworkPalette.ink, alpha: 0.26)
+            shadow.shadowBlurRadius = 36
+            shadow.shadowOffset = NSSize(width: 0, height: -14)
+            shadow.set()
+        }
+        capture.draw(in: destination)
         NSGraphicsContext.restoreGraphicsState()
     }
 
-    private func drawMenuBar(in canvas: NSRect) {
-        let bar = NSRect(x: 34, y: canvas.height - 92, width: canvas.width - 68, height: 58)
-        let path = NSBezierPath(roundedRect: bar, xRadius: 19, yRadius: 19)
-        NudgeArtworkPalette.color(0xFFFFFF, alpha: 0.88).setFill()
-        path.fill()
-        NudgeArtworkPalette.color(0xFFFFFF, alpha: 0.40).setStroke()
-        path.lineWidth = 1
-        path.stroke()
+    /// Fictional menu-bar strip: the Nudge status item (highlighted, as while its menu is
+    /// open) plus generic system glyphs and a fixed clock.
+    private func drawMenuBar(in canvas: NSRect) -> NSRect {
+        let bar = NSRect(x: 34, y: canvas.height - 96, width: canvas.width - 68, height: 60)
+        let barPath = NudgeInk.unevenRoundedRect(
+            bar, topLeft: 20, topRight: 18, bottomRight: 21, bottomLeft: 17
+        )
+        NudgeInk.drawSticker(
+            barPath,
+            fill: NudgeArtworkPalette.color(0xFFFFFF),
+            lineWidth: 3,
+            shadowOffset: NSSize(width: 0, height: -5)
+        )
 
-        drawSymbol("bell.badge.fill", in: NSRect(x: 566, y: bar.minY + 15, width: 28, height: 28))
-        drawSymbol("wifi", in: NSRect(x: 626, y: bar.minY + 15, width: 28, height: 28))
-        drawSymbol("battery.100", in: NSRect(x: 680, y: bar.minY + 14, width: 36, height: 30))
+        let ink = NudgeArtworkPalette.color(NudgeArtworkPalette.ink)
+        let highlight = NSRect(x: 84, y: bar.minY + 9, width: 64, height: 42)
+        NudgeArtworkPalette.color(NudgeArtworkPalette.blue, alpha: 0.18).setFill()
+        NSBezierPath(roundedRect: highlight, xRadius: 11, yRadius: 11).fill()
+        tinted(menuBarIcon, color: ink).draw(
+            in: NSRect(x: highlight.midX - 17, y: highlight.midY - 17, width: 34, height: 34)
+        )
+
+        drawSymbol("wifi", in: NSRect(x: bar.maxX - 262, y: bar.minY + 16, width: 30, height: 28))
+        drawSymbol("battery.100", in: NSRect(x: bar.maxX - 210, y: bar.minY + 15, width: 40, height: 30))
         ("9:41" as NSString).draw(
-            at: NSPoint(x: 748, y: bar.minY + 16),
+            at: NSPoint(x: bar.maxX - 140, y: bar.minY + 16),
             withAttributes: [
-                .font: NSFont.systemFont(ofSize: 21, weight: .medium),
-                .foregroundColor: NudgeArtworkPalette.color(0x10151C, alpha: 0.90),
+                .font: NSFont.systemFont(ofSize: 22, weight: .semibold),
+                .foregroundColor: ink,
             ]
         )
+        return bar
     }
 
     private func drawSymbol(_ name: String, in rect: NSRect) {
@@ -212,10 +184,20 @@ private struct ScreenshotGalleryComposer {
         }
         let configuration = NSImage.SymbolConfiguration(
             pointSize: rect.height * 0.72,
-            weight: .medium
+            weight: .semibold
         )
         let configured = image.withSymbolConfiguration(configuration) ?? image
-        configured.draw(in: rect)
+        tinted(configured, color: NudgeArtworkPalette.color(NudgeArtworkPalette.ink))
+            .draw(in: rect)
+    }
+
+    private func tinted(_ image: NSImage, color: NSColor) -> NSImage {
+        NSImage(size: image.size, flipped: false) { rect in
+            image.draw(in: rect)
+            color.setFill()
+            rect.fill(using: .sourceAtop)
+            return true
+        }
     }
 }
 
@@ -223,7 +205,7 @@ private struct ScreenshotGalleryComposer {
 private enum ComposeScreenshotGallery {
     static func main() {
         do {
-            guard CommandLine.arguments.count == 3 else {
+            guard CommandLine.arguments.count == 4 else {
                 throw ComposerError.usage
             }
             let rawDirectory = URL(
@@ -234,9 +216,15 @@ private enum ComposeScreenshotGallery {
                 fileURLWithPath: CommandLine.arguments[2],
                 isDirectory: true
             ).standardizedFileURL
+            guard let menuBarIcon = NSImage(
+                contentsOf: URL(fileURLWithPath: CommandLine.arguments[3])
+            ) else {
+                throw ComposerError.unreadableMenuBarIcon
+            }
             try ScreenshotGalleryComposer(
                 rawDirectory: rawDirectory,
-                outputDirectory: outputDirectory
+                outputDirectory: outputDirectory,
+                menuBarIcon: menuBarIcon
             ).compose()
         } catch {
             let description = (error as? LocalizedError)?.errorDescription

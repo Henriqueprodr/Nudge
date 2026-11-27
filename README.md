@@ -49,12 +49,19 @@ Nudge is built with SwiftUI and AppKit for macOS 14 or later. Calendar reminders
   <tr>
     <td align="center" width="50%">
       <img src="docs/screenshots/settings-tasks.png" alt="Nudge Google Tasks synchronization and panel settings">
-      <br><sub>Tasks synchronization and panel appearance</sub>
+      <br><sub>Tasks synchronization, task nags, and panel appearance</sub>
     </td>
+    <td align="center" width="50%">
+      <img src="docs/screenshots/settings-bird.png" alt="Nudge Bird settings for the animated mascot">
+      <br><sub>The bird: alerts, idle visits, and attitude</sub>
+    </td>
+  </tr>
+  <tr>
     <td align="center" width="50%">
       <img src="docs/screenshots/settings-application.png" alt="Nudge application settings">
       <br><sub>Application and local-data settings</sub>
     </td>
+    <td width="50%"></td>
   </tr>
 </table>
 
