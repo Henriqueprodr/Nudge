@@ -1,4 +1,5 @@
 import AppKit
+import CoreImage
 import Foundation
 
 private enum ScreenshotPage: String, CaseIterable {
@@ -134,7 +135,11 @@ private struct ScreenshotGalleryComposer {
             // A status-item menu hangs from the menu bar rather than floating in the middle.
             destination.origin.y = bounds.maxY - destination.height
         }
-        draw(capture: capture, in: destination, addsDropShadow: page.addsDropShadow)
+        if page == .menu {
+            drawLiftedMenu(capture: capture, in: destination)
+        } else {
+            draw(capture: capture, in: destination, addsDropShadow: page.addsDropShadow)
+        }
 
         graphicsContext.flushGraphics()
         NSGraphicsContext.restoreGraphicsState()
@@ -151,6 +156,47 @@ private struct ScreenshotGalleryComposer {
             shadow.set()
         }
         capture.draw(in: destination)
+        NSGraphicsContext.restoreGraphicsState()
+    }
+
+    /// A captured menu's glass material has nothing behind it, so it records as flat 70% grey.
+    /// On a real light desktop it reads as near-white; lift every channel by the same factor so
+    /// the background matches that while the ink text stays dark.
+    private func drawLiftedMenu(capture: NudgeTrimmedCapture, in destination: NSRect) {
+        let gain: CGFloat = 0.965 / 0.702
+        guard let cgImage = capture.image.cgImage(forProposedRect: nil, context: nil, hints: nil),
+              let filter = CIFilter(name: "CIColorMatrix")
+        else {
+            draw(capture: capture, in: destination, addsDropShadow: true)
+            return
+        }
+        filter.setValue(CIImage(cgImage: cgImage), forKey: kCIInputImageKey)
+        filter.setValue(CIVector(x: gain, y: 0, z: 0, w: 0), forKey: "inputRVector")
+        filter.setValue(CIVector(x: 0, y: gain, z: 0, w: 0), forKey: "inputGVector")
+        filter.setValue(CIVector(x: 0, y: 0, z: gain, w: 0), forKey: "inputBVector")
+        guard let output = filter.outputImage?.cropped(to: CGRect(
+            x: 0, y: 0, width: cgImage.width, height: cgImage.height
+        )), let lifted = CIContext(options: [.workingColorSpace: NSNull()])
+            // Work on the encoded values, not linear light, so the gain maps 0.702 to 0.965.
+            .createCGImage(output, from: output.extent) else {
+            draw(capture: capture, in: destination, addsDropShadow: true)
+            return
+        }
+
+        NSGraphicsContext.saveGraphicsState()
+        let shadow = NSShadow()
+        shadow.shadowColor = NudgeArtworkPalette.color(NudgeArtworkPalette.ink, alpha: 0.26)
+        shadow.shadowBlurRadius = 36
+        shadow.shadowOffset = NSSize(width: 0, height: -14)
+        shadow.set()
+        NSImage(cgImage: lifted, size: capture.size).draw(
+            in: destination,
+            from: NSRect(origin: .zero, size: capture.size),
+            operation: .sourceOver,
+            fraction: 1,
+            respectFlipped: false,
+            hints: [.interpolation: NSImageInterpolation.high]
+        )
         NSGraphicsContext.restoreGraphicsState()
     }
 
