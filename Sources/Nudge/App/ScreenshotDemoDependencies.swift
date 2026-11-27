@@ -405,6 +405,8 @@ struct ScreenshotDemoDependencies {
     }
 
     /// The fixed line the bird says while perched on the calendar alert.
+    static let builtInClientID = "screenshot-demo.apps.googleusercontent.com"
+    static let builtInClientSecret = "screenshot-demo-secret"
     static let birdAlertLine = "Design review in a few. Find your headphones now, not in a panic later."
 
     private func seedRepositories() throws {
