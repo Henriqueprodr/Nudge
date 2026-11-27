@@ -23,6 +23,7 @@ final class ReminderOverlayWindowController: NSObject {
     private var onDismiss: (() -> Void)?
     private var onSnooze: (() -> Void)?
     private var onOpen: (() -> Void)?
+    private var onAction: ((ReminderAction) -> Void)?
     private let screenProvider: any ScreenProviding
     private let presentationAvailability: ((NSWindow) -> Bool)?
     private let reduceMotion: @MainActor () -> Bool
@@ -92,12 +93,14 @@ final class ReminderOverlayWindowController: NSObject {
         onDismiss: @escaping () -> Void,
         onSnooze: @escaping () -> Void,
         onOpen: @escaping () -> Void,
+        onAction: @escaping (ReminderAction) -> Void = { _ in },
         onPresentationResult: @escaping (Bool) -> Void
     ) {
         presentationTask?.cancel()
         self.onDismiss = onDismiss
         self.onSnooze = onSnooze
         self.onOpen = onOpen
+        self.onAction = onAction
         store.present(reminder, now: now())
         let presentationToken = store.presentationToken
         let window = overlayWindow ?? makeWindow()
@@ -131,6 +134,7 @@ final class ReminderOverlayWindowController: NSObject {
         onDismiss = nil
         onSnooze = nil
         onOpen = nil
+        onAction = nil
     }
 
     /// Re-measures the strip and moves it to its upper-center resting frame.
@@ -169,6 +173,9 @@ final class ReminderOverlayWindowController: NSObject {
                 },
                 onOpen: { [weak self] in
                     self?.onOpen?()
+                },
+                onAction: { [weak self] action in
+                    self?.onAction?(action)
                 }
             )
         )

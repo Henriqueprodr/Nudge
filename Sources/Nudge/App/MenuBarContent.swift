@@ -10,6 +10,10 @@ struct MenuBarContent: View {
             windowPresentationCoordinator.showTestReminder()
         }
 
+        Button(AppMenuAction.showTestTaskNag.rawValue) {
+            windowPresentationCoordinator.showTestTaskNag()
+        }
+
         Divider()
 
         Button(AppMenuAction.showTaskPanel.rawValue) {

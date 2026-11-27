@@ -15,6 +15,12 @@ final class ReminderPresentationCoordinator {
     private var fallbackInFlight: Set<ReminderOccurrenceID> = []
     private var isSessionActive = true
     var reminderSound = ReminderSound.defaultValue
+    /// Routes `ReminderAction`s to the app layer. Returns `true` on success.
+    var actionHandler: (@MainActor (ReminderAction, Reminder) async -> Bool)?
+    /// Observes each reminder that actually reached the screen (used by task nags).
+    var onReminderPresented: (@MainActor (Reminder) -> Void)?
+    /// Observes successful snoozes so task nags can pace themselves.
+    var onReminderSnoozed: (@MainActor (Reminder, Date) -> Void)?
 
     var nextScheduledPresentationDate: Date? {
         wakeTimer.scheduledDate
@@ -47,13 +53,52 @@ final class ReminderPresentationCoordinator {
     }
 
     func replaceCalendarReminders(with reminders: [Reminder]) throws {
+        try replaceReminders(ofKind: .calendar, with: reminders)
+    }
+
+    /// Replaces every task nag without touching calendar or local reminders.
+    func replaceTaskReminders(with reminders: [Reminder]) throws {
+        try replaceReminders(ofKind: .task, with: reminders)
+    }
+
+    private func replaceReminders(
+        ofKind sourceKind: ReminderOccurrenceID.SourceKind,
+        with reminders: [Reminder]
+    ) throws {
         knownReminders = knownReminders.filter { occurrenceID, _ in
-            occurrenceID.sourceKind != .calendar
+            occurrenceID.sourceKind != sourceKind
         }
         pendingReminders.removeAll { reminder in
-            reminder.occurrenceID.sourceKind == .calendar
+            reminder.occurrenceID.sourceKind == sourceKind
         }
-        try process(reminders)
+        try process(reminders.filter { $0.occurrenceID.sourceKind == sourceKind })
+    }
+
+    /// Runs a source-specific action for the reminder on screen. The handler returns `true` when
+    /// the action succeeded; the reminder is then recorded as acted on and dismissed.
+    func performCurrentReminderAction(_ action: ReminderAction) {
+        guard let reminder = windowController.presentedReminder,
+              reminder.actions.contains(action) else {
+            return
+        }
+        guard let actionHandler else {
+            windowController.endAction(errorMessage: "This action is unavailable right now.")
+            return
+        }
+        windowController.beginAction()
+        Task { @MainActor [weak self] in
+            let succeeded = await actionHandler(action, reminder)
+            guard let self,
+                  self.windowController.presentedReminder?.occurrenceID == reminder.occurrenceID
+            else { return }
+            guard succeeded else {
+                self.windowController.endAction(errorMessage: "That didn't work. Try again.")
+                return
+            }
+            try? self.scheduler.markActed(reminder.occurrenceID)
+            self.windowController.dismiss()
+            self.presentNextIfNeeded()
+        }
     }
 
     func dismissCurrentReminder() {
@@ -65,18 +110,28 @@ final class ReminderPresentationCoordinator {
         presentNextIfNeeded()
     }
 
-    func snoozeCurrentReminder(for interval: TimeInterval = 10 * 60) {
+    static let calendarSnoozeInterval: TimeInterval = 10 * 60
+    static let taskSnoozeInterval: TimeInterval = 60 * 60
+
+    func snoozeCurrentReminder(for requestedInterval: TimeInterval? = nil) {
         guard let reminder = windowController.presentedReminder else {
             return
         }
+        let interval = requestedInterval ?? (
+            reminder.occurrenceID.sourceKind == .task
+                ? Self.taskSnoozeInterval
+                : Self.calendarSnoozeInterval
+        )
         windowController.beginAction()
         do {
-            try scheduler.snooze(reminder.occurrenceID, until: now().addingTimeInterval(interval))
+            let snoozedUntil = now().addingTimeInterval(interval)
+            try scheduler.snooze(reminder.occurrenceID, until: snoozedUntil)
             deliveredThisLaunch.remove(reminder.occurrenceID)
             pendingReminders.removeAll { $0.occurrenceID == reminder.occurrenceID }
             windowController.dismiss()
             let evaluations = try scheduler.rebuildSchedule(from: Array(knownReminders.values))
             apply(evaluations)
+            onReminderSnoozed?(reminder, snoozedUntil)
         } catch {
             windowController.endAction(errorMessage: "This reminder could not be snoozed.")
         }
@@ -210,6 +265,9 @@ final class ReminderPresentationCoordinator {
             onOpen: { [weak self] in
                 self?.openCurrentReminderSource()
             },
+            onAction: { [weak self] action in
+                self?.performCurrentReminderAction(action)
+            },
             onPresentationResult: { [weak self] isAvailable in
                 self?.handlePresentationResult(isAvailable, reminder: reminder)
             }
@@ -219,9 +277,11 @@ final class ReminderPresentationCoordinator {
     private func handlePresentationResult(_ isAvailable: Bool, reminder: Reminder) {
         if isAvailable {
             try? scheduler.markPresented(reminder.occurrenceID)
-            if deliveredThisLaunch.insert(reminder.occurrenceID).inserted,
-               reminderSound.isEnabled {
-                soundPlayer.play(reminderSound)
+            if deliveredThisLaunch.insert(reminder.occurrenceID).inserted {
+                if reminderSound.isEnabled {
+                    soundPlayer.play(reminderSound)
+                }
+                onReminderPresented?(reminder)
             }
             return
         }

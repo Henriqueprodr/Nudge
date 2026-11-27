@@ -179,8 +179,24 @@
 		Q90000000000000000000017 /* InkButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000016 /* InkButtonStyle.swift */; };
 		Q90000000000000000000019 /* InkCheckbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000018 /* InkCheckbox.swift */; };
 		Q90000000000000000000021 /* WavyUnderline.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000020 /* WavyUnderline.swift */; };
+		Q90000000000000000000023 /* ReminderAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000022 /* ReminderAction.swift */; };
+		Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000024 /* ReminderTaskContext.swift */; };
+		Q90000000000000000000039 /* TaskNagSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000038 /* TaskNagSettings.swift */; };
+		Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000040 /* TaskNagSettingsRepository.swift */; };
+		Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */; };
+		Q90000000000000000000045 /* TaskNagObservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000044 /* TaskNagObservation.swift */; };
+		Q90000000000000000000047 /* TaskNagHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000046 /* TaskNagHistory.swift */; };
+		Q90000000000000000000049 /* TaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000048 /* TaskNagHistoryRepository.swift */; };
+		Q90000000000000000000051 /* FileTaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */; };
+		Q90000000000000000000053 /* TaskNagPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000052 /* TaskNagPolicy.swift */; };
+		Q90000000000000000000055 /* TaskNagCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000054 /* TaskNagCoordinator.swift */; };
+		Q90000000000000000000057 /* ReminderActionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000056 /* ReminderActionRouter.swift */; };
+		Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000058 /* TaskNagPolicyTests.swift */; };
 		Q90000000000000000000061 /* TaskDueBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000060 /* TaskDueBadge.swift */; };
+		Q90000000000000000000102 /* TaskNagSettingsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000101 /* TaskNagSettingsSection.swift */; };
 		Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000105 /* SettingsBrandHeader.swift */; };
+		Q90000000000000000000110 /* InMemoryTaskNagHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */; };
+		Q90000000000000000000112 /* InMemoryTaskNagSettingsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -368,8 +384,24 @@
 		Q90000000000000000000016 /* InkButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkButtonStyle.swift; sourceTree = "<group>"; };
 		Q90000000000000000000018 /* InkCheckbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InkCheckbox.swift; sourceTree = "<group>"; };
 		Q90000000000000000000020 /* WavyUnderline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WavyUnderline.swift; sourceTree = "<group>"; };
+		Q90000000000000000000022 /* ReminderAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderAction.swift; sourceTree = "<group>"; };
+		Q90000000000000000000024 /* ReminderTaskContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderTaskContext.swift; sourceTree = "<group>"; };
+		Q90000000000000000000038 /* TaskNagSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettings.swift; sourceTree = "<group>"; };
+		Q90000000000000000000040 /* TaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000044 /* TaskNagObservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagObservation.swift; sourceTree = "<group>"; };
+		Q90000000000000000000046 /* TaskNagHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagHistory.swift; sourceTree = "<group>"; };
+		Q90000000000000000000048 /* TaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000052 /* TaskNagPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagPolicy.swift; sourceTree = "<group>"; };
+		Q90000000000000000000054 /* TaskNagCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagCoordinator.swift; sourceTree = "<group>"; };
+		Q90000000000000000000056 /* ReminderActionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderActionRouter.swift; sourceTree = "<group>"; };
+		Q90000000000000000000058 /* TaskNagPolicyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagPolicyTests.swift; sourceTree = "<group>"; };
 		Q90000000000000000000060 /* TaskDueBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDueBadge.swift; sourceTree = "<group>"; };
+		Q90000000000000000000101 /* TaskNagSettingsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskNagSettingsSection.swift; sourceTree = "<group>"; };
 		Q90000000000000000000105 /* SettingsBrandHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsBrandHeader.swift; sourceTree = "<group>"; };
+		Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagHistoryRepository.swift; sourceTree = "<group>"; };
+		Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InMemoryTaskNagSettingsRepository.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -446,6 +478,7 @@
 		A00000000000000000000014 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000056 /* ReminderActionRouter.swift */,
 				Q90000000000000000000001 /* LaunchAtLoginDefaultApplier.swift */,
 				700000000000000000000201 /* ApplicationActivationPolicyApplying.swift */,
 				700000000000000000000202 /* SystemApplicationActivationPolicyAdapter.swift */,
@@ -468,7 +501,12 @@
 		A00000000000000000000015 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000111 /* InMemoryTaskNagSettingsRepository.swift */,
 				Q90000000000000000000105 /* SettingsBrandHeader.swift */,
+				Q90000000000000000000101 /* TaskNagSettingsSection.swift */,
+				Q90000000000000000000042 /* UserDefaultsTaskNagSettingsRepository.swift */,
+				Q90000000000000000000040 /* TaskNagSettingsRepository.swift */,
+				Q90000000000000000000038 /* TaskNagSettings.swift */,
 				J00000000000000000000201 /* ReminderSound.swift */,
 				700000000000000000000204 /* ReminderPresentationDuration.swift */,
 				700000000000000000000205 /* PeriodicRefreshInterval.swift */,
@@ -497,6 +535,7 @@
 		A00000000000000000000017 /* NudgeTests */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000058 /* TaskNagPolicyTests.swift */,
 				Q90000000000000000000003 /* LaunchAtLoginDefaultApplierTests.swift */,
 				L10000000000000000000251 /* GoogleOAuthClientConfigurationTests.swift */,
 				900000000000000000000205 /* ReminderControlStripTests.swift */,
@@ -590,6 +629,8 @@
 		B00000000000000000000302 /* Reminders */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000024 /* ReminderTaskContext.swift */,
+				Q90000000000000000000022 /* ReminderAction.swift */,
 				900000000000000000000204 /* ReminderEventContext.swift */,
 				B00000000000000000000201 /* ReminderOccurrenceID.swift */,
 				B00000000000000000000202 /* Reminder.swift */,
@@ -601,6 +642,8 @@
 		B00000000000000000000303 /* Tasks */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000046 /* TaskNagHistory.swift */,
+				Q90000000000000000000044 /* TaskNagObservation.swift */,
 				B00000000000000000000204 /* TaskItem.swift */,
 				B00000000000000000000205 /* TaskList.swift */,
 				B00000000000000000000206 /* TaskPanelState.swift */,
@@ -614,6 +657,9 @@
 		B00000000000000000000304 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000109 /* InMemoryTaskNagHistoryRepository.swift */,
+				Q90000000000000000000050 /* FileTaskNagHistoryRepository.swift */,
+				Q90000000000000000000048 /* TaskNagHistoryRepository.swift */,
 				G00000000000000000000206 /* CalendarCacheRepository.swift */,
 				G00000000000000000000207 /* StoredCalendarDescriptor.swift */,
 				G00000000000000000000208 /* StoredCalendarEvent.swift */,
@@ -644,6 +690,8 @@
 		B00000000000000000000305 /* Scheduling */ = {
 			isa = PBXGroup;
 			children = (
+				Q90000000000000000000054 /* TaskNagCoordinator.swift */,
+				Q90000000000000000000052 /* TaskNagPolicy.swift */,
 				J00000000000000000000202 /* ReminderSoundPlayer.swift */,
 				B00000000000000000000224 /* ReminderClock.swift */,
 				B00000000000000000000225 /* ReminderScheduler.swift */,
@@ -848,8 +896,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000112 /* InMemoryTaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000110 /* InMemoryTaskNagHistoryRepository.swift in Sources */,
 				Q90000000000000000000106 /* SettingsBrandHeader.swift in Sources */,
+				Q90000000000000000000102 /* TaskNagSettingsSection.swift in Sources */,
 				Q90000000000000000000061 /* TaskDueBadge.swift in Sources */,
+				Q90000000000000000000057 /* ReminderActionRouter.swift in Sources */,
+				Q90000000000000000000055 /* TaskNagCoordinator.swift in Sources */,
+				Q90000000000000000000053 /* TaskNagPolicy.swift in Sources */,
+				Q90000000000000000000051 /* FileTaskNagHistoryRepository.swift in Sources */,
+				Q90000000000000000000049 /* TaskNagHistoryRepository.swift in Sources */,
+				Q90000000000000000000047 /* TaskNagHistory.swift in Sources */,
+				Q90000000000000000000045 /* TaskNagObservation.swift in Sources */,
+				Q90000000000000000000043 /* UserDefaultsTaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000041 /* TaskNagSettingsRepository.swift in Sources */,
+				Q90000000000000000000039 /* TaskNagSettings.swift in Sources */,
+				Q90000000000000000000025 /* ReminderTaskContext.swift in Sources */,
+				Q90000000000000000000023 /* ReminderAction.swift in Sources */,
 				Q90000000000000000000021 /* WavyUnderline.swift in Sources */,
 				Q90000000000000000000019 /* InkCheckbox.swift in Sources */,
 				Q90000000000000000000017 /* InkButtonStyle.swift in Sources */,
@@ -1000,6 +1063,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				Q90000000000000000000059 /* TaskNagPolicyTests.swift in Sources */,
 				Q90000000000000000000004 /* LaunchAtLoginDefaultApplierTests.swift in Sources */,
 				L10000000000000000000151 /* GoogleOAuthClientConfigurationTests.swift in Sources */,
 				900000000000000000000105 /* ReminderControlStripTests.swift in Sources */,

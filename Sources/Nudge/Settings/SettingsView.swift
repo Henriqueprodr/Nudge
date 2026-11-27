@@ -31,6 +31,7 @@ struct SettingsView: View {
     let windowCoordinator: WindowPresentationCoordinator
     let launchAtLoginManager: LaunchAtLoginManager
     let persistenceStatusMessage: String?
+    let taskNagCoordinator: TaskNagCoordinator?
     @State private var selectedTab: SettingsTab
     @State private var googleClientSecretDraft = GoogleOAuthClientSecretDraft()
     @State private var isImportingGoogleOAuthConfiguration = false
@@ -43,6 +44,7 @@ struct SettingsView: View {
         windowCoordinator: WindowPresentationCoordinator,
         launchAtLoginManager: LaunchAtLoginManager,
         persistenceStatusMessage: String?,
+        taskNagCoordinator: TaskNagCoordinator? = nil,
         initialTab: SettingsTab = .account
     ) {
         self.calendarCoordinator = calendarCoordinator
@@ -51,6 +53,7 @@ struct SettingsView: View {
         self.windowCoordinator = windowCoordinator
         self.launchAtLoginManager = launchAtLoginManager
         self.persistenceStatusMessage = persistenceStatusMessage
+        self.taskNagCoordinator = taskNagCoordinator
         _selectedTab = State(initialValue: initialTab)
     }
 
@@ -317,6 +320,10 @@ struct SettingsView: View {
                 Text(googleTasksCoordinator.metadata.freshnessSummary)
                     .font(.caption)
                     .foregroundStyle(.secondary)
+            }
+
+            if let taskNagCoordinator {
+                TaskNagSettingsSection(coordinator: taskNagCoordinator)
             }
 
             Section("Persistent corner panel") {

@@ -11,6 +11,7 @@ struct ReminderControlStripView: View {
     let onOpen: () -> Void
     let onSnooze: () -> Void
     let onDismiss: () -> Void
+    var onAction: (ReminderAction) -> Void = { _ in }
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -109,16 +110,33 @@ struct ReminderControlStripView: View {
 
     @ViewBuilder
     private var actionControls: some View {
-        if presentation.hasSource {
-            Button("Open", action: onOpen)
-                .buttonStyle(InkButtonStyle(role: .primary))
-                .keyboardShortcut("o", modifiers: [.command])
-                .accessibilityLabel("Open reminder source")
+        ForEach(Array(presentation.actions.enumerated()), id: \.element) { index, action in
+            Button(action.title) { onAction(action) }
+                .buttonStyle(InkButtonStyle(role: role(for: action, at: index)))
+                .accessibilityLabel(action.accessibilityLabel)
         }
-        Button("Snooze", action: onSnooze)
+        if presentation.hasSource {
+            if presentation.actions.isEmpty {
+                Button("Open", action: onOpen)
+                    .buttonStyle(InkButtonStyle(role: .primary))
+                    .keyboardShortcut("o", modifiers: [.command])
+                    .accessibilityLabel("Open reminder source")
+            } else {
+                // With task actions on the card, Open shrinks to an icon so the title fits.
+                Button(action: onOpen) {
+                    Image(systemName: "arrow.up.right")
+                        .font(.system(size: 13, weight: .heavy, design: .rounded))
+                }
+                .buttonStyle(InkButtonStyle(role: .secondary))
+                .keyboardShortcut("o", modifiers: [.command])
+                .help("Open in Google Tasks")
+                .accessibilityLabel("Open reminder source")
+            }
+        }
+        Button(presentation.snoozeTitle, action: onSnooze)
             .buttonStyle(InkButtonStyle(role: .secondary))
             .keyboardShortcut("s", modifiers: [.command])
-            .accessibilityLabel("Snooze reminder for 10 minutes")
+            .accessibilityLabel(presentation.snoozeAccessibilityLabel)
         Button(action: onDismiss) {
             Image(systemName: "xmark")
                 .font(.system(size: 13, weight: .heavy, design: .rounded))
@@ -126,5 +144,14 @@ struct ReminderControlStripView: View {
         .buttonStyle(InkButtonStyle(role: .quiet))
         .keyboardShortcut(.cancelAction)
         .accessibilityLabel("Dismiss reminder")
+    }
+
+    private func role(for action: ReminderAction, at index: Int) -> InkButtonStyle.Role {
+        switch action {
+        case .completeTask:
+            return .primary
+        case .notToday:
+            return index == 0 ? .primary : .secondary
+        }
     }
 }

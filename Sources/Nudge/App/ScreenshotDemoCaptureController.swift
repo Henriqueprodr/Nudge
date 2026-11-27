@@ -167,7 +167,8 @@ final class ScreenshotDemoCaptureController {
             store: store,
             onDismiss: {},
             onSnooze: {},
-            onOpen: {}
+            onOpen: {},
+            onAction: { _ in }
         )
         .environment(\.colorScheme, .light)
         .environment(\.timeZone, TimeZone(secondsFromGMT: 0)!)

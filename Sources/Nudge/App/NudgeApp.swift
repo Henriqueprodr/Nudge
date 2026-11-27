@@ -20,7 +20,8 @@ struct NudgeApp: App {
                 googleOAuthConfigurationManager: appDelegate.googleOAuthClientConfigurationManager,
                 windowCoordinator: appDelegate.windowPresentationCoordinator,
                 launchAtLoginManager: appDelegate.launchAtLoginManager,
-                persistenceStatusMessage: appDelegate.persistenceStatusMessage
+                persistenceStatusMessage: appDelegate.persistenceStatusMessage,
+                taskNagCoordinator: appDelegate.taskNagCoordinator
             )
         }
     }

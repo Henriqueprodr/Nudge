@@ -12,7 +12,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     let googleTasksActionCoordinator: GoogleTasksActionCoordinator
     let googleOAuthClientConfigurationManager: GoogleOAuthClientConfigurationManager
     let launchAtLoginManager: LaunchAtLoginManager
+    let taskNagCoordinator: TaskNagCoordinator
     let persistenceStatusMessage: String?
+    private let reminderActionRouter: ReminderActionRouter
     private let applicationInstanceLock: ApplicationInstanceLock?
     private let isHostedTestProcess: Bool
     private let lifecycleCoordinator: ApplicationLifecycleCoordinator
@@ -153,6 +155,26 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             soundPlayer: soundPlayer
         )
         self.windowPresentationCoordinator = windowPresentationCoordinator
+        // Screenshot captures and hosted tests must never read or write the user's real
+        // preferences or Application Support files.
+#if DEBUG
+        let usesIsolatedLocalState = isHostedTestProcess || screenshotDemoWasRequested
+#else
+        let usesIsolatedLocalState = isHostedTestProcess
+#endif
+        let taskNagCoordinator = TaskNagCoordinator(
+            taskRepository: repositoryContainer.taskRepository,
+            historyRepository: usesIsolatedLocalState
+                ? InMemoryTaskNagHistoryRepository()
+                : FileTaskNagHistoryRepository(),
+            settingsRepository: usesIsolatedLocalState
+                ? InMemoryTaskNagSettingsRepository()
+                : UserDefaultsTaskNagSettingsRepository(),
+            reminderSink: { [weak windowPresentationCoordinator] reminders in
+                try windowPresentationCoordinator?.replaceTaskReminders(with: reminders)
+            }
+        )
+        self.taskNagCoordinator = taskNagCoordinator
         let oauthService = GoogleOAuthService(
             configurationProvider: {
                 try oauthConfigurationManager.configuration()
@@ -187,8 +209,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             metadataRepository: repositoryContainer.syncMetadataRepository,
             periodicScheduler: tasksScheduler,
             settingsRepository: tasksSettingsRepository,
-            cacheDidChange: { [weak windowPresentationCoordinator] in
+            cacheDidChange: { [weak windowPresentationCoordinator, weak taskNagCoordinator] in
                 windowPresentationCoordinator?.reloadTaskPanelCache()
+                taskNagCoordinator?.recompute()
             }
         )
         self.googleTasksSyncCoordinator = googleTasksSyncCoordinator
@@ -201,11 +224,36 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             requestPostActionRefresh: { [weak googleTasksSyncCoordinator] in
                 googleTasksSyncCoordinator?.requestRefreshAfterTaskMutation()
             },
-            cacheDidChange: { [weak windowPresentationCoordinator] in
+            cacheDidChange: { [weak windowPresentationCoordinator, weak taskNagCoordinator] in
                 windowPresentationCoordinator?.reloadTaskPanelCache()
+                taskNagCoordinator?.recompute()
             }
         )
         windowPresentationCoordinator.configureTaskActions(googleTasksActionCoordinator)
+        let reminderActionRouter = ReminderActionRouter(
+            taskRepository: repositoryContainer.taskRepository,
+            taskActions: googleTasksActionCoordinator,
+            taskNags: taskNagCoordinator
+        )
+        self.reminderActionRouter = reminderActionRouter
+        windowPresentationCoordinator.configureReminderHooks(
+            actionHandler: { [weak reminderActionRouter] action, reminder in
+                await reminderActionRouter?.perform(action, for: reminder) ?? false
+            },
+            onPresented: { [weak taskNagCoordinator] reminder in
+                if reminder.occurrenceID.sourceKind == .task {
+                    taskNagCoordinator?.reminderWasPresented(reminder)
+                }
+            },
+            onSnoozed: { [weak taskNagCoordinator] reminder, date in
+                if reminder.occurrenceID.sourceKind == .task {
+                    taskNagCoordinator?.reminderWasSnoozed(reminder, until: date)
+                }
+            }
+        )
+        windowPresentationCoordinator.onLifecycleRecovery = { [weak taskNagCoordinator] in
+            taskNagCoordinator?.recompute()
+        }
         googleTasksActionCoordinator.recoverPendingActions()
 #if DEBUG
         try? screenshotDemoDependencies?.restoreCurrentTaskMetadata()
@@ -256,6 +304,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
 #endif
         googleTasksSyncCoordinator.restoreAtLaunch()
+        taskNagCoordinator.recompute()
         lifecycleCoordinator.start()
         Task { @MainActor [calendarScheduleCoordinator] in
             await calendarScheduleCoordinator.restoreAtLaunch()

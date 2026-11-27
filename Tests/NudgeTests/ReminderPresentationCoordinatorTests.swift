@@ -258,6 +258,91 @@ final class ReminderPresentationCoordinatorTests: XCTestCase {
         XCTAssertFalse(windowController.isVisible)
     }
 
+    @MainActor
+    func testTaskAndCalendarReplacementNeverClobberEachOther() throws {
+        let now = Date(timeIntervalSince1970: 95_000)
+        let future = now.addingTimeInterval(30 * 60)
+        let container = try LocalRepositoryContainer(isStoredInMemoryOnly: true)
+        let windowController = ReminderOverlayWindowController(store: ReminderOverlayStore())
+        let wakeTimer = ReminderWakeTimer()
+        defer { wakeTimer.cancel() }
+        let coordinator = ReminderPresentationCoordinator(
+            scheduler: ReminderScheduler(
+                repository: container.reminderDeliveryRepository,
+                clock: TestReminderClock(now: now)
+            ),
+            windowController: windowController,
+            wakeTimer: wakeTimer,
+            now: { now }
+        )
+        func reminder(_ kind: ReminderOccurrenceID.SourceKind, at date: Date) -> Reminder {
+            Reminder(
+                occurrenceID: ReminderOccurrenceID(
+                    sourceKind: kind, sourceIdentifier: "\(kind)", occurrenceDate: date, revision: nil
+                ),
+                title: "\(kind)",
+                detail: nil,
+                triggerDate: date,
+                expirationDate: nil,
+                presentationMode: .overlay
+            )
+        }
+
+        try coordinator.replaceCalendarReminders(with: [reminder(.calendar, at: future)])
+        try coordinator.replaceTaskReminders(with: [reminder(.task, at: future.addingTimeInterval(60))])
+        XCTAssertEqual(coordinator.nextScheduledPresentationDate, future)
+
+        // Clearing task nags leaves the calendar reminder armed.
+        try coordinator.replaceTaskReminders(with: [])
+        XCTAssertEqual(coordinator.nextScheduledPresentationDate, future)
+
+        // Clearing calendar reminders leaves a task nag armed, and kinds never cross over.
+        try coordinator.replaceTaskReminders(with: [reminder(.task, at: future.addingTimeInterval(60))])
+        try coordinator.replaceCalendarReminders(with: [reminder(.task, at: future)])
+        XCTAssertEqual(coordinator.nextScheduledPresentationDate, future.addingTimeInterval(60))
+    }
+
+    @MainActor
+    func testReminderActionRunsHandlerThenMarksActed() async throws {
+        let now = Date(timeIntervalSince1970: 97_000)
+        let container = try LocalRepositoryContainer(isStoredInMemoryOnly: true)
+        let windowController = testSoundWindowController(isAvailable: true)
+        let coordinator = ReminderPresentationCoordinator(
+            scheduler: ReminderScheduler(
+                repository: container.reminderDeliveryRepository,
+                clock: TestReminderClock(now: now)
+            ),
+            windowController: windowController,
+            soundPlayer: TestReminderSoundPlayer(),
+            now: { now }
+        )
+        var handled: [ReminderAction] = []
+        let finished = expectation(description: "action handled")
+        coordinator.actionHandler = { action, _ in
+            handled.append(action)
+            finished.fulfill()
+            return true
+        }
+        var reminder = makeDueReminder(identifier: "action", date: now)
+        reminder.actions = [.notToday]
+
+        try coordinator.process([reminder])
+        coordinator.performCurrentReminderAction(.completeTask)
+        XCTAssertTrue(handled.isEmpty, "Actions the reminder does not offer are ignored")
+        coordinator.performCurrentReminderAction(.notToday)
+        await fulfillment(of: [finished], timeout: 1)
+        await Task.yield()
+
+        XCTAssertEqual(handled, [.notToday])
+        XCTAssertEqual(
+            try container.reminderDeliveryRepository.deliveryRecord(
+                for: reminder.occurrenceID
+            )?.state,
+            .acted
+        )
+        XCTAssertFalse(windowController.isVisible)
+    }
+
     private func makeDueReminder(identifier: String, date: Date) -> Reminder {
         Reminder(
             occurrenceID: ReminderOccurrenceID(

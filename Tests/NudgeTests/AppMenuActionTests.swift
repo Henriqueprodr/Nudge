@@ -7,6 +7,7 @@ final class AppMenuActionTests: XCTestCase {
             AppMenuAction.allCases.map(\.rawValue),
             [
                 "Show Test Reminder",
+                "Show Test Task Nag",
                 "Show Task Panel",
                 "Hide Task Panel",
                 "Reset Task Panel Position",
