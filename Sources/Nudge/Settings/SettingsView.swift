@@ -5,6 +5,7 @@ enum SettingsTab: String, CaseIterable, Sendable {
     case account
     case reminders
     case tasks
+    case mascot
     case application
 }
 
@@ -32,6 +33,7 @@ struct SettingsView: View {
     let launchAtLoginManager: LaunchAtLoginManager
     let persistenceStatusMessage: String?
     let taskNagCoordinator: TaskNagCoordinator?
+    let mascotController: MascotController?
     @State private var selectedTab: SettingsTab
     @State private var googleClientSecretDraft = GoogleOAuthClientSecretDraft()
     @State private var isImportingGoogleOAuthConfiguration = false
@@ -45,6 +47,7 @@ struct SettingsView: View {
         launchAtLoginManager: LaunchAtLoginManager,
         persistenceStatusMessage: String?,
         taskNagCoordinator: TaskNagCoordinator? = nil,
+        mascotController: MascotController? = nil,
         initialTab: SettingsTab = .account
     ) {
         self.calendarCoordinator = calendarCoordinator
@@ -54,6 +57,7 @@ struct SettingsView: View {
         self.launchAtLoginManager = launchAtLoginManager
         self.persistenceStatusMessage = persistenceStatusMessage
         self.taskNagCoordinator = taskNagCoordinator
+        self.mascotController = mascotController
         _selectedTab = State(initialValue: initialTab)
     }
 
@@ -68,6 +72,11 @@ struct SettingsView: View {
             taskSettings
                 .tabItem { Label("Tasks", systemImage: "checklist") }
                 .tag(SettingsTab.tasks)
+            if let mascotController {
+                MascotSettingsView(controller: mascotController)
+                    .tabItem { Label("Bird", systemImage: "bird") }
+                    .tag(SettingsTab.mascot)
+            }
             applicationSettings
                 .tabItem { Label("Application", systemImage: "gearshape") }
                 .tag(SettingsTab.application)

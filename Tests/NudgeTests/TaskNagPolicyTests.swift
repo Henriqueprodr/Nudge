@@ -277,5 +277,6 @@ final class TaskNagPolicyTests: XCTestCase {
         XCTAssertEqual(presentation.metadata, "You said you'd do it Nov 17 · 3 days ago")
         XCTAssertEqual(presentation.snoozeTitle, "Snooze 1h")
         XCTAssertEqual(presentation.actions, [.completeTask, .notToday])
+        XCTAssertEqual(presentation.tone, .task(.overdue))
     }
 }

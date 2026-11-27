@@ -382,6 +382,11 @@ final class WindowPresentationCoordinator {
         reminderPresentationCoordinator.onReminderSnoozed = onSnoozed
     }
 
+    /// The overlay's current on-screen frame, so the mascot can perch on it.
+    var reminderOverlayFrame: CGRect? {
+        reminderOverlayController.isVisible ? reminderOverlayController.windowFrame : nil
+    }
+
     /// Asks the user to sign in again, at most once per day, directly on screen.
     func presentReauthenticationReminder(message: String, now: Date = Date()) {
         let reminder = Reminder(

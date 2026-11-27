@@ -25,8 +25,9 @@ enum ReminderStripStyle {
     /// when the display is small.
     static let maximumWidth: CGFloat = 700
 
-    /// Distance from the visible frame's top and horizontal edges.
-    static let screenTopInset: CGFloat = 8
+    /// Distance from the visible frame's top and horizontal edges. The top inset leaves room for
+    /// the mascot to perch on the card without covering the menu bar.
+    static let screenTopInset: CGFloat = 44
     static let screenHorizontalInset: CGFloat = 8
 
     // MARK: Typography

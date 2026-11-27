@@ -4,6 +4,7 @@ import SwiftUI
 struct MenuBarContent: View {
     let windowPresentationCoordinator: WindowPresentationCoordinator
     let googleTasksSyncCoordinator: GoogleTasksSyncCoordinator
+    var mascotController: MascotController?
 
     var body: some View {
         Button(AppMenuAction.showTestReminder.rawValue) {
@@ -12,6 +13,12 @@ struct MenuBarContent: View {
 
         Button(AppMenuAction.showTestTaskNag.rawValue) {
             windowPresentationCoordinator.showTestTaskNag()
+        }
+
+        if let mascotController, mascotController.settings.isEnabled {
+            Button(AppMenuAction.summonBird.rawValue) {
+                mascotController.summon()
+            }
         }
 
         Divider()
@@ -60,6 +67,20 @@ struct MenuBarContent: View {
             googleTasksSyncCoordinator.requestRefresh(.manual)
         }
         .disabled(googleTasksSyncCoordinator.isRefreshing)
+
+        if let mascotController, mascotController.settings.isEnabled {
+            Divider()
+
+            if mascotController.isMuted {
+                Button(AppMenuAction.unmuteBird.rawValue) {
+                    mascotController.clearDoNotDisturb()
+                }
+            } else {
+                Button(AppMenuAction.muteBird.rawValue) {
+                    mascotController.muteForOneHour()
+                }
+            }
+        }
 
         Divider()
 

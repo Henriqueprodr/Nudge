@@ -111,7 +111,7 @@ final class ScreenshotDemoTests: XCTestCase {
             ScreenshotDemoDependencies.referenceDate
         )
         XCTAssertEqual(ScreenshotDemoDependencies.reminderFixture().title, "Design review")
-        XCTAssertEqual(Set(SettingsTab.allCases), Set([.account, .reminders, .tasks, .application]))
+        XCTAssertEqual(Set(SettingsTab.allCases), Set([.account, .reminders, .tasks, .mascot, .application]))
     }
 
     func testDemoAdaptersBlockExternalEffects() async throws {

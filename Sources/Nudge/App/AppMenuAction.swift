@@ -1,10 +1,13 @@
 enum AppMenuAction: String, CaseIterable {
     case showTestReminder = "Show Test Reminder"
     case showTestTaskNag = "Show Test Task Nag"
+    case summonBird = "Summon the Bird"
     case showTaskPanel = "Show Task Panel"
     case hideTaskPanel = "Hide Task Panel"
     case resetTaskPanelPosition = "Reset Task Panel Position"
     case refreshTasks = "Refresh Tasks"
+    case muteBird = "Mute the Bird for 1 Hour"
+    case unmuteBird = "Unmute the Bird"
     case settings = "Settings"
     case quit = "Quit"
 }

@@ -8,6 +8,8 @@ final class ReminderActionRouter {
     private let tasksSync: GoogleTasksSyncCoordinator
     private let calendarSync: CalendarScheduleCoordinator
     private let taskNags: TaskNagCoordinator
+    /// Called after a task is completed from an alert (the mascot celebrates).
+    var onTaskCompleted: (@MainActor () -> Void)?
 
     init(
         taskRepository: any TaskRepository,
@@ -49,6 +51,7 @@ final class ReminderActionRouter {
         let didComplete = stored == nil || stored?.completionState == .completed
         if didComplete {
             taskNags.recompute()
+            onTaskCompleted?()
         }
         return didComplete
     }

@@ -20,6 +20,15 @@ struct ReminderStripPresentation: Equatable, Sendable {
     var actions: [ReminderAction] = []
     var snoozeTitle = "Snooze"
     var snoozeAccessibilityLabel = "Snooze reminder for 10 minutes"
+    /// The mascot line category this reminder calls for.
+    var tone: Tone = .calendar
+
+    enum Tone: Equatable, Sendable {
+        case calendar
+        case task(ReminderTaskContext.Urgency)
+        case actionNeeded
+        case generic
+    }
 
     init(
         reminder: Reminder,
@@ -35,6 +44,7 @@ struct ReminderStripPresentation: Equatable, Sendable {
         let isCalendarEvent = reminder.occurrenceID.sourceKind == .calendar
 
         eyebrow = isCalendarEvent ? "UPCOMING EVENT" : "REMINDER"
+        tone = isCalendarEvent ? .calendar : .generic
         title = reminder.title
         actions = reminder.actions
         hasSource = reminder.sourceURL != nil
@@ -52,6 +62,7 @@ struct ReminderStripPresentation: Equatable, Sendable {
 
         if reminder.actions.contains(.signIn) {
             eyebrow = "ACTION NEEDED"
+            tone = .actionNeeded
             accentHex = Self.actionNeededAccentHex
             timeText = "OOPS"
             dateText = "SIGNED OUT"
@@ -71,6 +82,7 @@ struct ReminderStripPresentation: Equatable, Sendable {
         calendar: Calendar,
         locale: Locale
     ) {
+        tone = .task(context.urgency)
         let outstanding = context.taskIDs.count
         eyebrow = outstanding > 1 ? "\(outstanding) TASKS STILL NOT DONE" : "STILL NOT DONE"
         title = context.additionalTaskCount > 0

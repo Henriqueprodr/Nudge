@@ -60,6 +60,11 @@ final class ReminderOverlayWindowController: NSObject {
         overlayWindow?.frame
     }
 
+    /// The alert window, exposed for layout regression tests.
+    var window: NSWindow? {
+        overlayWindow
+    }
+
     var windowCollectionBehavior: NSWindow.CollectionBehavior? {
         overlayWindow?.collectionBehavior
     }

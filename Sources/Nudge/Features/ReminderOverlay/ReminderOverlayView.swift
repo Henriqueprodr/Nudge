@@ -15,7 +15,8 @@ struct ReminderOverlayView: View {
     var body: some View {
         Group {
             if let presentation = store.stripPresentation {
-                ReminderControlStripView(
+                WholePointLayout {
+                    ReminderControlStripView(
                     presentation: presentation,
                     isPerformingAction: store.isPerformingAction,
                     actionErrorMessage: store.actionErrorMessage,
@@ -23,7 +24,8 @@ struct ReminderOverlayView: View {
                     onSnooze: onSnooze,
                     onDismiss: onDismiss,
                     onAction: onAction
-                )
+                    )
+                }
             }
         }
         .frame(maxWidth: .infinity, alignment: .center)

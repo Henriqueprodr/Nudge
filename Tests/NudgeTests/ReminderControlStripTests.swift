@@ -22,7 +22,7 @@ final class ReminderControlStripTests: XCTestCase {
         XCTAssertEqual(ReminderStripStyle.lineSpacing, 3)
         XCTAssertEqual(ReminderStripStyle.actionSpacing, 8)
         XCTAssertEqual(ReminderStripStyle.timeChipMinimumWidth, 78)
-        XCTAssertEqual(ReminderStripStyle.screenTopInset, 8)
+        XCTAssertEqual(ReminderStripStyle.screenTopInset, 44)
         XCTAssertEqual(ReminderStripStyle.minimumWidth, 450)
         XCTAssertEqual(ReminderStripStyle.maximumWidth, 700)
     }

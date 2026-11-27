@@ -8,7 +8,8 @@ struct NudgeApp: App {
         MenuBarExtra("Nudge", image: "MenuBarIcon") {
             MenuBarContent(
                 windowPresentationCoordinator: appDelegate.windowPresentationCoordinator,
-                googleTasksSyncCoordinator: appDelegate.googleTasksSyncCoordinator
+                googleTasksSyncCoordinator: appDelegate.googleTasksSyncCoordinator,
+                mascotController: appDelegate.mascotController
             )
         }
         .menuBarExtraStyle(.menu)
@@ -21,7 +22,8 @@ struct NudgeApp: App {
                 windowCoordinator: appDelegate.windowPresentationCoordinator,
                 launchAtLoginManager: appDelegate.launchAtLoginManager,
                 persistenceStatusMessage: appDelegate.persistenceStatusMessage,
-                taskNagCoordinator: appDelegate.taskNagCoordinator
+                taskNagCoordinator: appDelegate.taskNagCoordinator,
+                mascotController: appDelegate.mascotController
             )
         }
     }

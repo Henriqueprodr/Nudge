@@ -66,7 +66,7 @@ final class TaskNagCoordinator {
         try? reminderSink(reminder.map { [$0] } ?? [])
     }
 
-    /// Whether `date` falls inside the configured quiet hours.
+    /// Whether `date` falls inside the configured quiet hours (shared with the mascot).
     func isInQuietHours(_ date: Date) -> Bool {
         TaskNagPolicy(settings: settings, calendar: calendar).isInQuietHours(date)
     }

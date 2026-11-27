@@ -17,7 +17,7 @@ final class ReminderPresentationCoordinator {
     var reminderSound = ReminderSound.defaultValue
     /// Routes `ReminderAction`s to the app layer. Returns `true` on success.
     var actionHandler: (@MainActor (ReminderAction, Reminder) async -> Bool)?
-    /// Observes each reminder that actually reached the screen (used by task nags).
+    /// Observes each reminder that actually reached the screen (used by the mascot).
     var onReminderPresented: (@MainActor (Reminder) -> Void)?
     /// Observes successful snoozes so task nags can pace themselves.
     var onReminderSnoozed: (@MainActor (Reminder, Date) -> Void)?

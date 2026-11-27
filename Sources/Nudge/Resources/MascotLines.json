@@ -1,0 +1,162 @@
+{
+  "idle": {
+    "mild": [
+      "Just checking in. Drink some water.",
+      "Tweet. That's it. That's the message.",
+      "You're doing great. Probably.",
+      "Posture check. Shoulders down.",
+      "I walked all the way across your Dock for this.",
+      "Remember to blink.",
+      "Hi. I live here now."
+    ],
+    "spicy": [
+      "You've had that tab open since Tuesday. Commit or close it.",
+      "I'm not saying you're procrastinating. Your Dock is saying it.",
+      "Bold of you to open another app instead of doing the thing.",
+      "I'm a bird and I'm more organized than you.",
+      "Your to-do list called. It wants to see other people.",
+      "Scrolling again? Groundbreaking.",
+      "You know what pairs well with avoidance? Nothing.",
+      "I've seen pigeons with better time management."
+    ],
+    "unhinged": [
+      "I didn't fly across this whole ass screen to watch you open Twitter.",
+      "Ma boy really thought the work would do itself.",
+      "Lock in. I'm begging you. I have a family.",
+      "If you check your phone one more time I'm pooping on the keyboard.",
+      "You're not 'researching'. You're watching videos. I can see you.",
+      "I'm about to start charging rent for living in your head.",
+      "The audacity to be this unproductive with a whole bird watching.",
+      "Your future self is filing a restraining order against you.",
+      "Touch grass. Or a task. Either. Please."
+    ]
+  },
+  "poked": {
+    "mild": [
+      "Hey! That tickles.",
+      "Yes? I'm listening.",
+      "Boop received."
+    ],
+    "spicy": [
+      "Poking the bird won't finish your tasks.",
+      "Do you poke all your coworkers like this?",
+      "I'm a reminder, not a stress ball."
+    ],
+    "unhinged": [
+      "Poke me again and I'm telling Google Calendar about you.",
+      "Bro is poking a cartoon bird instead of working. Iconic.",
+      "Hands off the merchandise."
+    ]
+  },
+  "calendarSoon": {
+    "mild": [
+      "{event} is coming up soon.",
+      "Heads up: {event} starts shortly.",
+      "Time to wrap up. {event} is next."
+    ],
+    "spicy": [
+      "{event} in a few. Find your headphones now, not in a panic later.",
+      "{event} is happening. Yes, you have to go.",
+      "Quick, look busy. {event} is about to start."
+    ],
+    "unhinged": [
+      "{event} is in a few minutes and you're still in your pajama brain.",
+      "Get to {event}. Do NOT be the person who joins with 'sorry, I was on mute'.",
+      "{event} soon. Pretend you read the agenda. I won't snitch."
+    ]
+  },
+  "taskDueToday": {
+    "mild": [
+      "\"{task}\" is due today. You've got this.",
+      "Reminder: \"{task}\" is on today's list.",
+      "Today's the day for \"{task}\"."
+    ],
+    "spicy": [
+      "\"{task}\" is due today. Today. As in the one happening right now.",
+      "You put \"{task}\" on today. Past you had faith in you.",
+      "\"{task}\" isn't going to do itself today. I checked."
+    ],
+    "unhinged": [
+      "FYI: \"{task}\" is due today and yo shit ain't done ma boy... get it done ASAP.",
+      "\"{task}\". Today. Don't make me come down there.",
+      "You said today for \"{task}\". Was that a lie? Are you a liar?"
+    ]
+  },
+  "taskOverdue": {
+    "mild": [
+      "\"{task}\" is {days} days overdue. Small step today?",
+      "\"{task}\" is still waiting for you.",
+      "Gentle nudge: \"{task}\" slipped by {days} days."
+    ],
+    "spicy": [
+      "\"{task}\" has been overdue for {days} days. It's getting comfortable.",
+      "You said you'd do \"{task}\" {days} days ago. I remember. I always remember.",
+      "\"{task}\" is {days} days late. It's not ignoring you, you're ignoring it."
+    ],
+    "unhinged": [
+      "FYI: yo shit ain't done ma boy... \"{task}\" is {days} days late. Get it done ASAP.",
+      "\"{task}\", {days} days overdue. I'm not mad. I'm just pecking disappointed.",
+      "{days} days late on \"{task}\". At this point it's a lifestyle.",
+      "Bro said \"I'll do it tomorrow\" {days} tomorrows ago."
+    ]
+  },
+  "taskAncient": {
+    "mild": [
+      "\"{task}\" has been on your list a long time. Do it, delegate it, or delete it?",
+      "\"{task}\" is {days} days old. Maybe break it into a smaller step?"
+    ],
+    "spicy": [
+      "\"{task}\" is so overdue it qualifies for a pension.",
+      "\"{task}\": {days} days. Archaeologists are interested.",
+      "At this point \"{task}\" is a family heirloom."
+    ],
+    "unhinged": [
+      "\"{task}\" has been rotting for {days} days. It has its own ecosystem now.",
+      "Yo. \"{task}\". {days} days. Are we doing this or are you putting it in your will?",
+      "I've molted twice since you said you'd do \"{task}\"."
+    ]
+  },
+  "taskLingering": {
+    "mild": [
+      "\"{task}\" has been on your list for {days} days. Give it a date?",
+      "Still thinking about \"{task}\"? Pick a day for it."
+    ],
+    "spicy": [
+      "\"{task}\" has no due date and, apparently, no future.",
+      "\"{task}\" has been squatting on your list for {days} days."
+    ],
+    "unhinged": [
+      "\"{task}\" has been chilling with no due date for {days} days. Commitment issues much?",
+      "No due date on \"{task}\"? Coward behavior."
+    ]
+  },
+  "taskDone": {
+    "mild": [
+      "Nice work!",
+      "Done and done.",
+      "Look at you go."
+    ],
+    "spicy": [
+      "Finally. Was that so hard?",
+      "One down. Don't get cocky."
+    ],
+    "unhinged": [
+      "WE ARE SO BACK.",
+      "Ma boy actually did it. I'm emotional."
+    ]
+  },
+  "signedOut": {
+    "mild": [
+      "Google signed me out. Sign in again so I can keep an eye on things.",
+      "I lost access to your Google account. Mind signing in?"
+    ],
+    "spicy": [
+      "Google kicked me out again. Rude. Sign me back in?",
+      "Locked out. Help a bird out and sign in."
+    ],
+    "unhinged": [
+      "Google yeeted me out of your account. Sign in before I lose my mind.",
+      "I'm blind out here. Sign in to Google, I'm begging."
+    ]
+  }
+}
